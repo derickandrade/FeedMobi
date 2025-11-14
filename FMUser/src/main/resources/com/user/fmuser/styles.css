@@ -1,0 +1,13 @@
+.singInButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #01923f; /* Só funciona no texto de controles */
+    -fx-border-color: transparent;
+    -fx-underline: true;
+    -fx-cursor: HAND;
+}
+
+.loginButton {
+    -fx-background-color: #01923f;
+    -fx-text-fill: white;
+    -fx-cursor: HAND;
+}
