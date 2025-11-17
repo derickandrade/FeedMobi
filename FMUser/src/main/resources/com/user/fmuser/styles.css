@@ -6,8 +6,16 @@
     -fx-cursor: HAND;
 }
 
-.loginButton {
+.defaultButton {
     -fx-background-color: #01923f;
     -fx-text-fill: white;
+    -fx-cursor: HAND;
+}
+
+.secondaryButton {
+    -fx-background-color: transparent;
+    -fx-border-color: #01923f;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #01923f;
     -fx-cursor: HAND;
 }

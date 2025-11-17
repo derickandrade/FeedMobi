@@ -12,7 +12,7 @@ public class LoginController {
     @FXML
     private Button loginButton;
 
- ;   @FXML
+ ;  @FXML
     protected void login() {
         // Lógica pro login com a JDBC;
     }
@@ -26,7 +26,7 @@ public class LoginController {
 
     @FXML
     protected void irParaCadastro() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/cadastro-view.FXML", "Cadastro");
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/cadastro-view.fxml", "Cadastro");
     }
 
     protected boolean validarLogin() {
