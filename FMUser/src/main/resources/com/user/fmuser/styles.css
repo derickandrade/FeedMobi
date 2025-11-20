@@ -7,15 +7,33 @@
 }
 
 .defaultButton {
-    -fx-background-color: #01923f;
+    -fx-background-color: #009532;
     -fx-text-fill: white;
     -fx-cursor: HAND;
 }
 
 .secondaryButton {
     -fx-background-color: transparent;
-    -fx-border-color: #01923f;
+    -fx-border-color: #009532;
     -fx-border-radius: 4px;
-    -fx-text-fill: #01923f;
+    -fx-text-fill: #009532;
     -fx-cursor: HAND;
+}
+
+.textField {
+    -fx-border-color: #5e605e;
+    -fx-border-radius: 4px;
+}
+
+.textField:focused {
+    -fx-border-color: #009532;
+}
+
+.passwordField {
+    -fx-border-color: #5e605e;
+    -fx-border-radius: 4px;
+}
+
+.passwordField:focused {
+    -fx-border-color: #009532;
 }
