@@ -5,22 +5,35 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12">
-    <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #01923f;">
-        <ImageView layoutX="35.0" layoutY="11.0" smooth="false">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
+    <HBox styleClass="header_mobi">
+        <HBox>
+        <ImageView preserveRatio="true" smooth="false">
             <Image url="@images/icon.png" />
         </ImageView>
-        <Label layoutX="54.0" layoutY="11.0" text="FeedMobi" textFill="WHITE">
-            <font>
-                <Font name="Inter Bold" size="16.0" />
-            </font>
-        </Label>
-      <ImageView layoutX="547.0" layoutY="11.0" smooth="false">
+            <Label text="FeedMobi" textFill="WHITE">
+                    <Font name="Inter Bold" size="16.0" />
+            </Label>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox>
+      <ImageView layoutX="547.0" layoutY="11.0" preserveRatio="true" smooth="false">
             <Image url="@images/logout.png" />
       </ImageView>
-    </Pane>
-   <Label layoutX="51" layoutY="64" text="Olá, ... !" textFill="#5e605e">
-      <font>
-         <Font name="Inter Regular" size="20.0" />
-      </font></Label>
-</AnchorPane>
+        </HBox>
+    </HBox>
+    <VBox styleClass="content_container">
+        <Label styleClass="title" fx:id="userNameLabel" text="Olá, nome usuário !">
+        </Label>
+        <VBox prefWidth="498.0" styleClass="card">
+            <Label styleClass="card_title" text="Minhas avaliações" />
+            <VBox styleClass="empty_state">
+                <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                    <Image url="@images/empty.png" />
+                </ImageView>
+                <Label layoutY="25.0" styleClass="caption" text="Nenhum dado para mostrar" />
+            </VBox>
+        </VBox>
+    </VBox>
+</VBox>
