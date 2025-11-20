@@ -19,3 +19,9 @@
     -fx-text-fill: #01923f;
     -fx-cursor: HAND;
 }
+
+.title {
+    -fx-font-family: Inter;
+    -fx-text-fill: #5E605E;
+    -fx-font-size: 20px;
+}

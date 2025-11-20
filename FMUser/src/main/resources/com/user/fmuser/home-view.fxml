@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="com.user.fmuser.controllers.HomeController">
-  <tabs>
-    <Tab text="FeedBack">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-    <Tab text="Untitled Tab 2">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-  </tabs>
-</TabPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12">
+    <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #01923f;">
+        <ImageView layoutX="35.0" layoutY="11.0" smooth="false">
+            <Image url="@images/icon.png" />
+        </ImageView>
+        <Label layoutX="54.0" layoutY="11.0" text="FeedMobi" textFill="WHITE">
+            <font>
+                <Font name="Inter Bold" size="16.0" />
+            </font>
+        </Label>
+      <ImageView layoutX="547.0" layoutY="11.0" smooth="false">
+            <Image url="@images/logout.png" />
+      </ImageView>
+    </Pane>
+   <Label layoutX="51" layoutY="64" text="Olá, ... !" textFill="#5e605e">
+      <font>
+         <Font name="Inter Regular" size="20.0" />
+      </font></Label>
+</AnchorPane>
