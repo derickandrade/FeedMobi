@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
-  <tabs>
-    <Tab text="Perfil">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <BorderPane layoutX="8.0" prefHeight="372.0" prefWidth="593.0" />
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab text="FeedBack">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-  </tabs>
-</TabPane>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
+    <HBox styleClass="header_mobi">
+        <HBox>
+        <ImageView preserveRatio="true" smooth="false">
+            <Image url="@images/icon.png" />
+        </ImageView>
+            <Label text="FeedMobi" textFill="WHITE">
+                    <Font name="Inter Bold" size="16.0" />
+            </Label>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox>
+      <ImageView layoutX="547.0" layoutY="11.0" preserveRatio="true" smooth="false">
+            <Image url="@images/logout.png" />
+      </ImageView>
+        </HBox>
+    </HBox>
+    <VBox styleClass="content_container">
+        <Label styleClass="title" fx:id="userNameLabel" text="Olá, nome usuário !">
+        </Label>
+        <VBox prefWidth="498.0" styleClass="card">
+            <Label styleClass="card_title" text="Minhas avaliações" />
+            <VBox styleClass="empty_state">
+                <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                    <Image url="@images/empty.png" />
+                </ImageView>
+                <Label layoutY="25.0" styleClass="caption" text="Nenhum dado para mostrar" />
+            </VBox>
+        </VBox>
+    </VBox>
+</VBox>
