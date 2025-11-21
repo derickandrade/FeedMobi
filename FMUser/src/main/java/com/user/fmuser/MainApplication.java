@@ -10,6 +10,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         ScreenManager screenManager = ScreenManager.getInstance();
+        stage.setResizable(false);
         screenManager.setPrimaryStage(stage);
         screenManager.showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }

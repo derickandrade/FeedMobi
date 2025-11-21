@@ -10,13 +10,10 @@ import javafx.scene.control.TextField;
 public class LoginController {
 
     @FXML
-    private TextField emailField;
+    private TextField cpfField;
 
     @FXML
-    private Label usernameField;
-
-    @FXML
-    private Button singinButton;
+    private Button singInButton;
 
     @FXML
     private PasswordField passwordField;
