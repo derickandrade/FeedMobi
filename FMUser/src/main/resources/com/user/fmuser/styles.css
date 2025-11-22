@@ -20,6 +20,11 @@
     -fx-cursor: HAND;
 }
 
+.tertiaryButton {
+    -fx-background-color: transparent;
+    -fx-cursor: HAND;
+}
+
 .header_mobi {
     -fx-background-color: #009532;
     -fx-alignment: CENTER_LEFT;
@@ -77,5 +82,39 @@
 }
 
 .passwordField:focused {
+    -fx-border-color: #009532;
+}
+
+.select {
+    -fx-background-color: transparent;
+    -fx-border-color: #5e605e;
+    -fx-border-radius: 4px;
+    -fx-text-inner-color: red;
+}
+
+.menu-button {
+    -fx-padding: 0px 10px 0px 0x;
+}
+
+.menu-button > .arrow-button > .arrow {
+    -fx-shape: "M1.17188 0L5 3.82812L8.82812 0L10 1.17188L5 6.17188L0 1.17188L1.17188 0Z";
+    -fx-background-color: #5E605E;
+}
+
+.datePicker {
+    -fx-border-color: #5e605e;
+    -fx-border-radius: 4px;
+}
+
+.datePicker:focused {
+    -fx-border-color: #009532;
+}
+
+.textArea {
+    -fx-border-color: #5e605e;
+    -fx-border-radius: 4px;
+}
+
+.textArea:focused {
     -fx-border-color: #009532;
 }

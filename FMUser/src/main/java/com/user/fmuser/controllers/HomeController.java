@@ -24,4 +24,9 @@ public class HomeController implements Initializable {
     public void logout() {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
+
+    @FXML
+    public void irParaAvaliacao() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/novaAvaliacao-view.fxml", "Nova Avaliação");
+    }
 }
