@@ -1,5 +1,6 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -17,5 +18,10 @@ public class HomeController implements Initializable {
         String userName = "Beltrana Silva";
 
         userNameLabel.setText("Olá, " + userName + " !");
+    }
+
+    @FXML
+    public void logout() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
 }

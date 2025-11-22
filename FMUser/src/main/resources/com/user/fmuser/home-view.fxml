@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
-    <HBox styleClass="header_mobi">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
+    <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
         <HBox>
         <ImageView preserveRatio="true" smooth="false">
             <Image url="@images/icon.png" />
@@ -17,14 +16,17 @@
             </Label>
         </HBox>
         <Region HBox.hgrow="ALWAYS" />
-        <HBox>
-      <ImageView layoutX="547.0" layoutY="11.0" preserveRatio="true" smooth="false">
-            <Image url="@images/logout.png" />
-      </ImageView>
-        </HBox>
+        <HBox />
+      <Button fx:id="logoutButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="18.0" prefWidth="20.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+         <graphic>
+         <ImageView preserveRatio="true" smooth="false" style="-fx-cursor: HAND;">
+               <Image url="@images/logout.png" />
+         </ImageView>
+         </graphic>
+      </Button>
     </HBox>
     <VBox styleClass="content_container">
-        <Label styleClass="title" fx:id="userNameLabel" text="Olá, nome usuário !">
+        <Label fx:id="userNameLabel" styleClass="title" text="Olá, nome usuário !">
         </Label>
         <VBox prefWidth="498.0" styleClass="card">
             <Label styleClass="card_title" text="Minhas avaliações" />
@@ -36,4 +38,14 @@
             </VBox>
         </VBox>
     </VBox>
+   <Pane prefHeight="167.0" prefWidth="600.0">
+      <children>
+         <Pane layoutX="91.0" prefHeight="29.0" prefWidth="446.0">
+            <children>
+               <Button defaultButton="true" layoutX="230.0" layoutY="1.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Nova avaliação" />
+               <Button layoutX="1.0" layoutY="2.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Meu cadastro" />
+            </children>
+         </Pane>
+      </children>
+   </Pane>
 </VBox>
