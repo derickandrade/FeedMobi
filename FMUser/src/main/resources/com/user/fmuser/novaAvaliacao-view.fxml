@@ -54,7 +54,7 @@
                   </Pane>
                   <Pane layoutY="42.0" prefHeight="49.0" prefWidth="498.0">
                      <children>
-                        <MenuButton fx:id="tipoAvaliacaoMenu" layoutY="21.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="498.0" styleClass="select" text="Selecionar" textFill="#b0b0b0">
+                        <MenuButton fx:id="tipoAvaliacaoMenu" layoutY="21.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="498.0" styleClass="select" textFill="#b0b0b0">
                           <items>
                             <MenuItem fx:id="percursoItem" mnemonicParsing="false" onAction="#percursoSelecionado" text="Percurso/Viagem" />
                             <MenuItem mnemonicParsing="false" text="Parada/Estação" />
