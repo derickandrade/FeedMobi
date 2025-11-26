@@ -45,7 +45,7 @@
                         <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                            <children>
                               <Button defaultButton="true" layoutX="180.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
-                              <Button fx:id="cancelarButton" cancelButton="true" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
+                              <Button cancelButton="true" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                            </children>
                         </Pane>
                      </children>
@@ -53,10 +53,12 @@
                   <Pane layoutY="42.0" prefHeight="49.0" prefWidth="498.0">
                      <children>
                         <Label text="Tipo de avaliação" />
-                        <ComboBox fx:id="tipoAvaliacaoMenu" layoutY="22.0" onAction="#handleTipoAvaliacao" prefWidth="498.0" promptText="Selecionar" style="-fx-text-inner-color: red;" styleClass="select" />
+                        <Label layoutX="257.0" text="Local" />
+                        <ComboBox fx:id="tipoAvaliacaoMenu" layoutX="1.0" layoutY="21.0" onAction="#handleTipoAvaliacao" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar" styleClass="select" />
+                        <ComboBox fx:id="localMenu" layoutX="257.0" layoutY="21.0" onAction="#handleLocal" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar" styleClass="select" />
                      </children>
                   </Pane>
-                  <Button fx:id="voltarButton" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
+                  <Button layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
                      <graphic>
                         <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" onMouseClicked="#voltarHome" />
                      </graphic>
@@ -69,7 +71,7 @@
                               <DatePicker fx:id="datePicker" layoutY="25.0" onAction="#setDate" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar data" styleClass="datePicker" />
                            </children>
                         </Pane>
-                        <Pane layoutX="257.0" prefHeight="49.0" prefWidth="241.0">
+                        <Pane layoutX="260.0" prefHeight="49.0" prefWidth="241.0">
                            <children>
                               <Label text="Nota" />
                               <Pane layoutY="21.0" prefHeight="28.0" prefWidth="116.0">
@@ -107,7 +109,7 @@
                   </Pane>
                   <Pane layoutY="181.0" prefHeight="88.0" prefWidth="498.0">
                      <children>
-                        <TextArea fx:id="comentarioField" layoutY="21.0" onKeyTyped="#setComentario" prefHeight="67.0" prefWidth="498.0" styleClass="textArea" />
+                        <TextArea layoutY="21.0" prefHeight="67.0" prefWidth="498.0" styleClass="textArea" />
                         <Label text="Comentário" />
                      </children>
                   </Pane>

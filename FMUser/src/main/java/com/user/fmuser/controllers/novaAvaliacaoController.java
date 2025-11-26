@@ -2,19 +2,34 @@ package com.user.fmuser.controllers;
 
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.net.URL;
+import java.time.LocalDate;
+
 
 public class novaAvaliacaoController {
 
-    private int avaliacao = 0;
+    private static int avaliacao = 0;
 
     public static int tipoAvaliacao = 0;
 
-    protected String texto = "Selecionar";
+    protected static String comentario;
+
+    protected static LocalDate data; // O padrão é YYYY-MM-DD
+
+    protected static String hora;
+
+    protected String horaBuffer;
+
+    protected static String texto = "Selecionar";
+
+    protected static String origem;
+
+    protected static String destino;
+
+    protected static String placa;
 
     public Image estrelaAcesa;
 
@@ -24,7 +39,37 @@ public class novaAvaliacaoController {
     public ImageView logoutIcon;
 
     @FXML
+    public Button voltarButton;
+
+    @FXML
     public Button logoutButton;
+
+    @FXML
+    public DatePicker datePicker;
+
+    @FXML
+    public TextArea comentarioField;
+
+    @FXML
+    public ComboBox<String> origemMenu;
+
+    @FXML
+    public ComboBox<String> destinoMenu;
+
+    @FXML
+    public ComboBox<String> localMenu;
+
+    @FXML
+    public ComboBox<String> cicloviaMenu;
+
+    @FXML
+    public TextField horaField;
+
+    @FXML
+    public TextField placaField;
+
+    @FXML
+    public ComboBox<String> tipoAvaliacaoMenu;
 
     @FXML
     public ImageView star1;
@@ -42,9 +87,6 @@ public class novaAvaliacaoController {
     public ImageView star5;
 
     @FXML
-    public MenuButton tipoAvaliacaoMenu;
-
-    @FXML
     public void initialize() { // Usei IA aqui para pegar a URL das imagens
         // Obter a URL do recurso usando o ClassLoader
         URL resourceUrl = getClass().getResource("/com/user/fmuser/images/star_fill.png");
@@ -57,14 +99,15 @@ public class novaAvaliacaoController {
         this.estrelaAcesa = new Image(resourceUrl.toExternalForm());
 
         resourceUrl = getClass().getResource("/com/user/fmuser/images/star.png");
+
+        tipoAvaliacaoMenu.getItems().addAll("Percurso/Viagem", "Parada/Estação", "Ciclovia");
+
         if (resourceUrl == null) {
             System.err.println("Erro: Recurso 'star_fill.png' não encontrado. Verifique o caminho.");
             return;
         }
         this.estrelaApagada = new Image(resourceUrl.toExternalForm());
-        if (tipoAvaliacao != 0) {
-            tipoAvaliacaoMenu.setStyle("-fx-text-fill: #5e605e;");
-        }
+
         if (tipoAvaliacao == 1) {
             texto = "Percurso/Viagem";
         }
@@ -75,15 +118,61 @@ public class novaAvaliacaoController {
             texto = "Ciclovia";
         }
         else {
-            texto = "Selecionar";
-            tipoAvaliacaoMenu.setStyle("-fx-text-fill: #B0B0B0;");
+            texto = null;
         }
-        tipoAvaliacaoMenu.setText(texto);
+        tipoAvaliacaoMenu.setValue(texto);
+
+        if (data == null) {
+            data = LocalDate.now();
+        }
+        datePicker.setValue(data);
+
+        if (comentario != null) {
+            comentarioField.setText(comentario);
+        }
+
+    }
+
+    @FXML
+    public void setDate() {
+        data = datePicker.getValue();
+    }
+
+    @FXML
+    public void setLocal() {
+        //System.out.println(localMenu.ge);
     }
 
     @FXML
     public void logout() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
+        HomeController.handleLogout();
+    }
+
+    @FXML
+    public void tratarHora() {
+
+    }
+
+    @FXML
+    public void handleLocal() {
+        System.out.println(localMenu.getValue());
+    }
+
+    @FXML
+    public void handleTipoAvaliacao() {
+        String selecionado = tipoAvaliacaoMenu.getValue();
+        System.out.println(selecionado);
+        switch (selecionado) {
+            case "Percurso/Viagem":
+                percursoSelecionado();
+                break;
+            case "Parada/Estação":
+                paradaSelecionada();
+                break;
+            case "Ciclovia":
+                cicloviaSelecionada();
+                break;
+        }
     }
 
     @FXML
@@ -94,12 +183,60 @@ public class novaAvaliacaoController {
         }
     }
 
+    @FXML
+    public void paradaSelecionada() {
+        if (tipoAvaliacao != 2) {
+            tipoAvaliacao = 2;
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/infraestrutura-view.fxml", "Nova avaliação");
+        }
+    }
+
+    @FXML
+    public void cicloviaSelecionada() {
+        if (tipoAvaliacao != 3) {
+            tipoAvaliacao = 3;
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/ciclovia-view.fxml", "Nova avaliação");
+        }
+    }
+
+    @FXML
+    public void voltarHome() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/home-view.fxml", "Home");
+    }
+
+    @FXML
+    public void cancelarAvaliacao() {
+        resetarCampos();
+        voltarHome();
+    }
+
+    @FXML
+    public void setComentario() {
+        comentario = comentarioField.getText();
+    }
+
+    public static void resetarCampos() {
+        avaliacao = 0;
+        tipoAvaliacao = 0;
+        texto = "Selecionar";
+        comentario = null;
+        data = null;
+        origem = null;
+        destino = null;
+        placa = null;
+    }
+
     public int getAvaliacao() {
-        return this.avaliacao;
+        return avaliacao;
     }
 
     public void setAvaliacao(int valor) {
-        this.avaliacao = valor;
+        avaliacao = valor;
+    }
+
+    @FXML
+    public void setPlaca() {
+        placa = placaField.getText();
     }
 
     public void apagarTodas() {

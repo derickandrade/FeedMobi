@@ -4,6 +4,7 @@ import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,11 +23,28 @@ public class HomeController implements Initializable {
 
     @FXML
     public void logout() {
+        handleLogout();
+    }
+
+    public static void handleLogout() {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
+        novaAvaliacaoController.resetarCampos();
     }
 
     @FXML
     public void irParaAvaliacao() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/novaAvaliacao-view.fxml", "Nova Avaliação");
+        String telaAvaliacao;
+        int tipoAvaliacao = novaAvaliacaoController.tipoAvaliacao;
+        telaAvaliacao = "/com/user/fmuser/novaAvaliacao-view.fxml";
+        if (tipoAvaliacao == 1) {
+            telaAvaliacao = "/com/user/fmuser/viagem-view.fxml";
+        }
+        else if (tipoAvaliacao == 2) {
+            telaAvaliacao = "/com/user/fmuser/infraestrutura-view.fxml";
+        }
+        else if (tipoAvaliacao == 3) {
+            telaAvaliacao = "/com/user/fmuser/ciclovia-view.fxml";
+        }
+        ScreenManager.getInstance().showScreen(telaAvaliacao, "Nova Avaliação");
     }
 }
