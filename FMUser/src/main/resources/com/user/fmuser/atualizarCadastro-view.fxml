@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.AtualizarCadastroController">
+    <children>
+        <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
+            <children>
+                <SVGPath content="M7.25001 25.375C6.90765 25.375 6.62067 25.2592 6.38907 25.0276C6.15748 24.796 6.04168 24.509 6.04168 24.1667V21.6896C5.67918 21.2868 5.38716 20.8387 5.16564 20.3453C4.94411 19.8519 4.83334 19.3132 4.83334 18.7292V7.24999C4.83334 5.57846 5.60869 4.35502 7.15939 3.57968C8.71008 2.80433 11.157 2.41666 14.5 2.41666C17.9639 2.41666 20.441 2.78923 21.9313 3.53436C23.4215 4.2795 24.1667 5.51805 24.1667 7.24999V18.7292C24.1667 19.3132 24.0559 19.8519 23.8344 20.3453C23.6129 20.8387 23.3208 21.2868 22.9583 21.6896V24.1667C22.9583 24.509 22.8425 24.796 22.6109 25.0276C22.3794 25.2592 22.0924 25.375 21.75 25.375H20.5417C20.1993 25.375 19.9123 25.2592 19.6807 25.0276C19.4491 24.796 19.3333 24.509 19.3333 24.1667V22.9583H9.66668V24.1667C9.66668 24.509 9.55088 24.796 9.31928 25.0276C9.08768 25.2592 8.8007 25.375 8.45834 25.375H7.25001ZM14.5604 6.04166H21.3271H7.79376H14.5604ZM19.3333 14.5H7.25001H21.75H19.3333ZM7.25001 12.0833H21.75V8.45832H7.25001V12.0833ZM10.2708 19.3333C10.7743 19.3333 11.2023 19.1571 11.5547 18.8047C11.9071 18.4522 12.0833 18.0243 12.0833 17.5208C12.0833 17.0174 11.9071 16.5894 11.5547 16.237C11.2023 15.8845 10.7743 15.7083 10.2708 15.7083C9.76737 15.7083 9.33942 15.8845 8.98699 16.237C8.63456 16.5894 8.45834 17.0174 8.45834 17.5208C8.45834 18.0243 8.63456 18.4522 8.98699 18.8047C9.33942 19.1571 9.76737 19.3333 10.2708 19.3333ZM18.7292 19.3333C19.2326 19.3333 19.6606 19.1571 20.013 18.8047C20.3655 18.4522 20.5417 18.0243 20.5417 17.5208C20.5417 17.0174 20.3655 16.5894 20.013 16.237C19.6606 15.8845 19.2326 15.7083 18.7292 15.7083C18.2257 15.7083 17.7978 15.8845 17.4453 16.237C17.0929 16.5894 16.9167 17.0174 16.9167 17.5208C16.9167 18.0243 17.0929 18.4522 17.4453 18.8047C17.7978 19.1571 18.2257 19.3333 18.7292 19.3333ZM7.79376 6.04166H21.3271C21.025 5.6993 20.3755 5.41232 19.3787 5.18072C18.3818 4.94912 16.7757 4.83332 14.5604 4.83332C12.4056 4.83332 10.8297 4.95919 9.83282 5.21093C8.83595 5.46266 8.15626 5.73957 7.79376 6.04166ZM9.66668 20.5417H19.3333C19.9979 20.5417 20.5669 20.305 21.0401 19.8318C21.5134 19.3585 21.75 18.7896 21.75 18.125V14.5H7.25001V18.125C7.25001 18.7896 7.48664 19.3585 7.95991 19.8318C8.43317 20.305 9.00209 20.5417 9.66668 20.5417Z" fill="WHITE" layoutX="35.0" layoutY="7.0" scaleX="0.8" scaleY="0.8" />
+                <Label layoutX="63.0" layoutY="11.0" text="FeedMobi" textFill="WHITE">
+                    <font>
+                        <Font size="15.58" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <Pane layoutX="51.0" layoutY="64.0" prefHeight="223.0" prefWidth="498.0">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <children>
+                <Button fx:id="voltarIconButton" layoutX="-5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#retornarHome" prefWidth="0.0" scaleX="1.4" scaleY="1.4" style="-fx-background-color: transparent; -fx-cursor: HAND;">
+                    <graphic>
+                        <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" />
+                    </graphic>
+                </Button>
+                <Label layoutX="30.0" layoutY="1.0" text="Atualizar cadastro">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Pane layoutY="44.0" prefHeight="179.0" prefWidth="498.0">
+               <children>
+                  <TextField fx:id="cpfField" layoutY="29.0" prefHeight="28.0" prefWidth="241.0" promptText="000.000.000-00" styleClass="textField" />
+                  <TextField fx:id="sobrenomeField" layoutX="257.0" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
+                  <TextField fx:id="nomeField" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
+                  <TextField fx:id="emailField" layoutX="257.0" layoutY="29.0" prefHeight="28.0" prefWidth="241.0" promptText="exemplo@mail.com" styleClass="textField" />
+                  <PasswordField fx:id="senhaField" layoutY="151.0" prefHeight="28.0" prefWidth="241.0" styleClass="passwordField" />
+                  <PasswordField fx:id="confirmarSenhaField" layoutX="257.0" layoutY="151.0" prefHeight="28.0" prefWidth="241.0" styleClass="passwordField" />
+                  <Label layoutY="8.0" text="CPF" />
+                  <Label layoutX="257.0" layoutY="9.0" text="E-mail" />
+                  <Label layoutX="2.0" layoutY="70.0" text="Nome" />
+                  <Label layoutX="257.0" layoutY="70.0" text="Sobrenome" />
+                  <Label layoutX="2.0" layoutY="131.0" text="Senha" />
+                  <Label layoutX="257.0" layoutY="131.0" text="Confirmar senha" />
+               </children></Pane>
+            </children>
+        </Pane>
+      <Pane layoutX="103.0" layoutY="329.0" prefHeight="29.0" prefWidth="446.0">
+         <children>
+            <Button fx:id="atualizarButton" defaultButton="true" layoutX="231.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Atualizar" />
+            <Button fx:id="cancelarButton" cancelButton="true" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#retornarHome" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Cancelar" />
+         </children>
+      </Pane>
+    </children>
+</Pane>

@@ -63,7 +63,7 @@
 }
 
 .content_container {
-    -fx-spacing: 16px;
+    -fx-spacing: 8px;
     -fx-padding: 24px 64px 24px 64px;
 }
 
@@ -121,4 +121,16 @@
 
 .textArea:focused {
     -fx-border-color: #009532;
+}
+
+.verMais {
+    -fx-font-size: 8px;
+    -fx-text-fill: #009532;
+    -fx-underline: true;
+    -fx-cursor: HAND;
+}
+
+.verMaisChevron {
+    -fx-fill: #009532;
+    -fx-cursor: HAND;
 }

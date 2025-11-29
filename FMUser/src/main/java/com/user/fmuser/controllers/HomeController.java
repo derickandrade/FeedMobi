@@ -1,5 +1,6 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,8 +28,8 @@ public class HomeController implements Initializable {
     }
 
     public static void handleLogout() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
         novaAvaliacaoController.resetarCampos();
+        Usuario.logout();
     }
 
     @FXML
@@ -46,5 +47,10 @@ public class HomeController implements Initializable {
             telaAvaliacao = "/com/user/fmuser/ciclovia-view.fxml";
         }
         ScreenManager.getInstance().showScreen(telaAvaliacao, "Nova Avaliação");
+    }
+
+    @FXML
+    public void atualizarCadastro() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/atualizarCadastro-view.fxml", "Meu Cadastro");
     }
 }

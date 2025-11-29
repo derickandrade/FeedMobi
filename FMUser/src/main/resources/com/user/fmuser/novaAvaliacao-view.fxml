@@ -53,7 +53,7 @@
                   <Pane layoutY="42.0" prefHeight="49.0" prefWidth="498.0">
                      <children>
                         <Label text="Tipo de avaliação" />
-                        <ComboBox fx:id="tipoAvaliacaoMenu" layoutY="22.0" onAction="#handleTipoAvaliacao" prefWidth="498.0" promptText="Selecionar" style="-fx-text-inner-color: red;" styleClass="select" />
+                        <ComboBox fx:id="tipoAvaliacaoMenu" layoutY="22.0" onAction="#handleTipoAvaliacao" prefHeight="28.0" prefWidth="498.0" promptText="Selecionar" styleClass="select" />
                      </children>
                   </Pane>
                   <Button fx:id="voltarButton" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
