@@ -5,36 +5,23 @@ import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TableView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+class Avaliacao {
+    public String texto;
+    public int nota;
+}
+
+public class AvaliacoesController implements Initializable {
 
     @FXML
-    private Label userNameLabel;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        String userName = "Beltrana Silva";
-
-        userNameLabel.setText("Olá, " + userName + " !");
-    }
+    protected TableView<Avaliacao> avaliacoesTable;
 
     @FXML
-    public void logout() {
-        handleLogout();
-    }
-
-    public static void handleLogout() {
-        novaAvaliacaoController.resetarCampos();
-        MainApplication.logout();
-    }
-
-    @FXML
-    public void irParaAvaliacao() {
+    public void novaAvaliacao() {
         String telaAvaliacao;
         int tipoAvaliacao = novaAvaliacaoController.tipoAvaliacao;
         telaAvaliacao = "/com/user/fmuser/novaAvaliacao-view.fxml";
@@ -51,7 +38,24 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void atualizarCadastro() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/atualizarCadastro-view.fxml", "Meu Cadastro");
+    public void logout() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Nova Avaliação");
+        MainApplication.logout();
+    }
+
+    @FXML
+    public void voltarHome() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
+    }
+
+    @FXML
+    public void cancelarAvaliacao() {
+        novaAvaliacaoController.resetarCampos();
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

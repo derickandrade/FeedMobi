@@ -1,5 +1,6 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.MainApplication;
 import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
@@ -38,11 +39,11 @@ public class AtualizarCadastroController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cpfField.setText(Usuario.cpf);
+        cpfField.setText(MainApplication.usuarioSessao.getCPF());
         cpfField.setDisable(true);
-        nomeField.setText(Usuario.nome);
-        sobrenomeField.setText(Usuario.sobrenome);
-        emailField.setText(Usuario.email);
+        nomeField.setText(MainApplication.usuarioSessao.getNome());
+        sobrenomeField.setText(MainApplication.usuarioSessao.getSobrenome());
+        emailField.setText(MainApplication.usuarioSessao.getEmail());
     }
 
     @FXML

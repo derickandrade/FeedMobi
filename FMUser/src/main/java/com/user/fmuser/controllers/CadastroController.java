@@ -8,6 +8,14 @@ import javafx.scene.control.TextField;
 
 public class CadastroController {
 
+    private String cpf;
+    private String email;
+    private String senha;
+    private String confirmarSenha;
+    private String nome;
+    private String sobrenome;
+    private boolean isAdmin;
+
     @FXML
     private Button voltarButton;
 
@@ -35,5 +43,11 @@ public class CadastroController {
     @FXML
     protected void retornarLogin() {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
+    }
+
+    @FXML
+    public void handleCadastro() {
+        cpf = cpfField.getText();
+        email = emailField.getText();
     }
 }

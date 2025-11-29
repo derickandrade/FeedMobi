@@ -1,5 +1,7 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.MainApplication;
+import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -145,7 +147,7 @@ public class novaAvaliacaoController {
 
     @FXML
     public void logout() {
-        HomeController.handleLogout();
+        MainApplication.logout();
     }
 
     @FXML
@@ -201,7 +203,11 @@ public class novaAvaliacaoController {
 
     @FXML
     public void voltarHome() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/home-view.fxml", "Home");
+        String tela = "/com/user/fmuser/home-view.fxml";
+        if (MainApplication.usuarioSessao.isAdmin()) {
+            tela = "/com/user/fmuser/dashboard-view.fxml";
+        }
+        ScreenManager.getInstance().showScreen(tela, "Home");
     }
 
     @FXML
