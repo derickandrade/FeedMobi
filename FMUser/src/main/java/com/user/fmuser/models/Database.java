@@ -6,19 +6,9 @@ public class Database {
     public static void main(String[] args) {
         // Área de testes
         connect();
-        try {
-            DatabaseMetaData dbm = connection.getMetaData();
-            String[] types = {"TABLE"};
-
-            ResultSet tables = dbm.getTables(null, null, "%", types);
-
-            System.out.println("Table Names:");
-            while (tables.next()) {
-                System.out.println(tables.getString("TABLE_NAME"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        // Verifica se o cpf 000.000.000-00 está cadastrado
+        String meu_cpf = "00000000000";
+        System.out.printf("%b", cpfCadastrado(meu_cpf));
         disconnect();
     }
 
@@ -50,6 +40,20 @@ public class Database {
         try {
             connection.commit();
             connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean cpfCadastrado(String cpf) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(
+                    "SELECT COUNT(cpf) FROM Usuario WHERE cpf = '" + cpf + "';"
+            );
+            results.first();
+            int quantity = results.getInt("COUNT(cpf)");
+            return quantity >= 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
