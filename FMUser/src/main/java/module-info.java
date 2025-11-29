@@ -4,6 +4,9 @@ module com.user.fmuser {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires org.mariadb.jdbc;
+    requires java.sql;
+    requires java.logging;
 
     opens com.user.fmuser to javafx.fxml;
     exports com.user.fmuser;
