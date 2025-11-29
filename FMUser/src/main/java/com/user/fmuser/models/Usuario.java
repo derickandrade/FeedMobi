@@ -6,7 +6,7 @@ public class Usuario {
     private String sobrenome;
     private String email;
     private String senha;
-    private boolean isAdmin = false;
+    private boolean isAdmin;
 
     public void setCpf(String cpf) {
         if (cpf.length() != 11) {
@@ -65,6 +65,7 @@ public class Usuario {
         this.sobrenome = sobrenome;
         this.email = email;
         this.senha = senha;
+        this.isAdmin = false;
     }
 }
 
