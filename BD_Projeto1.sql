@@ -7,8 +7,7 @@ DROP TABLE IF EXISTS Viagem;
 DROP TABLE IF EXISTS Motorista;
 DROP TABLE IF EXISTS Onibus_Placa;
 DROP TABLE IF EXISTS Veiculo;
-DROP TABLE IF EXISTS Dias_Semana;
-DROP TABLE IF EXISTS Horario_Inicio;
+DROP TABLE IF EXISTS Horario_dia_percurso;
 DROP TABLE IF EXISTS Paradas;
 DROP TABLE IF EXISTS Percurso;
 DROP TABLE IF EXISTS Parada;
@@ -18,12 +17,12 @@ DROP TABLE IF EXISTS Usuario;
 
 -- criando as tabelas
 CREATE TABLE Parada(
-	codigo SERIAL PRIMARY KEY,
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	localizacao VARCHAR(15)
 );
 
 CREATE TABLE Percurso(
-	codigo SERIAL PRIMARY KEY,
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	origem INT NOT NULL,
 	destino INT NOT NULL,
 	FOREIGN KEY (origem) REFERENCES Parada(codigo),
@@ -38,19 +37,12 @@ CREATE TABLE Paradas(
 	FOREIGN KEY (localizacao) REFERENCES Parada(codigo)
 );
 
-CREATE TABLE Horario_Inicio(
-	hora TIME NOT NULL,
-	percurso INT NOT NULL,
-	PRIMARY KEY (hora, percurso),
-	FOREIGN KEY (percurso) REFERENCES Percurso(codigo)
-);
-
-CREATE TABLE Dias_Semana(
-	hora TIME NOT NULL,
-	percurso INT,
-	dia CHAR(3),
-	PRIMARY KEY (hora, percurso, dia),
-	FOREIGN KEY (hora, percurso) REFERENCES Horario_Inicio(hora, percurso)
+CREATE TABLE Horario_dia_percurso(
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
+    hora TIME NOT NULL,
+    dia CHAR(3),
+    percurso INT,
+    FOREIGN KEY (percurso) REFERENCES Percurso(codigo)
 );
 
 CREATE TABLE Motorista(
@@ -60,29 +52,27 @@ CREATE TABLE Motorista(
 );
 
 CREATE TABLE Veiculo(
-	numero SERIAL PRIMARY KEY,
+	numero INT AUTO_INCREMENT PRIMARY KEY,
 	data_validade DATE NOT NULL,
 	assentos SMALLINT NOT NULL,
 	capacidade_em_pe SMALLINT NOT NULL
 );
 
 CREATE TABLE Onibus_Placa(
-	numero SERIAL PRIMARY KEY,
+	numero INT AUTO_INCREMENT PRIMARY KEY,
 	placa CHAR(7),
 	FOREIGN KEY (numero) REFERENCES Veiculo(numero)
 );
 
 CREATE TABLE Viagem(
-	codigo SERIAL PRIMARY KEY,
-	dt DATE NOT NULL,
-	hora_inicio TIME NOT NULL,
-	percurso INT NOT NULL,
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
+    horario_dia_percurso INT NOT NULL,
 	motorista VARCHAR(11) NOT NULL,
 	veiculo INT NOT NULL,
-	FOREIGN KEY (hora_inicio, percurso) REFERENCES Horario_Inicio(hora, percurso),
+	FOREIGN KEY (horario_dia_percurso) REFERENCES Horario_dia_percurso(codigo),
 	FOREIGN KEY (motorista) REFERENCES Motorista(cpf),
 	FOREIGN KEY (veiculo) REFERENCES Veiculo(numero)
-	
+
 );
 
 CREATE TABLE Cobrador(
@@ -108,7 +98,7 @@ CREATE TABLE Usuario(
 );
 
 CREATE TABLE Reclamacao(
-	codigo SERIAL PRIMARY KEY,
+	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	texto VARCHAR(500) NOT NULL,
 	usuario CHAR(11) NOT NULL,
 	FOREIGN KEY (usuario) REFERENCES Usuario(cpf)
@@ -126,7 +116,7 @@ CREATE TABLE Viagem_Reclamacao(
 	viagem INT,
 	FOREIGN KEY (reclamacao) REFERENCES Reclamacao(codigo),
 	FOREIGN KEY (viagem) REFERENCES Viagem(codigo)
-	
+
 );
 
 
