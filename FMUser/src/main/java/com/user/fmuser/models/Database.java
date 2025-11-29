@@ -1,7 +1,6 @@
 package com.user.fmuser.models;
 
 import java.sql.*;
-import java.util.logging.Logger;
 
 public class Database {
     public static void main(String[] args) {
