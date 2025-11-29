@@ -1,22 +1,70 @@
 package com.user.fmuser.models;
 
-import com.user.fmuser.utils.ScreenManager;
-
 public class Usuario {
-    public static String nome = "Fulano";
-    public static String sobrenome = "Da Silva";
-    public static String cpf = "000.000.000-00";
-    public static String email = "fulanosilva@mail.com";
-    public static boolean isAdmin = false;
-    public static String senha = "1234";
+    private String cpf;
+    private String nome;
+    private String sobrenome;
+    private String email;
+    private String senha;
+    private boolean isAdmin = false;
 
-    public static void logout() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
-        nome = null;
-        sobrenome = null;
-        cpf = null;
-        email = null;
-        isAdmin = false;
-        senha = null;
+    public void setCpf(String cpf) {
+        if (cpf.length() != 11) {
+            return;
+        }
+        this.cpf = cpf;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public String getCPF() {
+        return cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public Usuario(String cpf, String nome, String sobrenome, String email, String senha) {
+        setCpf(cpf);
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.senha = senha;
     }
 }
+

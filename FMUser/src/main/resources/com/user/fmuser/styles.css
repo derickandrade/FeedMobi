@@ -134,3 +134,9 @@
     -fx-fill: #009532;
     -fx-cursor: HAND;
 }
+
+.tableField {
+    -fx-border-color: #5e605e;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+}

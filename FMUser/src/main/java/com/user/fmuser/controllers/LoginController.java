@@ -1,13 +1,19 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.models.Database;
+import com.user.fmuser.models.Usuario;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
 
     @FXML
     private TextField cpfField;
@@ -31,6 +37,7 @@ public class LoginController {
         // Lógica pro login com a JDBC;
     }
 
+
     @FXML
     protected void handleLogin() {
         cpf = cpfField.getText();
@@ -53,5 +60,10 @@ public class LoginController {
 
         // Se o CPF existe no BD e a senha corresponde:
         return true;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
