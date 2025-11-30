@@ -21,6 +21,7 @@ public class Database {
      * @return true if valid, false otherwise.
      */
     public static boolean validCPF(String cpf) {
+        System.out.println(isAllDigits(cpf) && cpf.length() == 11);
         return isAllDigits(cpf) && cpf.length() == 11;
     }
 
