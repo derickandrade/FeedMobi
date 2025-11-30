@@ -1,13 +1,10 @@
 package com.user.fmuser.controllers;
 
-import com.sun.tools.javac.Main;
 import com.user.fmuser.MainApplication;
-import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +40,7 @@ public class HomeController implements Initializable {
             telaAvaliacao = "/com/user/fmuser/viagem-view.fxml";
         }
         else if (tipoAvaliacao == 2) {
-            telaAvaliacao = "/com/user/fmuser/infraestrutura-view.fxml";
+            telaAvaliacao = "/com/user/fmuser/infraestruturas-view.fxml";
         }
         else if (tipoAvaliacao == 3) {
             telaAvaliacao = "/com/user/fmuser/ciclovia-view.fxml";

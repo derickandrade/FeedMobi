@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.DashboardController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.DashboardController">
     <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
         <HBox />
         <Region HBox.hgrow="ALWAYS" />
@@ -23,124 +18,112 @@
          </graphic>
       </Button>
     </HBox>
-   <Pane prefHeight="57.0" prefWidth="600.0">
-      <children>
-           <Label fx:id="userNameLabel" layoutX="35.0" layoutY="15.0" styleClass="title" text="Dashboard da gestão">
+
+    <VBox spacing="16.0" styleClass="content_container">
+        <Label styleClass="title" text="Dashboard da gestão">
         </Label>
-      </children>
-   </Pane>
-   <Pane prefHeight="101.96" prefWidth="600.0">
-      <children>
-         <Pane layoutX="35.0" prefHeight="101.96" prefWidth="530.0">
-            <children>
-               <Pane prefHeight="101.96" prefWidth="259.49" styleClass="tableField">
-                  <children>
-                     <Pane layoutX="12.0" layoutY="12.0" prefHeight="77.96" prefWidth="235.49">
+
+        <HBox spacing="12.0">
+            <VBox prefHeight="120" prefWidth="259.0" styleClass="card">
+                <Label styleClass="card_title" text="Avaliações" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="36.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#avaliacoes" prefHeight="21.0" prefWidth="226.0">
                         <children>
-                           <Label text="Avaliações" />
-                           <Pane layoutY="68.0" onMouseClicked="#avaliacoes" prefHeight="10.0" prefWidth="50.0">
-                              <children>
-                                 <Label styleClass="verMais" text="Ver mais" />
-                                 <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                              </children>
-                           </Pane>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
                         </children>
-                     </Pane>
-                  </children>
-               </Pane>
-               <Pane layoutX="271.0" prefHeight="101.96" prefWidth="259.49" styleClass="tableField">
-                  <children>
-                     <Pane layoutX="12.0" layoutY="12.0" prefHeight="77.96" prefWidth="235.49">
+                    </Pane>
+                </VBox>
+            </VBox>
+            <VBox prefHeight="120" prefWidth="259.0" styleClass="card">
+                <Label styleClass="card_title" text="Infraestruturas" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="27.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#infraestruturas" prefHeight="10.0" prefWidth="50.0">
                         <children>
-                           <Label text="Infraestruturas" />
-                           <Pane layoutY="68.0" onMouseClicked="#infraestruturas" prefHeight="10.0" prefWidth="50.0">
-                              <children>
-                                 <Label styleClass="verMais" text="Ver mais" />
-                                 <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                              </children>
-                           </Pane>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
                         </children>
-                     </Pane>
-                  </children>
-               </Pane>
-            </children>
-         </Pane>
-      </children>
-   </Pane>
+                    </Pane>
+                </VBox>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12.0">
+            <VBox prefHeight="120" prefWidth="168.0" styleClass="card">
+                <Label styleClass="card_title" text="Veículos" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="36.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#veiculos" prefHeight="21.0" prefWidth="226.0">
+                        <children>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
+                        </children>
+                    </Pane>
+                </VBox>
+            </VBox>
+            <VBox prefHeight="120" prefWidth="168.0" styleClass="card">
+                <Label styleClass="card_title" text="Funcionários" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="27.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#funcionarios" prefHeight="10.0" prefWidth="50.0">
+                        <children>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
+                        </children>
+                    </Pane>
+                </VBox>
+            </VBox>
+            <VBox prefHeight="120" prefWidth="169.0" styleClass="card">
+                <Label styleClass="card_title" text="Percursos" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="27.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#percursos" prefHeight="10.0" prefWidth="50.0">
+                        <children>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
+                        </children>
+                    </Pane>
+                </VBox>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="12.0">
+            <VBox prefHeight="120" prefWidth="530.0" styleClass="card">
+                    <Label styleClass="card_title" text="Viagens" />
+                <VBox styleClass="empty_state">
+                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                        <Image url="@images/empty.png" />
+                    </ImageView>
+                    <Label layoutY="25.0" prefHeight="36.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <Pane layoutY="68.0" onMouseClicked="#viagens" prefHeight="21.0" prefWidth="226.0">
+                        <children>
+                            <Label styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
+                        </children>
+                    </Pane>
+                </VBox>
+            </VBox>
+        </HBox>
+
+    </VBox>
    <Region prefHeight="11.02" prefWidth="600.0" />
-   <Pane prefHeight="101.96" prefWidth="530.0">
-      <children>
-         <Pane layoutX="35.0" prefHeight="101.96" prefWidth="530.0">
-            <children>
-               <Pane prefHeight="101.96" prefWidth="169.32" styleClass="tableField">
-                  <children>
-                     <Pane layoutX="12.0" layoutY="12.0" prefHeight="77.96" prefWidth="145.32">
-                        <children>
-                           <Label text="Veículos" />
-                           <Pane layoutY="68.0" onMouseClicked="#veiculos" prefHeight="10.0" prefWidth="50.0">
-                              <children>
-                                 <Label styleClass="verMais" text="Ver mais" />
-                                 <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                              </children>
-                           </Pane>
-                        </children>
-                     </Pane>
-                  </children>
-               </Pane>
-               <Region layoutX="169.32" prefHeight="101.96" prefWidth="12.0" />
-               <Pane layoutX="180.83" prefHeight="101.96" prefWidth="169.32" styleClass="tableField">
-                  <children>
-                     <Pane layoutX="12.0" layoutY="12.0" prefHeight="77.96" prefWidth="145.32">
-                        <children>
-                           <Label text="Funcionários" />
-                           <Pane layoutY="68.0" onMouseClicked="#funcionarios" prefHeight="10.0" prefWidth="50.0">
-                              <children>
-                                 <Label styleClass="verMais" text="Ver mais" />
-                                 <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                              </children>
-                           </Pane>
-                        </children>
-                     </Pane>
-                  </children>
-               </Pane>
-               <Pane layoutX="361.0" prefHeight="101.96" prefWidth="169.32" styleClass="tableField">
-                  <children>
-                     <Pane layoutX="12.0" layoutY="12.0" prefHeight="77.96" prefWidth="145.32">
-                        <children>
-                           <Label text="Percursos" />
-                           <Pane layoutY="68.0" onMouseClicked="#percursos" prefHeight="10.0" prefWidth="50.0">
-                              <children>
-                                 <Label styleClass="verMais" text="Ver mais" />
-                                 <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                              </children>
-                           </Pane>
-                        </children>
-                     </Pane>
-                  </children>
-               </Pane>
-               <Region layoutX="349.0" prefHeight="101.96" prefWidth="12.0" />
-            </children>
-         </Pane>
-      </children>
-   </Pane>
    <Region prefHeight="11.02" prefWidth="600.0" />
-   <Pane prefHeight="94.0" prefWidth="600.0">
-      <children>
-         <Pane layoutX="35.0" prefHeight="94.0" prefWidth="530.0" styleClass="tableField">
-            <children>
-               <Pane layoutX="11.0" layoutY="8.0" prefHeight="77.96" prefWidth="506.0">
-                  <children>
-                     <Label text="Viagens" />
-                     <Pane layoutX="1.0" layoutY="67.0" onMouseClicked="#viagens" prefHeight="10.0" prefWidth="50.0">
-                        <children>
-                           <Label styleClass="verMais" text="Ver mais" />
-                           <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
-                        </children>
-                     </Pane>
-                  </children>
-               </Pane>
-            </children>
-         </Pane>
-      </children>
-   </Pane>
+   <Pane prefHeight="94.0" prefWidth="600.0" />
 </VBox>
