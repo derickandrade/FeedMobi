@@ -95,7 +95,7 @@ CREATE TABLE Usuario(
 	sobrenome VARCHAR(15) NOT NULL,
 	email VARCHAR(254) UNIQUE NOT NULL,
 	senha VARCHAR(25) NOT NULL,
-	administrador BOOL NOT NULL,
+	administrador BOOL NOT NULL
 );
 
 CREATE TABLE Reclamacao(
