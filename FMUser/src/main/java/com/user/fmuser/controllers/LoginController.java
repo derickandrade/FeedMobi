@@ -33,12 +33,8 @@ public class LoginController implements Initializable {
         cpf = cpfField.getText();
         senha = passwordField.getText();
 
-        System.out.println(cpf);
-
         boolean cpfValido = Database.validCPF(cpf);
         boolean senhaValida = !senha.isEmpty();
-
-        System.out.println(cpfValido);
 
         cpfMessage.setVisible(!cpfValido);
         senhaMessage.setVisible(!senhaValida);
