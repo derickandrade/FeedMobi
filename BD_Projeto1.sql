@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS Reclamacao;
 DROP TABLE IF EXISTS Cobrador_Viagem;
 DROP TABLE IF EXISTS Viagem_Reclamacao;
 DROP TABLE IF EXISTS Parada_Reclamacao;
+DROP TABLE IF EXISTS Ciclovia_Reclamacao;
 DROP TABLE IF EXISTS Cobrador;
 DROP TABLE IF EXISTS Viagem;
 DROP TABLE IF EXISTS Motorista;
@@ -17,6 +18,7 @@ DROP TABLE IF EXISTS Horario_dia_percurso;
 DROP TABLE IF EXISTS Paradas;
 DROP TABLE IF EXISTS Percurso;
 DROP TABLE IF EXISTS Parada;
+DROP TABLE IF EXISTS Ciclovia;
 DROP TABLE IF EXISTS Avaliacao;
 DROP TABLE IF EXISTS Usuario;
 
@@ -25,6 +27,11 @@ DROP TABLE IF EXISTS Usuario;
 CREATE TABLE Parada(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	localizacao VARCHAR(15)
+);
+
+CREATE TABLE Ciclovia(
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    localizacao VARCHAR(15)
 );
 
 CREATE TABLE Percurso(
@@ -78,7 +85,6 @@ CREATE TABLE Viagem(
 	FOREIGN KEY (horario_dia_percurso) REFERENCES Horario_dia_percurso(codigo),
 	FOREIGN KEY (motorista) REFERENCES Motorista(cpf),
 	FOREIGN KEY (veiculo) REFERENCES Veiculo(numero)
-
 );
 
 CREATE TABLE Cobrador(
@@ -114,6 +120,7 @@ CREATE TABLE Avaliacao(
 CREATE TABLE Parada_Reclamacao(
 	reclamacao INT PRIMARY KEY,
 	parada INT,
+    foto MEDIUMBLOB,
 	FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
 	FOREIGN KEY (parada) REFERENCES Parada(codigo)
 );
@@ -123,7 +130,14 @@ CREATE TABLE Viagem_Reclamacao(
 	viagem INT,
 	FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
 	FOREIGN KEY (viagem) REFERENCES Viagem(codigo)
+);
 
+CREATE TABLE Ciclovia_Reclamacao(
+    reclamacao INT PRIMARY KEY,
+    ciclovia INT,
+    foto MEDIUMBLOB,
+    FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
+    FOREIGN KEY (ciclovia) REFERENCES Ciclovia(codigo)
 );
 
 
