@@ -101,7 +101,7 @@ public class CadastroController {
             Usuario usuario = new Usuario(cpf, nome, sobrenome, email, senha);
 
             try {
-                Database.adicionaUsuario(usuario);
+                Database.addUser(usuario);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("Cadastro sucedido!");
@@ -112,7 +112,7 @@ public class CadastroController {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERRO");
                 alert.setHeaderText("Não foi possível realizar o cadastro!");
-                alert.setContentText("Ocorreu um erro: \n" + e.toString() + "\nTente novamente.");
+                alert.setContentText("Ocorreu um erro: \n" + e + "\nTente novamente.");
                 alert.showAndWait();
             }
         }
@@ -138,7 +138,7 @@ public class CadastroController {
     }
 
     public boolean verificarCPFnoBD(String cpf) {
-        boolean cpfDisponivel = !(Database.cpfCadastrado(cpf));
+        boolean cpfDisponivel = !(Database.isCpfRegistered(cpf));
         System.out.println(cpfDisponivel);
         return cpfDisponivel;
     }

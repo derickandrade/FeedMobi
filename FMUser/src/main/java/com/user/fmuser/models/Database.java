@@ -3,50 +3,25 @@ package com.user.fmuser.models;
 import java.sql.*;
 
 public class Database {
+    /**
+     * Main function for testing purposes only.
+     * @param args Test function args
+     */
     public static void main(String[] args) {
-        // Área de testes
-        connect();
-        // Verifica se o cpf 000.000.000-00 está cadastrado
-        String meu_cpf = "00000000000";
-        System.out.printf("%b\n", cpfCadastrado(meu_cpf));
-
-        Usuario teste = recolheUsuario("00000000000");
-        if (teste != null) {
-            System.out.println(teste.getNome());
-        }
-
-        teste = recolheUsuario("00000000001");
-        if (teste == null) {
-            System.out.println("Usuário inexistente");
-        }
-
-        Usuario usuario = new Usuario("12345678900", "a", "b", "c", "d");
-
-        try {
-            adicionaUsuario(usuario);
-        } catch (SQLException e) {
-            System.err.println("Usuário já cadastrado :)");
-        }
-
-        usuario.setNome("j");
-        usuario.setCpf("38383838388");
-        // Atualização não ocorre porque usuário não existe
-        atualizaUsuario(usuario);
-
-        System.out.printf("%b\n", cpfCadastrado("12345678900"));
-
-        removeUsuario("12345678900");
-
-        System.out.printf("%b\n", cpfCadastrado("12345678900"));
-
-        disconnect();
     }
 
+    // Database URL
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/FeedMobiDB";
+    // Database connection handler
     private static Connection connection;
 
+    /**
+     * Attempt to connect to locally hosted database through "user" with blank password.
+     * Failure to connect will cause the program to crash, as this is unrecoverable.
+     */
     public static void connect() {
         try {
+            // Dynamically load DB driver
             Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println("couldn't load database driver");
@@ -55,6 +30,7 @@ public class Database {
         }
 
         try {
+            // Attempt connection
             String user = "user";
             String password = "";
             connection = DriverManager.getConnection(DB_URL, user, password);
@@ -66,6 +42,9 @@ public class Database {
         }
     }
 
+    /**
+     * Disconnect from database, only call after having used connect().
+     */
     public static void disconnect() {
         try {
             connection.commit();
@@ -75,7 +54,13 @@ public class Database {
         }
     }
 
-    public static boolean cpfCadastrado(String cpf) {
+    /**
+     * Simple function to determine whether CPF is registered.
+     *
+     * @param cpf 11 character, digit only CPF
+     * @return true if the CPF is already registered, false otherwise
+     */
+    public static boolean isCpfRegistered(String cpf) {
         try {
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(
@@ -83,26 +68,44 @@ public class Database {
             );
             results.first();
             int quantity = results.getInt("COUNT(cpf)");
+
+            // cleanup
+            results.close();
+            statement.close();
             return quantity >= 1;
         } catch (SQLException e) {
+            // This function should never fail.
             throw new RuntimeException(e);
         }
     }
 
-    public static void adicionaUsuario(Usuario usuario) throws SQLException {
+    /**
+     * Insert a user into the relevant database table. Useful for sign-up.
+     *
+     * @param user The user object containing the relevant user information for sign-up,
+     * @throws SQLException It is possible that the value can't be inserted for various reasons. If the update fails,
+     * an exception is thrown.
+     */
+    public static void addUser(Usuario user) throws SQLException {
         Statement statement = connection.createStatement();
         statement.executeUpdate(
                 "INSERT INTO Usuario VALUES ('" +
-                        usuario.getCPF() + "', '" +
-                        usuario.getNome() + "', '" +
-                        usuario.getSobrenome() + "', '" +
-                        usuario.getEmail() + "', '" +
-                        usuario.getSenha() + "', '" +
-                        (usuario.isAdmin() ? 1 : 0) + "');"
+                        user.getCPF() + "', '" +
+                        user.getNome() + "', '" +
+                        user.getSobrenome() + "', '" +
+                        user.getEmail() + "', '" +
+                        user.getSenha() + "', '" +
+                        (user.isAdmin() ? 1 : 0) + "');"
         );
+        statement.close();
     }
 
-    public static void removeUsuario(String cpf) {
+    /**
+     * Removes a database user based on the CPF primary key. No operation happens if
+     * the user does not exist.
+     * @param cpf The CPF to delete.
+     */
+    public static void removeUser(String cpf) {
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
@@ -112,14 +115,21 @@ public class Database {
         }
     }
 
-    public static void atualizaUsuario(Usuario usuario) {
+    /**
+     * Given a user object, update the database entry according to the CPF
+     * stored in that object. All fields/columns are updated using the information
+     * in the object.
+     * No operation happens if the user does not exist.
+     * @param user The user object for updating.
+     */
+    public static void updateUser(Usuario user) {
         try {
             String updateString = "UPDATE Usuario SET ";
-            updateString += "nome = '" + usuario.getNome() + "', ";
-            updateString += "sobrenome = '" + usuario.getSobrenome() + "', ";
-            updateString += "email = '" + usuario.getEmail() + "', ";
-            updateString += "senha = '" + usuario.getSenha() + "' ";
-            updateString += "WHERE cpf = '" + usuario.getCPF() + "';";
+            updateString += "nome = '" + user.getNome() + "', ";
+            updateString += "sobrenome = '" + user.getSobrenome() + "', ";
+            updateString += "email = '" + user.getEmail() + "', ";
+            updateString += "senha = '" + user.getSenha() + "' ";
+            updateString += "WHERE cpf = '" + user.getCPF() + "';";
 
             Statement statement = connection.createStatement();
             statement.executeUpdate(updateString);
@@ -128,7 +138,13 @@ public class Database {
         }
     }
 
-    public static Usuario recolheUsuario(String cpf) {
+    /**
+     * Creates a user object based on the data provided by the database according to
+     * the given CPF.
+     * @param cpf CPF of the user to retrieve.
+     * @return A compliant Usuario object if the user exists in the database, null otherwise.
+     */
+    public static Usuario retrieveUser(String cpf) {
         try {
             String query = "SELECT * FROM Usuario WHERE cpf = '" + cpf + "';";
 
