@@ -10,6 +10,11 @@ import java.sql.SQLException;
 
 public class novoFuncionarioController {
 
+    private String cpf;
+    private String nome;
+    private String sobrenome;
+    private boolean isMotorista;
+
     public void logout() {
         MainApplication.logout();
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
@@ -44,12 +49,6 @@ public class novoFuncionarioController {
 
     @FXML
     private Label sobrenomeMessage;
-
-    @FXML
-    private Button cadastrarButton;
-
-    @FXML
-    private Button cancelarButton;
 
     @FXML
     public ComboBox<String> cargoFuncionarioMenu;
@@ -96,6 +95,37 @@ public class novoFuncionarioController {
     }
     @FXML
     public void handleCadastrarFuncionario() {
+        cpf = cpfField.getText();
+        nome = nomeField.getText();
+        sobrenome = sobrenomeField.getText();
+
+        boolean cpfValido = Database.validCPF(cpf);
+        boolean nomeValido = !nome.isEmpty();
+        boolean sobrenomeValido = !sobrenome.isEmpty();
+        boolean cargoValido = (cargoFuncionario == 1 || cargoFuncionario == 2);
+
+        cpfMessage.setVisible(!cpfValido);
+        nomeMessage.setVisible(!nomeValido);
+        sobrenomeMessage.setVisible(!sobrenomeValido);
+        cargoMessage.setVisible(!cargoValido);
+
+        if(cpfValido && nomeValido && sobrenomeValido && cargoValido) {
+            Funcionario funcionario = new Funcionario(cpf,nome,sobrenome,isMotorista);
+            try {
+                //Database.addEmployee(funcionario);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("");
+                alert.setHeaderText("Funcionário cadastrado com sucesso!");
+                alert.showAndWait();
+            //} catch (RuntimeException | SQLException e) {
+            } catch (RuntimeException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERRO");
+                alert.setHeaderText("Não foi possível realizar o cadastro!");
+                alert.setContentText("Ocorreu um erro: \n" + e + "\nTente novamente.");
+                alert.showAndWait();
+            }
+        }
 
     }
 
