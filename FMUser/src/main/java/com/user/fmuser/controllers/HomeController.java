@@ -1,5 +1,6 @@
 package com.user.fmuser.controllers;
 
+import com.sun.tools.javac.Main;
 import com.user.fmuser.MainApplication;
 import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
@@ -18,8 +19,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String userName = "Beltrana Silva";
-
+        String userName = MainApplication.usuarioSessao.getNome() + ' ' + MainApplication.usuarioSessao.getSobrenome();
         userNameLabel.setText("Olá, " + userName + " !");
     }
 
@@ -31,6 +31,7 @@ public class HomeController implements Initializable {
     public static void handleLogout() {
         novaAvaliacaoController.resetarCampos();
         MainApplication.logout();
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
 
     @FXML

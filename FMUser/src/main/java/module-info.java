@@ -7,6 +7,7 @@ module com.user.fmuser {
     requires org.mariadb.jdbc;
     requires java.sql;
     requires java.logging;
+    requires jdk.compiler;
 
     opens com.user.fmuser to javafx.fxml;
     exports com.user.fmuser;

@@ -37,6 +37,8 @@
                   <Label layoutX="1.0" layoutY="61.0" text="Senha" />
                   <Label layoutX="1.0" layoutY="115.0" text="Não tem uma conta?" textFill="#5e605e" />
                   <Button fx:id="singInButton" layoutX="112.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#irParaCadastro" styleClass="singInButton" text="Inscreva-se" />
+                  <Label fx:id="cpfMessage" layoutX="127.0" layoutY="5.0" text="Insira seu CPF!" textFill="RED" visible="false" />
+                  <Label fx:id="senhaMessage" layoutX="116.0" layoutY="65.0" text="Insira sua senha!" textFill="RED" visible="false" />
                </children>
             </Pane>
             <Button fx:id="loginButton" defaultButton="true" layoutX="1.0" layoutY="196.0" mnemonicParsing="false" onMouseClicked="#handleLogin" prefHeight="25.0" prefWidth="204.0" styleClass="defaultButton" text="Entrar" />
