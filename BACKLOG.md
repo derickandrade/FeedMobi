@@ -2,7 +2,12 @@
 
 ## Frontend
 
-### Cadastrar usuário
+### Login
+- [ ] Tela de logar
+
+### Usuário
+- [ ] Tela cadastrar usuário
+- [ ] Tela editar cadastro usuário
 
 ### Página Inicial
 - [ ] Tela Usuário avaliador
@@ -12,7 +17,12 @@
 - [ ] Tela Nova avaliação
 
 ### Gestão
-- [ ] Tela gestão de
+- [ ] Tela gestão de Avaliações (consulta)
+- [ ] Tela gestão de Infraestrutura
+- [ ] Tela gestão de Veículos
+- [ ] Tela gestão de Funcionários
+- [ ] Tela gestão de Percursos
+- [ ] Tela gestão de Viagens
 
 ## Backend
 
@@ -33,35 +43,34 @@
 - [ ] Retornar a placa de um veículo se houver
 
 ### Funcionalidades inserção
-- [ ] Adicionar um usuário ao BD.
+- [x] Adicionar um usuário ao BD.
 - [ ] Inserir uma avaliação (CPF, texto e nota).
 - [ ] Inserir uma avaliação de viagem com o código da avaliação + código da viagem.
 - [ ] Inserir uma avaliação de parada com o código da avaliação + código da parada.
 - [ ] Inserir uma avaliação de ciclovia com o código da avaliação + código da ciclovia.
-- [ ] Incluir uma parada (-> Parada)
+- [ ] Incluir uma parada -> Parada
+- [ ] Incluir uma ciclovia  -> Ciclovia
+- [ ] Incluir um veículo -> Veiculo
+- [ ] Incluir um funcionário -> Funcionário
+- [ ] Incluir um percurso -> Percurso
+- [ ] Incluir uma viagem -> Viagem
 
 ### Funcionalidades de edição
-- [ ] Atualizar campos de um usuário.
-- [ ] Atualizar informações de uma parada (-> Parada)
+- [x] Atualizar campos de um usuário.
+- [ ] Atualizar uma parada 
+- [ ] Atualizar uma ciclovia 
+- [ ] Atualizar um veículo
+- [ ] Atualizar um funcionário
+- [ ] Atualizar um Percurso
+- [ ] Atualizar uma viagem -> Viagem
 
 ### Funcionalidades de exclusão
-- [ ] Excluir uma parada (-> Parada)
+- [ ] Excluir uma parada / apenas se não vinculado a avaliação
+- [ ] Excluir uma ciclovia / apenas se não vinculado a avaliação
+- [ ] Excluir um veículo / apenas se não vinculado a avaliação
+- [ ] Excluir um funcionário / apenas se não vinculado a avaliação
+- [ ] Excluir um percurso / apenas se não vinculado a avaliação
+- [ ] Excluir uma viagem / apenas se não vinculado a avaliação
 
 ### Erros
 - [ ] Retornar se houve erro ao adicionar uma avaliação
-- 
-### CRUD 
-Retornar todas: avaliações, paradas e status, ciclovias e status, veículos, funcionários, percursos e viagens (uma função pra cada).
-Retornar a placa de um veículo se houver.
-Incluir, editar e excluir:
--o status de uma parada -> Parada_Status (Precisa fazer)
--uma ciclovia com ínicio e fim -> Ciclovia
--o status de uma ciclovia -> Ciclovia_Status
--um veículo com data limite de operação, assentos e capacidade em pé. -> Veículo
--uma placa de ônibus. -> Ônibus_Placa
--um funcionário com cpf, nome e sobrenome -> Motorista e Cobrador ? (Transformar em Funcionário)
--uma viagem com data, hora, percurso, motorista e veículo -> Viagem
--um cobrador associado a uma viagem -> Cobrador-Viagem
--um percurso (com origem e destino) -> Percurso
--um horário e dia da semana de um percurso -> Dias_Semana
--uma parada em um percurso -> Paradas
