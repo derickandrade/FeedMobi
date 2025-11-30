@@ -27,11 +27,11 @@
 ## Backend
 
 ### Funcionalidades de consulta
-- [ ] Retornar se um CPF já está cadastrado.
-- [ ] Retornar CPF, senha de um usuário e se ele é administrador.
-- [ ] Retornar o código de uma viagem a partir do código do veículo, origem, destino, data e hora.
-- [ ] Retornar o código de uma parada a partir do local.
-- [ ] Retornar o código de uma ciclovia a partir do local.
+- [x] Retornar se um CPF já está cadastrado.
+- [x] Retornar CPF, senha de um usuário e se ele é administrador.
+- [x] Retornar o código de uma viagem a partir do código do veículo, origem, destino, data e hora.
+- [x] Retornar o código de uma parada a partir do local.
+- [x] Retornar o código de uma ciclovia a partir do local.
 - [ ] Retornar as avaliações de um CPF.
 - [ ] Retornar todas avaliações
 - [ ] Retornar todas paradas com respectivos status
