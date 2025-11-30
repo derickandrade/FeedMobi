@@ -289,11 +289,14 @@ public class Database {
             System.out.println(query);
             ResultSet results = statement.executeQuery(query);
 
+            int result = -1;
             if (results.first()) {
-                return results.getInt("v.codigo");
+                result = results.getInt("v.codigo");
             }
 
-            return -1;
+            statement.close();
+            results.close();
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
