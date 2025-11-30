@@ -1,22 +1,34 @@
 package com.user.fmuser.models;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Database {
-    /**
-     * Main function for testing purposes only.
-     * @param args Test function args
-     */
-    public static void main(String[] args) {
-    }
-
     // Database URL
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/FeedMobiDB";
     // Database connection handler
     private static Connection connection;
 
     /**
+     * Main function for testing purposes only.
+     *
+     * @param args Test function args
+     */
+    public static void main(String[] args) {
+        Time time = Time.valueOf("23:02:03");
+        System.out.println(time);
+
+        connect();
+
+        int code = retrieveTripCode(4, "A", "B", "seg", Time.valueOf("12:00:00"));
+        System.out.println(code);
+        disconnect();
+    }
+
+    /**
      * Function to check for the validity of a CPF.
+     *
      * @param cpf The CPF to check.
      * @return true if valid, false otherwise.
      */
@@ -27,6 +39,7 @@ public class Database {
     /**
      * Check if a weekday string is valid.<br>
      * A valid weekday is one of: "seg", "ter", "qua", "qui", "sex", "sab", "dom".
+     *
      * @param dia The weekday to check
      * @return true if weekday valid, false otherwise
      */
@@ -54,6 +67,7 @@ public class Database {
 
     /**
      * Checks for a valid vehicle plate string.
+     *
      * @param plate The plate to check.
      * @return true if valid, false otherwise.
      */
@@ -145,7 +159,7 @@ public class Database {
      *
      * @param user The user object containing the relevant user information for sign-up,
      * @throws SQLException It is possible that the value can't be inserted for various reasons.
-     * If the update fails, an exception is thrown.
+     *                      If the update fails, an exception is thrown.
      */
     public static void addUser(Usuario user) throws SQLException {
         Statement statement = connection.createStatement();
@@ -165,6 +179,7 @@ public class Database {
     /**
      * Removes a database user based on the CPF primary key. No operation happens if
      * the user does not exist.
+     *
      * @param cpf The CPF to delete.
      */
     public static void removeUser(String cpf) {
@@ -185,6 +200,7 @@ public class Database {
      * stored in that object. All fields/columns are updated using the information
      * in the object.
      * No operation happens if the user does not exist.
+     *
      * @param user The user object for updating.
      */
     public static void updateUser(Usuario user) {
@@ -209,6 +225,7 @@ public class Database {
     /**
      * Creates a user object based on the data provided by the database according to
      * the given CPF.
+     *
      * @param cpf CPF of the user to retrieve.
      * @return A compliant Usuario object if the user exists in the database, null otherwise.
      */
@@ -239,6 +256,47 @@ public class Database {
                 statement.close();
                 return null;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Given a few parameters, return the corresponding trip from the database.
+     * @param vehicleCode A vehicle code to search.
+     * @param origin Trip origin location name
+     * @param destination Trip destination location name
+     * @param day Day of the week. See validDay() for details.
+     * @param time An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
+     * @return The regular trip code if the trip is found, -1 otherwise.
+     */
+    public static int retrieveTripCode(int vehicleCode, String origin, String destination, String day, Time time) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT v.codigo FROM Viagem v, Horario_dia_percurso hdp, Percurso p, Veiculo ve, Parada pa1, Parada pa2 " +
+                    "WHERE ve.numero = " + vehicleCode + " AND " +
+                    "v.veiculo = ve.numero AND " +
+                    "v.horario_dia_percurso = hdp.codigo AND " +
+                    "hdp.dia = '" + day + "' AND " +
+                    "hdp.hora = '" + time + "' AND " +
+                    "hdp.percurso = p.codigo AND " +
+                    "pa1.localizacao = '" + origin + "' AND "   +
+                    "pa2.localizacao = '" + destination + "' AND " +
+                    "p.origem = pa1.codigo AND " +
+                    "p.destino = pa2.codigo"
+                    + ";";
+
+            System.out.println(query);
+            ResultSet results = statement.executeQuery(query);
+
+            int result = -1;
+            if (results.first()) {
+                result = results.getInt("v.codigo");
+            }
+
+            statement.close();
+            results.close();
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

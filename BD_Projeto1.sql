@@ -26,12 +26,12 @@ DROP TABLE IF EXISTS Usuario;
 -- criando as tabelas
 CREATE TABLE Parada(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
-	localizacao VARCHAR(15)
+	localizacao VARCHAR(15) UNIQUE
 );
 
 CREATE TABLE Ciclovia(
     codigo INT AUTO_INCREMENT PRIMARY KEY,
-    localizacao VARCHAR(15)
+    localizacao VARCHAR(15) UNIQUE
 );
 
 CREATE TABLE Percurso(

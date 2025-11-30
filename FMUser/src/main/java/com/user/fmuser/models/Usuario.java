@@ -1,12 +1,23 @@
 package com.user.fmuser.models;
 
 public class Usuario {
-    private String cpf;
     public String nome;
     public String sobrenome;
     public String email;
     public String senha;
+    private String cpf;
     private boolean isAdmin;
+
+    public Usuario(String cpf, String nome, String sobrenome, String email, String senha) {
+        if (!this.setCpf(cpf)) {
+            throw new IllegalArgumentException("Invalid CPF when constructing Usuario");
+        }
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.senha = senha;
+        this.isAdmin = false;
+    }
 
     /**
      * Sets the CPF of the user object. If the constraint of exactly 11 digits isn't
@@ -33,17 +44,6 @@ public class Usuario {
 
     public boolean isAdmin() {
         return isAdmin;
-    }
-
-    public Usuario(String cpf, String nome, String sobrenome, String email, String senha) {
-        if (!this.setCpf(cpf)) {
-            throw new IllegalArgumentException("Invalid CPF when constructing Usuario");
-        }
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.email = email;
-        this.senha = senha;
-        this.isAdmin = false;
     }
 }
 
