@@ -1,6 +1,8 @@
 package com.user.fmuser.models;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Database {
     // Database URL
@@ -14,6 +16,14 @@ public class Database {
      * @param args Test function args
      */
     public static void main(String[] args) {
+        Time time = Time.valueOf("23:02:03");
+        System.out.println(time);
+
+        connect();
+
+        int code = retrieveTripCode(4, "A", "B", "seg", Time.valueOf("12:00:00"));
+        System.out.println(code);
+        disconnect();
     }
 
     /**
@@ -246,6 +256,44 @@ public class Database {
                 statement.close();
                 return null;
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Given a few parameters, return the corresponding trip from the database.
+     * @param vehicleCode A vehicle code to search.
+     * @param origin Trip origin location name
+     * @param destination Trip destination location name
+     * @param day Day of the week. See validDay() for details.
+     * @param time An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
+     * @return The regular trip code if the trip is found, -1 otherwise.
+     */
+    public static int retrieveTripCode(int vehicleCode, String origin, String destination, String day, Time time) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT v.codigo FROM Viagem v, Horario_dia_percurso hdp, Percurso p, Veiculo ve, Parada pa1, Parada pa2 " +
+                    "WHERE ve.numero = " + vehicleCode + " AND " +
+                    "v.veiculo = ve.numero AND " +
+                    "v.horario_dia_percurso = hdp.codigo AND " +
+                    "hdp.dia = '" + day + "' AND " +
+                    "hdp.hora = '" + time + "' AND " +
+                    "hdp.percurso = p.codigo AND " +
+                    "pa1.localizacao = '" + origin + "' AND "   +
+                    "pa2.localizacao = '" + destination + "' AND " +
+                    "p.origem = pa1.codigo AND " +
+                    "p.destino = pa2.codigo"
+                    + ";";
+
+            System.out.println(query);
+            ResultSet results = statement.executeQuery(query);
+
+            if (results.first()) {
+                return results.getInt("v.codigo");
+            }
+
+            return -1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
