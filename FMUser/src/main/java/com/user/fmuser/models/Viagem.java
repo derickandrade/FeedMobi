@@ -9,7 +9,7 @@ public class Viagem {
     public Time horario;
     private String dia;
     // Percurso percurso;
-    // Veiculo veiculo;
+    Veiculo veiculo;
 
     public String getDia() {
         return dia;
