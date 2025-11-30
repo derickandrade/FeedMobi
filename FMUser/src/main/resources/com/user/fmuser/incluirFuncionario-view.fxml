@@ -54,7 +54,7 @@
                         <Label layoutX="279.0" layoutY="70.0" text="Sobrenome" />
 
                         <Label fx:id="cpfMessage" layoutX="143.0" layoutY="9.0" text="CPF já cadastrado!" textFill="RED" visible="false" />
-                        <Label fx:id="emailMessage" layoutX="407.0" layoutY="13.0" text="Selecione um cargo!" textFill="RED" visible="false" />
+                        <Label fx:id="cargoMessage" layoutX="407.0" layoutY="13.0" text="Selecione um cargo!" textFill="RED" visible="false" />
                         <Label fx:id="nomeMessage" layoutX="153.0" layoutY="73.0" text="Insira seu nome!" textFill="RED" visible="false" />
                         <Label fx:id="sobrenomeMessage" layoutX="379.0" layoutY="73.0" text="Insira seu sobrenome!" textFill="RED" visible="false" />
                     </children></Pane>
