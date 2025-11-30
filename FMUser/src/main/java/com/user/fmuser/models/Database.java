@@ -97,7 +97,8 @@ public class Database {
                         usuario.getNome() + "', '" +
                         usuario.getSobrenome() + "', '" +
                         usuario.getEmail() + "', '" +
-                        usuario.getSenha() + "');"
+                        usuario.getSenha() + "', '" +
+                        (usuario.isAdmin() ? 1 : 0) + "');"
         );
     }
 

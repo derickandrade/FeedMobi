@@ -6,6 +6,8 @@ import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.sql.SQLException;
+
 public class CadastroController {
 
     private String cpf;
@@ -99,23 +101,20 @@ public class CadastroController {
             Usuario usuario = new Usuario(cpf, nome, sobrenome, email, senha);
 
             try {
-                Database.connect();
                 Database.adicionaUsuario(usuario);
-                Database.disconnect();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("Cadastro sucedido!");
                 alert.setContentText("Realize o login.");
                 alert.showAndWait();
                 retornarLogin();
-            } catch (RuntimeException e) {
+            } catch (RuntimeException | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERRO");
                 alert.setHeaderText("Não foi possível realizar o cadastro!");
                 alert.setContentText("Ocorreu um erro: \n" + e.toString() + "\nTente novamente.");
                 alert.showAndWait();
             }
-
         }
     }
 
@@ -139,9 +138,7 @@ public class CadastroController {
     }
 
     public boolean verificarCPFnoBD(String cpf) {
-        Database.connect();
         boolean cpfDisponivel = !(Database.cpfCadastrado(cpf));
-        Database.disconnect();
         System.out.println(cpfDisponivel);
         return cpfDisponivel;
     }
