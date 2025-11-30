@@ -53,6 +53,30 @@ public class Database {
     }
 
     /**
+     * Checks for a valid vehicle plate string.
+     * @param plate The plate to check.
+     * @return true if valid, false otherwise.
+     */
+    public static boolean validPlate(String plate) {
+        if (plate == null || plate.length() != 7) {
+            return false;
+        }
+        char[] b = plate.toCharArray();
+        for (int i = 0; i < 2; ++i) {
+            if (!Character.isUpperCase(b[i]) || !Character.isAlphabetic(b[i])) {
+                return false;
+            }
+        }
+        if (!Character.isDigit(b[3])) {
+            return false;
+        }
+        if (!Character.isAlphabetic(b[4]) || !Character.isUpperCase(b[4])) {
+            return false;
+        }
+        return Character.isDigit(b[5]) && Character.isDigit(b[6]);
+    }
+
+    /**
      * Attempt to connect to locally hosted database through "user" with blank password.
      * Failure to connect will cause the program to crash, as this is unrecoverable.
      */
@@ -128,10 +152,10 @@ public class Database {
         statement.executeUpdate(
                 "INSERT INTO Usuario VALUES ('" +
                         user.getCPF() + "', '" +
-                        user.getNome() + "', '" +
-                        user.getSobrenome() + "', '" +
-                        user.getEmail() + "', '" +
-                        user.getSenha() + "', '" +
+                        user.nome + "', '" +
+                        user.sobrenome + "', '" +
+                        user.email + "', '" +
+                        user.senha + "', '" +
                         (user.isAdmin() ? 1 : 0) + "');"
         );
         // Cleanup
@@ -166,10 +190,10 @@ public class Database {
     public static void updateUser(Usuario user) {
         try {
             String updateString = "UPDATE Usuario SET ";
-            updateString += "nome = '" + user.getNome() + "', ";
-            updateString += "sobrenome = '" + user.getSobrenome() + "', ";
-            updateString += "email = '" + user.getEmail() + "', ";
-            updateString += "senha = '" + user.getSenha() + "' ";
+            updateString += "nome = '" + user.nome + "', ";
+            updateString += "sobrenome = '" + user.sobrenome + "', ";
+            updateString += "email = '" + user.email + "', ";
+            updateString += "senha = '" + user.senha + "' ";
             updateString += "WHERE cpf = '" + user.getCPF() + "';";
 
             Statement statement = connection.createStatement();

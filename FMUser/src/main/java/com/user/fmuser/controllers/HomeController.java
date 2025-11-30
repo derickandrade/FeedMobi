@@ -19,7 +19,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String userName = MainApplication.usuarioSessao.getNome() + ' ' + MainApplication.usuarioSessao.getSobrenome();
+        String userName = MainApplication.usuarioSessao.nome + ' ' + MainApplication.usuarioSessao.sobrenome;
         userNameLabel.setText("Olá, " + userName + " !");
     }
 
