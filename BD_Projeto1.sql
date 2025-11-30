@@ -1,3 +1,9 @@
+
+-- para limpar tabelas que trocaram de nome
+DROP TABLE IF EXISTS Viagem_Reclamacao;
+DROP TABLE IF EXISTS Parada_Reclamacao;
+DROP TABLE IF EXISTS Reclamacao;
+
 -- para limpar tabelas
 DROP TABLE IF EXISTS Cobrador_Viagem;
 DROP TABLE IF EXISTS Viagem_Reclamacao;
@@ -11,7 +17,7 @@ DROP TABLE IF EXISTS Horario_dia_percurso;
 DROP TABLE IF EXISTS Paradas;
 DROP TABLE IF EXISTS Percurso;
 DROP TABLE IF EXISTS Parada;
-DROP TABLE IF EXISTS Reclamacao;
+DROP TABLE IF EXISTS Avaliacao;
 DROP TABLE IF EXISTS Usuario;
 
 
@@ -59,9 +65,9 @@ CREATE TABLE Veiculo(
 );
 
 CREATE TABLE Onibus_Placa(
-	numero INT AUTO_INCREMENT PRIMARY KEY,
+	numero INT PRIMARY KEY,
 	placa CHAR(7),
-	FOREIGN KEY (numero) REFERENCES Veiculo(numero)
+	FOREIGN KEY (numero) REFERENCES Veiculo(numero) ON DELETE CASCADE
 );
 
 CREATE TABLE Viagem(
@@ -94,30 +100,30 @@ CREATE TABLE Usuario(
 	nome VARCHAR(15) NOT NULL,
 	sobrenome VARCHAR(15) NOT NULL,
 	email VARCHAR(254) UNIQUE NOT NULL,
-	senha VARCHAR(25)
+	senha VARCHAR(25) NOT NULL,
+	administrador BOOL NOT NULL
 );
 
-CREATE TABLE Reclamacao(
+CREATE TABLE Avaliacao(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	texto VARCHAR(500) NOT NULL,
 	usuario CHAR(11) NOT NULL,
-	FOREIGN KEY (usuario) REFERENCES Usuario(cpf)
+	FOREIGN KEY (usuario) REFERENCES Usuario(cpf) ON DELETE CASCADE
 );
 
 CREATE TABLE Parada_Reclamacao(
 	reclamacao INT PRIMARY KEY,
 	parada INT,
-	FOREIGN KEY (reclamacao) REFERENCES Reclamacao(codigo),
+	FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
 	FOREIGN KEY (parada) REFERENCES Parada(codigo)
 );
 
 CREATE TABLE Viagem_Reclamacao(
 	reclamacao INT PRIMARY KEY,
 	viagem INT,
-	FOREIGN KEY (reclamacao) REFERENCES Reclamacao(codigo),
+	FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
 	FOREIGN KEY (viagem) REFERENCES Viagem(codigo)
 
 );
-
 
 
