@@ -33,7 +33,7 @@
 - [ ] Retornar a placa de um veículo se houver
 
 ### Funcionalidades inserção
-- [ ] Adicionar um usuário ao BD.
+- [x] Adicionar um usuário ao BD.
 - [ ] Inserir uma avaliação (CPF, texto e nota).
 - [ ] Inserir uma avaliação de viagem com o código da avaliação + código da viagem.
 - [ ] Inserir uma avaliação de parada com o código da avaliação + código da parada.
@@ -41,7 +41,7 @@
 - [ ] Incluir uma parada (-> Parada)
 
 ### Funcionalidades de edição
-- [ ] Atualizar campos de um usuário.
+- [x] Atualizar campos de um usuário.
 - [ ] Atualizar informações de uma parada (-> Parada)
 
 ### Funcionalidades de exclusão
