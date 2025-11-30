@@ -152,10 +152,10 @@ public class Database {
         statement.executeUpdate(
                 "INSERT INTO Usuario VALUES ('" +
                         user.getCPF() + "', '" +
-                        user.getNome() + "', '" +
-                        user.getSobrenome() + "', '" +
-                        user.getEmail() + "', '" +
-                        user.getSenha() + "', '" +
+                        user.nome + "', '" +
+                        user.sobrenome + "', '" +
+                        user.email + "', '" +
+                        user.senha + "', '" +
                         (user.isAdmin() ? 1 : 0) + "');"
         );
         // Cleanup
@@ -190,10 +190,10 @@ public class Database {
     public static void updateUser(Usuario user) {
         try {
             String updateString = "UPDATE Usuario SET ";
-            updateString += "nome = '" + user.getNome() + "', ";
-            updateString += "sobrenome = '" + user.getSobrenome() + "', ";
-            updateString += "email = '" + user.getEmail() + "', ";
-            updateString += "senha = '" + user.getSenha() + "' ";
+            updateString += "nome = '" + user.nome + "', ";
+            updateString += "sobrenome = '" + user.sobrenome + "', ";
+            updateString += "email = '" + user.email + "', ";
+            updateString += "senha = '" + user.senha + "' ";
             updateString += "WHERE cpf = '" + user.getCPF() + "';";
 
             Statement statement = connection.createStatement();

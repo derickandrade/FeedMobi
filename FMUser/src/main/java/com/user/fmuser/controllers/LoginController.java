@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
         
         if (cpfValido && senhaValida) {
             Usuario usuarioTeste = Database.retrieveUser(cpf);
-            if (usuarioTeste != null && senha.equals(usuarioTeste.getSenha())) {
+            if (usuarioTeste != null && senha.equals(usuarioTeste.senha)) {
                 MainApplication.usuarioSessao = usuarioTeste;
                 if (usuarioTeste.isAdmin()) {
                     ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
