@@ -25,6 +25,14 @@
     -fx-cursor: HAND;
 }
 
+.deleteButton {
+    -fx-background-color: transparent;
+    -fx-text-fill: #950200;
+    -fx-border-color: #950200;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+}
+
 .header_mobi {
     -fx-background-color: #009532;
     -fx-alignment: CENTER_LEFT;
