@@ -10,14 +10,35 @@ public class Database {
         String meu_cpf = "00000000000";
         System.out.printf("%b\n", cpfCadastrado(meu_cpf));
 
+        Usuario teste = recolheUsuario("00000000000");
+        if (teste != null) {
+            System.out.println(teste.getNome());
+        }
+
+        teste = recolheUsuario("00000000001");
+        if (teste == null) {
+            System.out.println("Usuário inexistente");
+        }
+
         Usuario usuario = new Usuario("12345678900", "a", "b", "c", "d");
-        adicionaUsuario(usuario);
+
+        try {
+            adicionaUsuario(usuario);
+        } catch (SQLException e) {
+            System.err.println("Usuário já cadastrado :)");
+        }
+
+        usuario.setNome("j");
+        usuario.setCpf("38383838388");
+        // Atualização não ocorre porque usuário não existe
+        atualizaUsuario(usuario);
 
         System.out.printf("%b\n", cpfCadastrado("12345678900"));
 
         removeUsuario("12345678900");
 
         System.out.printf("%b\n", cpfCadastrado("12345678900"));
+
         disconnect();
     }
 
@@ -68,20 +89,16 @@ public class Database {
         }
     }
 
-    public static void adicionaUsuario(Usuario usuario) {
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(
-                    "INSERT INTO Usuario VALUES ('" +
-                            usuario.getCPF() + "', '" +
-                            usuario.getNome() + "', '" +
-                            usuario.getSobrenome() + "', '" +
-                            usuario.getEmail() + "', '" +
-                            usuario.getSenha() + "');"
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public static void adicionaUsuario(Usuario usuario) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(
+                "INSERT INTO Usuario VALUES ('" +
+                        usuario.getCPF() + "', '" +
+                        usuario.getNome() + "', '" +
+                        usuario.getSobrenome() + "', '" +
+                        usuario.getEmail() + "', '" +
+                        usuario.getSenha() + "');"
+        );
     }
 
     public static void removeUsuario(String cpf) {
@@ -94,5 +111,44 @@ public class Database {
         }
     }
 
+    public static void atualizaUsuario(Usuario usuario) {
+        try {
+            String updateString = "UPDATE Usuario SET ";
+            updateString += "nome = '" + usuario.getNome() + "', ";
+            updateString += "sobrenome = '" + usuario.getSobrenome() + "', ";
+            updateString += "email = '" + usuario.getEmail() + "', ";
+            updateString += "senha = '" + usuario.getSenha() + "' ";
+            updateString += "WHERE cpf = '" + usuario.getCPF() + "';";
 
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(updateString);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Usuario recolheUsuario(String cpf) {
+        try {
+            String query = "SELECT * FROM Usuario WHERE cpf = '" + cpf + "';";
+
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+            if (results.first()) {
+                Usuario usuario = new Usuario(
+                        results.getString("cpf"),
+                        results.getString("nome"),
+                        results.getString("sobrenome"),
+                        results.getString("email"),
+                        results.getString("senha")
+                );
+
+                usuario.setIsAdmin(results.getBoolean("administrador"));
+                return usuario;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
