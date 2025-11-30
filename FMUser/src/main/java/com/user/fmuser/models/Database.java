@@ -83,8 +83,8 @@ public class Database {
      * Insert a user into the relevant database table. Useful for sign-up.
      *
      * @param user The user object containing the relevant user information for sign-up,
-     * @throws SQLException It is possible that the value can't be inserted for various reasons. If the update fails,
-     * an exception is thrown.
+     * @throws SQLException It is possible that the value can't be inserted for various reasons.
+     * If the update fails, an exception is thrown.
      */
     public static void addUser(Usuario user) throws SQLException {
         Statement statement = connection.createStatement();
@@ -97,6 +97,7 @@ public class Database {
                         user.getSenha() + "', '" +
                         (user.isAdmin() ? 1 : 0) + "');"
         );
+        // Cleanup
         statement.close();
     }
 
@@ -110,6 +111,9 @@ public class Database {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                     "DELETE FROM Usuario WHERE cpf = '" + cpf + "';");
+
+            // Cleanup
+            statement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -133,6 +137,9 @@ public class Database {
 
             Statement statement = connection.createStatement();
             statement.executeUpdate(updateString);
+
+            // Cleanup
+            statement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -160,8 +167,15 @@ public class Database {
                 );
 
                 usuario.setIsAdmin(results.getBoolean("administrador"));
+
+                // Cleanup
+                results.close();
+                statement.close();
                 return usuario;
             } else {
+                // Cleanup
+                results.close();
+                statement.close();
                 return null;
             }
         } catch (SQLException e) {
