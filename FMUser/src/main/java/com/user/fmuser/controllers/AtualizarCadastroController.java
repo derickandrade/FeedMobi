@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -19,9 +20,6 @@ public class AtualizarCadastroController implements Initializable {
 
     @FXML
     private Button atualizarButton;
-
-    @FXML
-    private PasswordField confirmarSenhaField;
 
     @FXML
     private TextField sobrenomeField;
@@ -37,6 +35,33 @@ public class AtualizarCadastroController implements Initializable {
 
     @FXML
     private PasswordField senhaField;
+
+    @FXML
+    private PasswordField confirmarSenhaField;
+
+    @FXML
+    private Label emailMessage;
+
+    @FXML
+    private Label nomeMessage;
+
+    @FXML
+    private Label sobrenomeMessage;
+
+    @FXML
+    private Label senhaMessage;
+
+    @FXML
+    private Label confirmarSenhaMessage;
+
+    @FXML
+    private Label senhaConfereMessage;
+
+    private String email;
+    private String nome;
+    private String sobrenome;
+    private String senha;
+    private String confirmarSenha;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,6 +100,54 @@ public class AtualizarCadastroController implements Initializable {
                 erro.setContentText("Ocorreu um erro:\n" + e);
             }
 
+        }
+    }
+
+    @FXML
+    protected void atualizarCadastro() {
+        email = emailField.getText();
+        senha = senhaField.getText();
+        confirmarSenha = confirmarSenhaField.getText();
+        nome = nomeField.getText();
+        sobrenome = sobrenomeField.getText();
+
+        boolean emailValido = !email.isEmpty();
+        boolean nomeValido = !nome.isEmpty();
+        boolean sobrenomeValido = !sobrenome.isEmpty();
+        boolean senhaValida = !senha.isEmpty();
+        boolean confirmarSenhaValida = !confirmarSenha.isEmpty();
+        boolean senhasConferem = senha.equals(confirmarSenha);
+
+        emailMessage.setVisible(!emailValido);
+        nomeMessage.setVisible(!nomeValido);
+        sobrenomeMessage.setVisible(!sobrenomeValido);
+        senhaMessage.setVisible(!senhaValida);
+        confirmarSenhaMessage.setVisible(!confirmarSenhaValida);
+        senhaConfereMessage.setVisible(!senhasConferem);
+
+        if (emailValido &&
+                nomeValido &&
+                sobrenomeValido &&
+                senhaValida &&
+                confirmarSenhaValida &&
+                senhasConferem) {
+            Usuario usuario = new Usuario(MainApplication.usuarioSessao.getCPF(), nome, sobrenome, email, senha);
+
+            try {
+                Database.updateUser(usuario);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("");
+                alert.setHeaderText("Atualização cadastral bem sucedida!");
+                MainApplication.usuarioSessao = usuario;
+                alert.showAndWait();
+                retornarHome();
+            } catch (RuntimeException e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERRO");
+                alert.setHeaderText("Não foi possível atualizar o cadastro!");
+                alert.setContentText("Ocorreu um erro: \n" + e + "\nTente novamente.");
+                alert.showAndWait();
+            }
         }
     }
 }
