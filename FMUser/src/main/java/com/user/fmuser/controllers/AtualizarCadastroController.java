@@ -41,9 +41,9 @@ public class AtualizarCadastroController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cpfField.setText(MainApplication.usuarioSessao.getCPF());
         cpfField.setDisable(true);
-        nomeField.setText(MainApplication.usuarioSessao.getNome());
-        sobrenomeField.setText(MainApplication.usuarioSessao.getSobrenome());
-        emailField.setText(MainApplication.usuarioSessao.getEmail());
+        nomeField.setText(MainApplication.usuarioSessao.nome);
+        sobrenomeField.setText(MainApplication.usuarioSessao.sobrenome);
+        emailField.setText(MainApplication.usuarioSessao.email);
     }
 
     @FXML

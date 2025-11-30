@@ -2,10 +2,10 @@ package com.user.fmuser.models;
 
 public class Usuario {
     private String cpf;
-    private String nome;
-    private String sobrenome;
-    private String email;
-    private String senha;
+    public String nome;
+    public String sobrenome;
+    public String email;
+    public String senha;
     private boolean isAdmin;
 
     /**
@@ -23,44 +23,12 @@ public class Usuario {
         return true;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
     public String getCPF() {
         return cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSenha() {
-        return senha;
     }
 
     public boolean isAdmin() {
