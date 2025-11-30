@@ -4,6 +4,7 @@ public class Funcionario {
     private String cpf;
     public String nome;
     public String sobrenome;
+    public boolean isMotorista;
 
     public String getCpf() {
         return cpf;
@@ -24,11 +25,12 @@ public class Funcionario {
         return true;
     }
 
-    public Funcionario(String cpf, String nome, String sobrenome) {
+    public Funcionario(String cpf, String nome, String sobrenome, boolean isMotorista) {
         if (!this.setCpf(cpf)) {
             throw new IllegalArgumentException("Invalid CPF when constructing Funcionario");
         }
         this.nome = nome;
         this.sobrenome = sobrenome;
+        this.isMotorista = isMotorista;
     }
 }
