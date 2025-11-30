@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.CadastroController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.CadastroController">
     <children>
         <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
             <children>
@@ -38,7 +35,7 @@
                 </Label>
                 <Pane layoutY="44.0" prefHeight="179.0" prefWidth="498.0">
                <children>
-                  <TextField fx:id="cpfField" layoutY="29.0" prefHeight="28.0" prefWidth="241.0" promptText="000.000.000-00" styleClass="textField" />
+                  <TextField fx:id="cpfField" layoutY="29.0" onKeyTyped="#verificarCPF" prefHeight="28.0" prefWidth="241.0" promptText="000.000.000-00" styleClass="textField" />
                   <TextField fx:id="sobrenomeField" layoutX="257.0" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
                   <TextField fx:id="nomeField" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
                   <TextField fx:id="emailField" layoutX="257.0" layoutY="29.0" prefHeight="28.0" prefWidth="241.0" promptText="exemplo@mail.com" styleClass="textField" />
@@ -50,6 +47,12 @@
                   <Label layoutX="257.0" layoutY="70.0" text="Sobrenome" />
                   <Label layoutX="2.0" layoutY="131.0" text="Senha" />
                   <Label layoutX="257.0" layoutY="131.0" text="Confirmar senha" />
+                  <Label fx:id="cpfMessage" layoutX="143.0" layoutY="9.0" text="CPF já cadastrado!" textFill="RED" visible="false" />
+                  <Label fx:id="emailMessage" layoutX="407.0" layoutY="13.0" text="Insira seu e-mail!" textFill="RED" visible="false" />
+                  <Label fx:id="nomeMessage" layoutX="153.0" layoutY="73.0" text="Insira seu nome!" textFill="RED" visible="false" />
+                  <Label fx:id="sobrenomeMessage" layoutX="379.0" layoutY="73.0" text="Insira seu sobrenome!" textFill="RED" visible="false" />
+                  <Label fx:id="senhaMessage" layoutX="154.0" layoutY="134.0" text="Insira sua senha!" textFill="RED" visible="false" />
+                  <Label fx:id="confirmarSenhaMessage" layoutX="389.0" layoutY="135.0" text="Confirme sua senha!" textFill="RED" visible="false" />
                </children></Pane>
             </children>
         </Pane>
@@ -59,5 +62,6 @@
             <Button fx:id="cancelarButton" cancelButton="true" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#retornarLogin" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Cancelar" />
          </children>
       </Pane>
+      <Label fx:id="senhaConfereMessage" layoutX="234.0" layoutY="288.0" text="As senhas não conferem!" textFill="RED" visible="false" />
     </children>
 </Pane>
