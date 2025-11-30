@@ -286,7 +286,6 @@ public class Database {
                     "p.destino = pa2.codigo"
                     + ";";
 
-            System.out.println(query);
             ResultSet results = statement.executeQuery(query);
 
             int result = -1;
@@ -297,6 +296,21 @@ public class Database {
             statement.close();
             results.close();
             return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addReview(Avaliacao avaliacao) {
+        try {
+            Statement statement = connection.createStatement();
+            String update = "INSERT INTO Avaliacao (texto, usuario) " +
+                    "VALUES ('" + avaliacao.texto +"', '" + avaliacao.cpfUsuario + "')"
+                    + ";";
+
+            statement.executeUpdate(update);
+
+            statement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
