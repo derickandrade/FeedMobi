@@ -16,6 +16,43 @@ public class Database {
     private static Connection connection;
 
     /**
+     * Function to check for the validity of a CPF.
+     * @param cpf The CPF to check.
+     * @return true if valid, false otherwise.
+     */
+    public static boolean validCPF(String cpf) {
+        return isAllDigits(cpf) && cpf.length() == 11;
+    }
+
+    /**
+     * Check if a weekday string is valid.<br>
+     * A valid weekday is one of: "seg", "ter", "qua", "qui", "sex", "sab", "dom".
+     * @param dia The weekday to check
+     * @return true if weekday valid, false otherwise
+     */
+    public static boolean validDay(String dia) {
+        return dia.compareTo("seg") == 0
+                || dia.compareTo("ter") == 0
+                || dia.compareTo("qua") == 0
+                || dia.compareTo("qui") == 0
+                || dia.compareTo("sex") == 0
+                || dia.compareTo("sab") == 0
+                || dia.compareTo("dom") == 0;
+    }
+
+    private static boolean isAllDigits(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Attempt to connect to locally hosted database through "user" with blank password.
      * Failure to connect will cause the program to crash, as this is unrecoverable.
      */

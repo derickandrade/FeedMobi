@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class CadastroController {
 
+    boolean cpfDisponivel = false;
     private String cpf;
     private String email;
     private String senha;
@@ -17,8 +18,6 @@ public class CadastroController {
     private String nome;
     private String sobrenome;
     private boolean isAdmin;
-    boolean cpfDisponivel = false;
-
     @FXML
     private Button voltarButton;
 
@@ -77,9 +76,11 @@ public class CadastroController {
         confirmarSenha = confirmarSenhaField.getText();
         nome = nomeField.getText();
         sobrenome = sobrenomeField.getText();
-        if (cpf.isEmpty()) {
+        boolean cpfValido = Database.validCPF(cpf);
+
+        if (!cpfValido) {
             cpfMessage.setStyle("-fx-text-fill: red");
-            cpfMessage.setText("Insira seu CPF!");
+            cpfMessage.setText("Insira um CPF válido!");
             cpfMessage.setVisible(true);
         }
 
@@ -97,7 +98,13 @@ public class CadastroController {
         confirmarSenhaMessage.setVisible(!confirmarSenhaValida);
         senhaConfereMessage.setVisible(!senhasConferem);
 
-        if (emailValido && nomeValido && sobrenomeValido && senhaValida && confirmarSenhaValida && senhasConferem) {
+        if (emailValido &&
+                nomeValido &&
+                sobrenomeValido &&
+                senhaValida &&
+                confirmarSenhaValida &&
+                senhasConferem &&
+                cpfValido) {
             Usuario usuario = new Usuario(cpf, nome, sobrenome, email, senha);
 
             try {
@@ -121,25 +128,17 @@ public class CadastroController {
     @FXML
     public void verificarCPF() {
         cpf = cpfField.getText();
-        System.out.println(cpf.length());
-        if (cpf.length() == 11) {
-            cpfDisponivel = verificarCPFnoBD(cpf);
+        if (Database.validCPF(cpf)) {
+            cpfDisponivel = !Database.isCpfRegistered(cpf);
             if (cpfDisponivel) {
                 cpfMessage.setStyle("-fx-text-fill: green;");
                 cpfMessage.setText("CPF disponível!");
                 cpfMessage.setVisible(true);
-            }
-            else {
+            } else {
                 cpfMessage.setStyle("-fx-text-fill: red;");
                 cpfMessage.setText("CPF já cadastrado!");
                 cpfMessage.setVisible(true);
             }
         }
-    }
-
-    public boolean verificarCPFnoBD(String cpf) {
-        boolean cpfDisponivel = !(Database.isCpfRegistered(cpf));
-        System.out.println(cpfDisponivel);
-        return cpfDisponivel;
     }
 }

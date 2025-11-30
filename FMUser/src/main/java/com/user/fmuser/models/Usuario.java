@@ -16,7 +16,7 @@ public class Usuario {
      * @return True if the object was updated, false otherwise.
      */
     public boolean setCpf(String cpf) {
-        if (cpf.length() != 11) {
+        if (!Database.validCPF(cpf)) {
             return false;
         }
         this.cpf = cpf;
@@ -68,7 +68,7 @@ public class Usuario {
     }
 
     public Usuario(String cpf, String nome, String sobrenome, String email, String senha) {
-        if (!setCpf(cpf)) {
+        if (!this.setCpf(cpf)) {
             throw new IllegalArgumentException("Invalid CPF when constructing Usuario");
         }
         this.nome = nome;
