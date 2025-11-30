@@ -36,9 +36,9 @@
                 <Pane layoutY="44.0" prefHeight="179.0" prefWidth="498.0">
                <children>
                   <TextField fx:id="cpfField" layoutY="29.0" onKeyTyped="#verificarCPF" prefHeight="28.0" prefWidth="241.0" promptText="000.000.000-00" styleClass="textField" />
-                  <TextField fx:id="sobrenomeField" layoutX="257.0" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
-                  <TextField fx:id="nomeField" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
                   <TextField fx:id="emailField" layoutX="257.0" layoutY="29.0" prefHeight="28.0" prefWidth="241.0" promptText="exemplo@mail.com" styleClass="textField" />
+                  <TextField fx:id="nomeField" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
+                  <TextField fx:id="sobrenomeField" layoutX="257.0" layoutY="90.0" prefHeight="28.0" prefWidth="241.0" styleClass="textField" />
                   <PasswordField fx:id="senhaField" layoutY="151.0" prefHeight="28.0" prefWidth="241.0" promptText="************" styleClass="passwordField" />
                   <PasswordField fx:id="confirmarSenhaField" layoutX="257.0" layoutY="151.0" prefHeight="28.0" prefWidth="241.0" promptText="************" styleClass="passwordField" />
                   <Label layoutY="8.0" text="CPF" />
