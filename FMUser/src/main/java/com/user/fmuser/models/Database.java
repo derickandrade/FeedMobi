@@ -3,20 +3,22 @@ package com.user.fmuser.models;
 import java.sql.*;
 
 public class Database {
-    /**
-     * Main function for testing purposes only.
-     * @param args Test function args
-     */
-    public static void main(String[] args) {
-    }
-
     // Database URL
     private static final String DB_URL = "jdbc:mariadb://localhost:3306/FeedMobiDB";
     // Database connection handler
     private static Connection connection;
 
     /**
+     * Main function for testing purposes only.
+     *
+     * @param args Test function args
+     */
+    public static void main(String[] args) {
+    }
+
+    /**
      * Function to check for the validity of a CPF.
+     *
      * @param cpf The CPF to check.
      * @return true if valid, false otherwise.
      */
@@ -27,6 +29,7 @@ public class Database {
     /**
      * Check if a weekday string is valid.<br>
      * A valid weekday is one of: "seg", "ter", "qua", "qui", "sex", "sab", "dom".
+     *
      * @param dia The weekday to check
      * @return true if weekday valid, false otherwise
      */
@@ -54,6 +57,7 @@ public class Database {
 
     /**
      * Checks for a valid vehicle plate string.
+     *
      * @param plate The plate to check.
      * @return true if valid, false otherwise.
      */
@@ -145,7 +149,7 @@ public class Database {
      *
      * @param user The user object containing the relevant user information for sign-up,
      * @throws SQLException It is possible that the value can't be inserted for various reasons.
-     * If the update fails, an exception is thrown.
+     *                      If the update fails, an exception is thrown.
      */
     public static void addUser(Usuario user) throws SQLException {
         Statement statement = connection.createStatement();
@@ -165,6 +169,7 @@ public class Database {
     /**
      * Removes a database user based on the CPF primary key. No operation happens if
      * the user does not exist.
+     *
      * @param cpf The CPF to delete.
      */
     public static void removeUser(String cpf) {
@@ -185,6 +190,7 @@ public class Database {
      * stored in that object. All fields/columns are updated using the information
      * in the object.
      * No operation happens if the user does not exist.
+     *
      * @param user The user object for updating.
      */
     public static void updateUser(Usuario user) {
@@ -209,6 +215,7 @@ public class Database {
     /**
      * Creates a user object based on the data provided by the database according to
      * the given CPF.
+     *
      * @param cpf CPF of the user to retrieve.
      * @return A compliant Usuario object if the user exists in the database, null otherwise.
      */

@@ -29,6 +29,7 @@ public class Veiculo {
 
     /**
      * Retrieve bus plate.
+     *
      * @return Bus plate
      */
     public String getPlaca() {
@@ -37,6 +38,7 @@ public class Veiculo {
 
     /**
      * Sets the bus plate.
+     *
      * @param plate Plate to set.
      * @return true if a valid plate was provided and set, false otherwise.
      */
