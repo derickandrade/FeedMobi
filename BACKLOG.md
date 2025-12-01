@@ -85,7 +85,7 @@
 - [ ] Incluir uma parada -> Parada
 - [ ] Incluir uma ciclovia  -> Ciclovia
 - [ ] Incluir um veículo -> Veiculo
-- [ ] Incluir um funcionário -> Funcionário
+- [x] Incluir um funcionário -> Funcionário
 - [ ] Incluir um percurso -> Percurso
 - [ ] Incluir uma viagem -> Viagem
 
