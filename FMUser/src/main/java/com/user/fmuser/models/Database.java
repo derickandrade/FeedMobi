@@ -675,4 +675,19 @@ public class Database {
             return false;
         }
     }
+
+    public static boolean addHDP(HorarioDiaPercurso hdp) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "INSERT INTO Horario_dia_percurso (hora, dia, percurso) VALUES " +
+                    "(" + hdp.horario + ", " + hdp.getDia() + ", " + hdp.percurso.codigo + ");";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

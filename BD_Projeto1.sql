@@ -56,6 +56,7 @@ CREATE TABLE Horario_dia_percurso(
     hora TIME NOT NULL,
     dia CHAR(3),
     percurso INT,
+    UNIQUE (hora, dia, percurso),
     FOREIGN KEY (percurso) REFERENCES Percurso(codigo)
 );
 
