@@ -169,3 +169,15 @@
 .backIcon {
     -fx-fill: #5E605E;
 }
+
+.dashboard_numeros {
+    -fx-margin: 16px 0px 0px 0px;
+    -fx-font-size: 32px;
+    -fx-font-family: "Source Code Pro";
+}
+
+.dashboard_caption {
+    -fx-font-family: "Source Code Pro";
+    -fx-font-size: 8px;
+    -fx-text-fill: #ADB5BD;
+}

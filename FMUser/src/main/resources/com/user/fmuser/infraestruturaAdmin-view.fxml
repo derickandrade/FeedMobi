@@ -62,7 +62,7 @@
                <children>
                   <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                      <children>
-                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirInfraestrutra" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
+                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirInfraestrutura" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
                         <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                      </children>
                   </Pane>
