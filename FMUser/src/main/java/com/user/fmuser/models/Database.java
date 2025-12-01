@@ -1,7 +1,8 @@
 package com.user.fmuser.models;
 
-import java.sql.*;
 import com.user.fmuser.models.Location.LocationType;
+
+import java.sql.*;
 
 public class Database {
     // Database URL
@@ -298,6 +299,7 @@ public class Database {
     /**
      * Given a review object type, add this review to the database.
      * Will fail if this user has already made a review for that entity.
+     *
      * @param review The review to add.
      * @return true if the review was added, false otherwise.
      */
@@ -365,6 +367,7 @@ public class Database {
     /**
      * Add an employee to the database using an object. Will fail if there exists an employee
      * with the same name already, even if CPF differs.
+     *
      * @param employee The employee to add
      * @return true if it was possible to add the employee, false otherwise.
      */
@@ -386,6 +389,7 @@ public class Database {
     /**
      * Add a location (bike lane or bus stop) to the database using a Location object.
      * Will fail if there's already a location of the same type with this name in the database.
+     *
      * @param location The Parada or Ciclovia object. These implement Location.
      * @return true if the addition was effected, false otherwise.
      */
@@ -407,6 +411,7 @@ public class Database {
     /**
      * Add a location (bike lane or bus stop) to the database using a name and type.
      * Will fail if there's already a location of the same type with this name in the database.
+     *
      * @param name The name for the location.
      * @param type The type of the location (either LocationType.Ciclovia or LocationType.Parada)
      * @return true if the addition was effected, false otherwise.
@@ -428,6 +433,7 @@ public class Database {
 
     /**
      * Get a location from the database using its name and type
+     *
      * @param name Name of the location
      * @param type Type of the location
      * @return A valid location if it was found, null otherwise.
@@ -461,6 +467,7 @@ public class Database {
 
     /**
      * Receives a location object and tries to update it. The object must have its code set.
+     *
      * @param location The location to update.
      * @return true if the update was possible, false otherwise
      */
@@ -482,6 +489,7 @@ public class Database {
     /**
      * Delete a location from the database. Deletion may fail if a location with
      * this code does not exist, or if the location is tied to a review.
+     *
      * @param location A location object with a valid code.
      * @return true if it was possible to remove the location, false otherwise.
      */
@@ -494,6 +502,25 @@ public class Database {
 
             statement.close();
             return updatecount > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Add a route to the database.
+     * @param route The route to add, must have its Parada fields set with their codes.
+     * @return true if route was added, false otherwise.
+     */
+    public static boolean addRoute(Percurso route) {
+        try {
+            Statement statement = connection.createStatement();
+            String update = "INSERT INTO Percurso (origem, destino) VALUES " +
+                    "('" + route.origem.codigo + "', '" + route.destino.codigo + "');";
+            statement.executeUpdate(update);
+
+            statement.close();
+            return true;
         } catch (SQLException e) {
             return false;
         }
