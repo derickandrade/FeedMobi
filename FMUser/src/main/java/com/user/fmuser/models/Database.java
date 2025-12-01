@@ -29,13 +29,14 @@ public class Database {
         Location loc = new Parada("bem ali");
         addLocation(loc);
 
-        Avaliacao av = new Avaliacao();
-        av.nota = 3;
-        av.tipoAlvo = Avaliacao.TargetType.Parada;
         loc = retrieveLocation("bem ali", LocationType.Parada);
-        av.codigoAlvo = loc.codigo;
-        av.texto = "parada ok";
-        av.cpfUsuario = us.getCPF();
+        Avaliacao av = new Avaliacao(
+                loc.codigo,
+                Avaliacao.TargetType.Parada,
+                3,
+                "parada bib ou menos",
+                "12456290810"
+        );
 
         addReview(av);
 
@@ -320,11 +321,39 @@ public class Database {
 
     /**
      * Given a review object type, add this review to the database.
-     *
+     * Will fail if this user has already made a review for that entity.
      * @param review The review to add.
+     * @return true if the review was added, false otherwise.
      */
-    public static void addReview(Avaliacao review) {
+    public static boolean addReview(Avaliacao review) {
         try {
+            // check if user has already reviewed this.
+            Statement preStatement = connection.createStatement();
+
+            String targetTable;
+            String targetColumns;
+            if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
+                targetTable = "Ciclovia_Reclamacao";
+                targetColumns = "(reclamacao, ciclovia)";
+            } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
+                targetTable = "Parada_Reclamacao";
+                targetColumns = "(reclamacao, parada)";
+            } else {
+                targetTable = "Viagem_Reclamacao";
+                targetColumns = "(reclamacao, viagem)";
+            }
+
+            String preQuery = "SELECT * FROM Usuario JOIN Avaliacao " +
+                    "ON Usuario.cpf = '" + review.cpfUsuario + "' " +
+                    "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo;";
+
+            ResultSet results = preStatement.executeQuery(preQuery);
+
+            // Any result existing means the user has already made a review for this entity.
+            if (results.first()) {
+                return false;
+            }
+
             Statement statement = connection.createStatement();
             String update = "INSERT INTO Avaliacao (texto, usuario, nota) " +
                     "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "', " + review.nota + ")"
@@ -346,19 +375,6 @@ public class Database {
             result.close();
             querystatement.close();
 
-            String targetTable;
-            String targetColumns;
-            if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
-                targetTable = "Ciclovia_Reclamacao";
-                targetColumns = "(reclamacao, ciclovia)";
-            } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
-                targetTable = "Parada_Reclamacao";
-                targetColumns = "(reclamacao, parada)";
-            } else {
-                targetTable = "Viagem_Reclamacao";
-                targetColumns = "(reclamacao, viagem)";
-            }
-
             System.err.println("got 3");
 
             Statement statement1 = connection.createStatement();
@@ -368,6 +384,7 @@ public class Database {
 
             statement1.executeUpdate(query);
             statement1.close();
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
