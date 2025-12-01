@@ -48,8 +48,13 @@
                     <Label layoutY="25.0" prefHeight="27.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
                     <Pane layoutY="68.0" onMouseClicked="#infraestruturas" prefHeight="10.0" prefWidth="50.0">
                         <children>
+<<<<<<< Updated upstream
                             <Label styleClass="verMais" text="Ver mais" />
                             <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" styleClass="verMaisChevron" />
+=======
+                            <Label onMouseClicked="#infraestruturas" styleClass="verMais" text="Ver mais" />
+                            <SVGPath content="M0.46875 0L2.46875 2L0.46875 4L0 3.53125L1.53125 2L0 0.46875L0.46875 0Z" layoutX="35.0" layoutY="4.0" onMouseClicked="#infraestruturas" styleClass="verMaisChevron" />
+>>>>>>> Stashed changes
                         </children>
                     </Pane>
                 </VBox>
