@@ -36,7 +36,7 @@
                      <children>
                         <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                            <children>
-                              <Button defaultButton="true" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#avaliarViagem" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
+                              <Button defaultButton="true" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#handleAvaliarViagem" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
                               <Button fx:id="cancelarButton" cancelButton="true" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                            </children>
                         </Pane>
