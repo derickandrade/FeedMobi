@@ -18,15 +18,23 @@ public class Database {
     public static void main(String[] args) {
         connect();
         // Exemplo adiciona percurso
-        Parada parada1 = new Parada("A");
-        Parada parada2 = new Parada("B");
+        Parada parada1 = new Parada("C");
+        Parada parada2 = new Parada("D");
+        Parada parada3 = new Parada("A");
         addLocation(parada1);
         addLocation(parada2);
-        parada1 = (Parada) retrieveLocation("A", LocationType.Parada);
-        parada2 = (Parada) retrieveLocation("B", LocationType.Parada);
+        addLocation(parada3);
+        parada1 = (Parada) retrieveLocation("C", LocationType.Parada);
+        parada2 = (Parada) retrieveLocation("D", LocationType.Parada);
+        parada3 = (Parada) retrieveLocation("A", LocationType.Parada);
         Percurso percurso = new Percurso(parada1, parada2);
         addRoute(percurso);
 
+        percurso = retrieveRoute(parada1, parada2);
+        percurso.destino = parada3;
+        updateRoute(percurso);
+
+        removeRoute(percurso);
         disconnect();
     }
 
@@ -531,6 +539,60 @@ public class Database {
 
             statement.close();
             return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static Percurso retrieveRoute(Parada origin, Parada destination) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Percurso WHERE " +
+                    "Percurso.origem = " + origin.codigo + " AND " +
+                    "Percurso.destino = " + destination.codigo + ";";
+
+            ResultSet result = statement.executeQuery(query);
+
+            Percurso percurso = null;
+            if (result.first()) {
+                percurso = new Percurso(result.getInt("codigo"), origin, destination);
+            }
+
+            result.close();
+            statement.close();
+            return percurso;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean removeRoute(Percurso route) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM Percurso WHERE " +
+                    "Percurso.codigo = " + route.codigo + ";";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static boolean updateRoute(Percurso route) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE Percurso SET " +
+                    "Percurso.origem = " + route.origem.codigo + ", " +
+                    "Percurso.destino = " + route.destino.codigo + " " +
+                    "WHERE Percurso.codigo = " + route.codigo + ";";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
         } catch (SQLException e) {
             return false;
         }
