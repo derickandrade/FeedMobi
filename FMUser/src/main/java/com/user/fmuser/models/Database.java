@@ -345,6 +345,10 @@ public class Database {
         }
     }
 
+    /**
+     * Add an employee to the database using an object.
+     * @param employee The employee to add
+     */
     public static void addEmployee(Funcionario employee) {
         try {
             Statement statement = connection.createStatement();
