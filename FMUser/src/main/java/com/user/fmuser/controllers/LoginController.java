@@ -61,6 +61,17 @@ public class LoginController implements Initializable {
     }
 
     @FXML
+    protected void validarEntrada() {
+        String temp = cpfField.getText();
+        temp = temp.replaceAll("\\D", "");
+        if (temp.length() > 11) {
+            temp = temp.substring(0, 11);
+        }
+        cpfField.setText(temp);
+        cpfField.positionCaret(temp.length());
+    }
+
+    @FXML
     protected void irParaCadastro() {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/cadastro-view.fxml", "Cadastro");
     }

@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.novaAvaliacaoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.novaAvaliacaoController">
    <children>
       <HBox prefHeight="40.0" prefWidth="600.0" styleClass="header_mobi">
          <children>
@@ -45,7 +36,7 @@
                      <children>
                         <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                            <children>
-                              <Button defaultButton="true" layoutX="180.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
+                              <Button defaultButton="true" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#avaliarViagem" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
                               <Button fx:id="cancelarButton" cancelButton="true" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                            </children>
                         </Pane>
@@ -54,9 +45,11 @@
                   <Pane layoutY="42.0" prefHeight="49.0" prefWidth="498.0">
                      <children>
                         <Label text="Tipo de avaliação" />
-                        <TextField fx:id="placaField" layoutX="358.0" layoutY="21.0" onKeyTyped="#setPlaca" prefHeight="28.0" prefWidth="139.0" styleClass="textField" />
-                        <Label layoutX="358.0" text="Placa/Código do veículo" />
+                        <TextField fx:id="vehicleCodeField" layoutX="358.0" layoutY="21.0" onKeyTyped="#setPlaca" onMouseClicked="#apagarMensagem" prefHeight="28.0" prefWidth="139.0" styleClass="textField" />
+                        <Label layoutX="358.0" text="Código do veículo" />
                         <ComboBox fx:id="tipoAvaliacaoMenu" layoutX="1.0" layoutY="21.0" onAction="#handleTipoAvaliacao" prefHeight="28.0" prefWidth="343.0" promptText="Selecionar" styleClass="select" />
+                        <Label layoutX="296.0" />
+                        <Label fx:id="veiculoMessage" layoutX="375.0" layoutY="26.0" text="Campo obrigatório!" textFill="RED" visible="false" />
                      </children>
                   </Pane>
                   <Button fx:id="voltarButton" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
@@ -70,6 +63,7 @@
                            <children>
                               <Label layoutX="1.0" text="Data" />
                               <DatePicker fx:id="datePicker" layoutY="25.0" onAction="#setDate" prefHeight="28.0" prefWidth="136.0" promptText="Selecionar data" styleClass="datePicker" />
+                              <Label fx:id="dataMessage" layoutX="63.0" text="Data inválida!" textFill="RED" visible="false" />
                            </children>
                         </Pane>
                         <Pane layoutX="311.0" prefHeight="49.0" prefWidth="136.0">
@@ -110,6 +104,7 @@
                            <children>
                               <Label text="Hora" />
                               <TextField fx:id="horaField" layoutY="24.0" onKeyTyped="#tratarHora" prefHeight="29.0" prefWidth="136.0" styleClass="textField" />
+                              <Label fx:id="horaMessage" layoutX="62.0" text="Hora inválida!" textFill="RED" visible="false" />
                            </children>
                         </Pane>
                      </children>
@@ -118,16 +113,20 @@
                      <children>
                         <TextArea fx:id="comentarioField" layoutY="21.0" prefHeight="67.0" prefWidth="498.0" styleClass="textArea" />
                         <Label text="Comentário" />
+                        <Label fx:id="comentarioMessage" layoutX="68.0" text="Campo obrigatório!" textFill="RED" visible="false" />
                      </children>
                   </Pane>
                   <Pane layoutX="1.0" layoutY="107.0" prefHeight="49.0" prefWidth="498.0">
                      <children>
                         <Label text="Origem" />
                         <Label layoutX="257.0" text="Destino" />
-                        <ComboBox fx:id="origemMenu" layoutY="21.0" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar origem" styleClass="select" />
-                        <ComboBox fx:id="destinoMenu" layoutX="257.0" layoutY="21.0" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar destino" styleClass="select" />
+                        <ComboBox fx:id="originMenu" layoutY="21.0" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar origem" styleClass="select" />
+                        <ComboBox fx:id="destinationMenu" layoutX="257.0" layoutY="21.0" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar destino" styleClass="select" />
+                        <Label fx:id="origemMessage" layoutX="83.0" text="Selecione o ponto de origem!" textFill="RED" visible="false" />
+                        <Label fx:id="destinoMessage" layoutX="338.0" text="Selecione o ponto de destino!" textFill="RED" visible="false" />
                      </children>
                   </Pane>
+                  <Label fx:id="notaMessage" layoutX="319.0" layoutY="217.0" text="Selecione uma nota!" textFill="RED" visible="false" />
                </children></Pane>
             <Region prefHeight="307.0" prefWidth="51.0" />
          </children>

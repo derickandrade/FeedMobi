@@ -9,11 +9,7 @@ import javafx.scene.control.TableView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-class Avaliacao {
-    public String texto;
-    public int nota;
-}
+import com.user.fmuser.models.Avaliacao;
 
 public class AvaliacoesController implements Initializable {
 
