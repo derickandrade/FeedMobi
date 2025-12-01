@@ -305,8 +305,8 @@ public class Database {
     public static void addReview(Avaliacao review) {
         try {
             Statement statement = connection.createStatement();
-            String update = "INSERT INTO Avaliacao (texto, usuario) " +
-                    "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "')"
+            String update = "INSERT INTO Avaliacao (texto, usuario, nota) " +
+                    "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "', " + review.nota + "')"
                     + ";";
 
             statement.executeUpdate(update);
@@ -316,7 +316,8 @@ public class Database {
             Statement querystatement = connection.createStatement();
             ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
                     "texto = '" + review.texto + "' AND " +
-                    "usuario = '" + review.cpfUsuario + "'"
+                    "usuario = '" + review.cpfUsuario + "' AND " +
+                    "nota = " + review.nota
                     + ";");
             result.first();
             int ratingCode = result.getInt("codigo");
