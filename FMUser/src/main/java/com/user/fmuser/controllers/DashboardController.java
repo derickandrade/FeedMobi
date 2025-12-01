@@ -39,4 +39,9 @@ public class DashboardController {
     public void logout() {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
+
+    @FXML
+    public void verInfraestruturas() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/infraestruturaAdmin-view.fxml", "Infraestruturas");
+    }
 }

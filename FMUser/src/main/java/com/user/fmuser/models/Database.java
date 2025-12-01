@@ -3,6 +3,9 @@ package com.user.fmuser.models;
 import com.user.fmuser.models.Location.LocationType;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Database {
     // Database URL
@@ -17,24 +20,24 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
-        // Exemplo adiciona percurso
-        Parada parada1 = new Parada("C");
-        Parada parada2 = new Parada("D");
-        Parada parada3 = new Parada("A");
-        addLocation(parada1);
-        addLocation(parada2);
-        addLocation(parada3);
-        parada1 = (Parada) retrieveLocation("C", LocationType.Parada);
-        parada2 = (Parada) retrieveLocation("D", LocationType.Parada);
-        parada3 = (Parada) retrieveLocation("A", LocationType.Parada);
-        Percurso percurso = new Percurso(parada1, parada2);
-        addRoute(percurso);
+        Funcionario func1 = new Funcionario("11111111111", "A", "A", true);
+        Funcionario func2 = new Funcionario("22222222222", "B", "B", true);
+        Funcionario func3 = new Funcionario("33333333333", "C", "C", false);
+        Funcionario func4 = new Funcionario("44444444444", "J", "D", false);
+//        addEmployee(func1);
+//        addEmployee(func2);
+//        addEmployee(func3);
+//        addEmployee(func4);
+        updateEmployee(func4);
 
-        percurso = retrieveRoute(parada1, parada2);
-        percurso.destino = parada3;
-        updateRoute(percurso);
+        ArrayList<Funcionario> funcs = retrieveEmployees();
 
-        removeRoute(percurso);
+        List<String> funcsDisplay = funcs
+                .stream()
+                .map(func -> func.getCpf() + " " + func.isMotorista + " " + func.nome + " " + func.sobrenome)
+                .collect(Collectors.toList());
+
+        System.out.println(funcsDisplay);
         disconnect();
     }
 
@@ -399,6 +402,81 @@ public class Database {
 
             statement.close();
             return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static boolean removeEmployee(Funcionario employee) {
+        try {
+            Statement statement = connection.createStatement();
+            String employeeType = (employee.isMotorista) ? "Motorista" : "Cobrador";
+            String update = "DELETE FROM " + employeeType + " WHERE " +
+                    employeeType + ".cpf = '" + employee.getCpf() + "';";
+            int updated = statement.executeUpdate(update);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static ArrayList<Funcionario> retrieveEmployees() {
+        try {
+            ArrayList<Funcionario> funcionarios = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Motorista";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                Funcionario temp = new Funcionario(
+                        results.getString("cpf"),
+                        results.getString("nome"),
+                        results.getString("sobrenome"),
+                        true
+                );
+                funcionarios.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
+            query = "SELECT * FROM Cobrador";
+            ResultSet results1 = statement1.executeQuery(query);
+
+            while (results1.next()) {
+                Funcionario temp = new Funcionario(
+                        results1.getString("cpf"),
+                        results1.getString("nome"),
+                        results1.getString("sobrenome"),
+                        false
+                );
+                funcionarios.add(temp);
+            }
+
+            results1.close();
+            statement1.close();
+
+            return funcionarios;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public static boolean updateEmployee(Funcionario employee) {
+        try {
+            Statement statement = connection.createStatement();
+            String targetTable = (employee.isMotorista) ? "Motorista" : "Cobrador";
+            String query = "UPDATE " + targetTable + " " +
+                    "SET nome = '" + employee.nome + "', sobrenome = '" + employee.sobrenome + "' " +
+                    "WHERE cpf = '" + employee.getCpf() +"';";
+
+            int updated = statement.executeUpdate(query);
+            statement.close();
+            return updated > 0;
         } catch (SQLException e) {
             return false;
         }
