@@ -44,10 +44,10 @@
 
 ### Funcionalidades inserção
 - [x] Adicionar um usuário ao BD.
-- [ ] Inserir uma avaliação (CPF, texto e nota).
-- [ ] Inserir uma avaliação de viagem com o código da avaliação + código da viagem.
-- [ ] Inserir uma avaliação de parada com o código da avaliação + código da parada.
-- [ ] Inserir uma avaliação de ciclovia com o código da avaliação + código da ciclovia.
+- [x] Inserir uma avaliação (CPF, texto e nota).
+- [x] Inserir uma avaliação de viagem com o código da avaliação + código da viagem.
+- [x] Inserir uma avaliação de parada com o código da avaliação + código da parada.
+- [x] Inserir uma avaliação de ciclovia com o código da avaliação + código da ciclovia.
 - [ ] Incluir uma parada -> Parada
 - [ ] Incluir uma ciclovia  -> Ciclovia
 - [ ] Incluir um veículo -> Veiculo
