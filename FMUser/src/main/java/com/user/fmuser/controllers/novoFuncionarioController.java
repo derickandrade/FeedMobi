@@ -76,7 +76,10 @@ public class novoFuncionarioController {
         sobrenomeMessage.setVisible(false);
     }
 
-
+    @FXML
+    protected void retornarFuncionarios() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/funcionarios-view.fxml", "Funcionários");
+    }
 
     @FXML
     public void handleCargoFuncionario() {
@@ -121,6 +124,7 @@ public class novoFuncionarioController {
                 alert.setTitle("");
                 alert.setHeaderText("Funcionário cadastrado com sucesso!");
                 alert.showAndWait();
+                retornarFuncionarios();
             //} catch (RuntimeException | SQLException e) {
             } catch (RuntimeException e) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -128,6 +132,7 @@ public class novoFuncionarioController {
                 alert.setHeaderText("Não foi possível realizar o cadastro!");
                 alert.setContentText("Ocorreu um erro: \n" + e + "\nTente novamente.");
                 alert.showAndWait();
+                retornarFuncionarios();
             }
         }
 

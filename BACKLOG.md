@@ -6,8 +6,8 @@
 - [x] Tela de logar
 
 ### Usuário
-- [ ] Tela cadastrar usuário
-- [ ] Tela editar cadastro usuário
+- [x] Tela cadastrar usuário
+- [x] Tela editar cadastro usuário
 
 ### Página Inicial
 - **Tela Usuário avaliador**
@@ -43,7 +43,7 @@
     - [ ] Consulta
         - [ ] Com dados
         - [x] Sem dados
-    - [ ] Incluir Funcionário
+    - [x] Incluir Funcionário
     - [ ] Editar Funcionário
 - **Tela gestão de Percursos**
     - [ ] Consulta
