@@ -3,114 +3,89 @@ package com.user.fmuser.controllers;
 import com.user.fmuser.MainApplication;
 import com.user.fmuser.models.Avaliacao;
 import com.user.fmuser.models.Database;
-import com.user.fmuser.models.Viagem;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 
 public class novaAvaliacaoController {
 
-    private static int avaliacao = 0;
-
     public static int tipoAvaliacao = 0;
-
     protected static String comentario;
-
     protected static LocalDate date; // O padrão é YYYY-MM-DD
-
     protected static String time;
-
-    protected String horaBuffer;
-
     protected static String texto = "Selecionar";
-
     protected static String origin;
-
     protected static String destination;
-
     protected static String vehicleCode;
-
+    private static int avaliacao = 0;
     public Image estrelaAcesa;
-
     public Image estrelaApagada;
-
     @FXML
     public ImageView logoutIcon;
-
     @FXML
     public Button voltarButton;
-
     @FXML
     public Button logoutButton;
-
     @FXML
     public DatePicker datePicker;
-
     @FXML
     public TextArea comentarioField;
-
     @FXML
     public ComboBox<String> originMenu;
-
     @FXML
     public ComboBox<String> destinationMenu;
-
     @FXML
     public ComboBox<String> localMenu;
-
     @FXML
     public ComboBox<String> cicloviaMenu;
-
     @FXML
     public TextField horaField;
-
     @FXML
     public TextField vehicleCodeField;
-
     @FXML
     public ComboBox<String> tipoAvaliacaoMenu;
-
     @FXML
     public ImageView star1;
-
     @FXML
     public ImageView star2;
-
     @FXML
     public ImageView star3;
-
     @FXML
     public ImageView star4;
-
     @FXML
     public ImageView star5;
-
     @FXML
     public Label veiculoMessage;
-
     @FXML
     public Label origemMessage;
-
     @FXML
     public Label destinoMessage;
-
     @FXML
     public Label dataMessage;
-
     @FXML
     public Label horaMessage;
-
     @FXML
     public Label notaMessage;
-
     @FXML
     public Label comentarioMessage;
+    protected String horaBuffer;
+
+    public static void resetarCampos() {
+        avaliacao = 0;
+        tipoAvaliacao = 0;
+        texto = "Selecionar";
+        comentario = null;
+        date = null;
+        origin = null;
+        destination = null;
+        vehicleCode = null;
+    }
 
     @FXML
     public void initialize() { // Usei IA aqui para pegar a URL das imagens
@@ -129,7 +104,6 @@ public class novaAvaliacaoController {
         tipoAvaliacaoMenu.getItems().addAll("Percurso/Viagem", "Parada/Estação", "Ciclovia");
 
 
-
         if (resourceUrl == null) {
             System.err.println("Erro: Recurso 'star_fill.png' não encontrado. Verifique o caminho.");
             return;
@@ -140,14 +114,11 @@ public class novaAvaliacaoController {
             texto = "Percurso/Viagem";
             originMenu.getItems().addAll("UnB", "Rodoviária");
             destinationMenu.getItems().addAll("UnB", "Rodoviária");
-        }
-        else if (tipoAvaliacao == 2) {
+        } else if (tipoAvaliacao == 2) {
             texto = "Parada/Estação";
-        }
-        else if (tipoAvaliacao == 3) {
+        } else if (tipoAvaliacao == 3) {
             texto = "Ciclovia";
-        }
-        else {
+        } else {
             texto = null;
         }
         tipoAvaliacaoMenu.setValue(texto);
@@ -264,12 +235,15 @@ public class novaAvaliacaoController {
                 validDestination &&
                 validDate &&
                 validTime(time) &&
-                avaliacao != 0)
-        {
-            try {
-                avaliar();
+                avaliacao != 0) {
+            int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
+            Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
 
-            } catch (Exception e) {
+            if (Database.addReview(review)) {
+                Alert sucesso = new Alert(Alert.AlertType.INFORMATION);
+                sucesso.setTitle("SUCESSO");
+                sucesso.setHeaderText("Avaliação realizada com sucesso!");
+            } else {
                 Alert erro = new Alert(Alert.AlertType.ERROR);
                 erro.setTitle("ERRO");
                 erro.setHeaderText("Não foi possível avaliar!");
@@ -277,15 +251,6 @@ public class novaAvaliacaoController {
                 erro.showAndWait();
             }
         }
-    }
-
-    private void avaliar() {
-        int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
-        Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
-        Database.addReview(review);
-        Alert sucesso = new Alert(Alert.AlertType.INFORMATION);
-        sucesso.setTitle("SUCESSO");
-        sucesso.setHeaderText("Avaliação realizada com sucesso!");
     }
 
     private boolean validTime(String time) {
@@ -316,17 +281,6 @@ public class novaAvaliacaoController {
     @FXML
     public void setComentario() {
         comentario = comentarioField.getText();
-    }
-
-    public static void resetarCampos() {
-        avaliacao = 0;
-        tipoAvaliacao = 0;
-        texto = "Selecionar";
-        comentario = null;
-        date = null;
-        origin = null;
-        destination = null;
-        vehicleCode = null;
     }
 
     public int getAvaliacao() {
