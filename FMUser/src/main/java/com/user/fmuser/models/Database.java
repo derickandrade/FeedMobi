@@ -16,31 +16,6 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
-        Funcionario emp = new Funcionario("03554014129", "b", "d", false);
-        addEmployee(emp);
-
-        Usuario us = new Usuario("12456290810", "m", "c", "jb", "3");
-        try {
-            addUser(us);
-        } catch (SQLException e) {
-            System.out.println("user here heheh");
-        }
-
-        Location loc = new Parada("bem ali");
-        addLocation(loc);
-
-        loc = retrieveLocation("bem ali", LocationType.Parada);
-        Avaliacao av = new Avaliacao(
-                loc.codigo,
-                Avaliacao.TargetType.Parada,
-                1,
-                "parada BOSTA",
-                "12456290810"
-        );
-
-        boolean a =addReview(av);
-        System.out.println(a);
-
         disconnect();
     }
 
