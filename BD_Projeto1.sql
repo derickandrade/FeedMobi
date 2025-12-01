@@ -35,9 +35,9 @@ CREATE TABLE Ciclovia(
 );
 
 CREATE TABLE Percurso(
-	codigo INT AUTO_INCREMENT PRIMARY KEY,
-	origem INT NOT NULL,
-	destino INT NOT NULL,
+	origem INT,
+	destino INT,
+    PRIMARY KEY (origem, destino),
 	FOREIGN KEY (origem) REFERENCES Parada(codigo),
 	FOREIGN KEY (destino) REFERENCES Parada(codigo)
 );
