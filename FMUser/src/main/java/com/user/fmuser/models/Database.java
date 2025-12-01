@@ -34,7 +34,7 @@ public class Database {
                 loc.codigo,
                 Avaliacao.TargetType.Parada,
                 3,
-                "parada bib ou menos",
+                "parada mais ou menos",
                 "12456290810"
         );
 
@@ -391,8 +391,10 @@ public class Database {
     }
 
     /**
-     * Add an employee to the database using an object.
+     * Add an employee to the database using an object. Will fail if there exists an employee
+     * with the same name already, even if CPF differs.
      * @param employee The employee to add
+     * @return true if it was possible to add the employee, false otherwise.
      */
     public static boolean addEmployee(Funcionario employee) {
         try {
@@ -410,7 +412,8 @@ public class Database {
     }
 
     /**
-     * Add a location (bike lane or bus stop) to the database using a Location object
+     * Add a location (bike lane or bus stop) to the database using a Location object.
+     * Will fail if there's already a location of the same type with this name in the database.
      * @param location The Parada or Ciclovia object. These implement Location.
      * @return true if the addition was effected, false otherwise.
      */
@@ -430,7 +433,8 @@ public class Database {
     }
 
     /**
-     * Add a location (bike lane or bus stop) to the database using a name and type
+     * Add a location (bike lane or bus stop) to the database using a name and type.
+     * Will fail if there's already a location of the same type with this name in the database.
      * @param name The name for the location.
      * @param type The type of the location (either LocationType.Ciclovia or LocationType.Parada)
      * @return true if the addition was effected, false otherwise.
