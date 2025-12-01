@@ -322,13 +322,13 @@ public class Database {
 
     /**
      * Given a review object type, add this review to the database.
-     * @param avaliacao The review to add.
+     * @param review The review to add.
      */
-    public static void addReview(Avaliacao avaliacao) {
+    public static void addReview(Avaliacao review) {
         try {
             Statement statement = connection.createStatement();
             String update = "INSERT INTO Avaliacao (texto, usuario) " +
-                    "VALUES ('" + avaliacao.texto + "', '" + avaliacao.cpfUsuario + "')"
+                    "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "')"
                     + ";";
 
             statement.executeUpdate(update);
@@ -337,8 +337,8 @@ public class Database {
             // Retrieve code of created rating
             Statement querystatement = connection.createStatement();
             ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
-                    "texto = '" + avaliacao.texto + "' AND " +
-                    "usuario = '" + avaliacao.cpfUsuario + "'"
+                    "texto = '" + review.texto + "' AND " +
+                    "usuario = '" + review.cpfUsuario + "'"
                     + ";");
             result.first();
             int ratingCode = result.getInt("codigo");
@@ -347,10 +347,10 @@ public class Database {
 
             String targetTable;
             String targetColumns;
-            if (avaliacao.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
+            if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
                 targetTable = "Ciclovia_Reclamacao";
                 targetColumns = "(reclamacao, ciclovia)";
-            } else if (avaliacao.tipoAlvo == Avaliacao.TargetType.Parada) {
+            } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
                 targetTable = "Parada_Reclamacao";
                 targetColumns = "(reclamacao, parada)";
             } else {
@@ -361,7 +361,7 @@ public class Database {
             Statement statement1 = connection.createStatement();
             String query = "INSERT INTO " + targetTable + " " + targetColumns + " VALUES (" +
                     ratingCode + ", " +
-                    avaliacao.codigoAlvo + ");";
+                    review.codigoAlvo + ");";
 
             statement1.executeUpdate(query);
             statement1.close();
