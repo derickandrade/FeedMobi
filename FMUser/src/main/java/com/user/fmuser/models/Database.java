@@ -17,6 +17,16 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
+        // Exemplo adiciona percurso
+        Parada parada1 = new Parada("A");
+        Parada parada2 = new Parada("B");
+        addLocation(parada1);
+        addLocation(parada2);
+        parada1 = (Parada) retrieveLocation("A", LocationType.Parada);
+        parada2 = (Parada) retrieveLocation("B", LocationType.Parada);
+        Percurso percurso = new Percurso(parada1, parada2);
+        addRoute(percurso);
+
         disconnect();
     }
 
