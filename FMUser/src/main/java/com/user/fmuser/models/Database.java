@@ -21,8 +21,27 @@ public class Database {
 
         connect();
 
-        int code = retrieveTripCode(4, "A", "B", "seg", Time.valueOf("12:00:00"));
+        int code = retrieveTripCode(3, "A", "B", "seg", Time.valueOf("12:00:00"));
         System.out.println(code);
+
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.codigoAlvo = code;
+        avaliacao.tipoAlvo = Avaliacao.TargetType.Viagem;
+        avaliacao.cpfUsuario = "03554014109";
+        avaliacao.texto = "uaur";
+
+        addReview(avaliacao);
+
+        avaliacao.texto = "viagem RUIM pqp";
+
+        addReview(avaliacao);
+
+        avaliacao.codigoAlvo = 1;
+        avaliacao.tipoAlvo = Avaliacao.TargetType.Parada;
+        avaliacao.texto = "parada RUIM";
+
+        addReview(avaliacao);
+
         disconnect();
     }
 
@@ -301,16 +320,51 @@ public class Database {
         }
     }
 
+    /**
+     * Given a review object type, add this review to the database.
+     * @param avaliacao The review to add.
+     */
     public static void addReview(Avaliacao avaliacao) {
         try {
             Statement statement = connection.createStatement();
             String update = "INSERT INTO Avaliacao (texto, usuario) " +
-                    "VALUES ('" + avaliacao.texto +"', '" + avaliacao.cpfUsuario + "')"
+                    "VALUES ('" + avaliacao.texto + "', '" + avaliacao.cpfUsuario + "')"
                     + ";";
 
             statement.executeUpdate(update);
-
             statement.close();
+
+            // Retrieve code of created rating
+            Statement querystatement = connection.createStatement();
+            ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
+                    "texto = '" + avaliacao.texto + "' AND " +
+                    "usuario = '" + avaliacao.cpfUsuario + "'"
+                    + ";");
+            result.first();
+            int ratingCode = result.getInt("codigo");
+            result.close();
+            querystatement.close();
+
+            String targetTable;
+            String targetColumns;
+            if (avaliacao.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
+                targetTable = "Ciclovia_Reclamacao";
+                targetColumns = "(reclamacao, ciclovia)";
+            } else if (avaliacao.tipoAlvo == Avaliacao.TargetType.Parada) {
+                targetTable = "Parada_Reclamacao";
+                targetColumns = "(reclamacao, parada)";
+            } else {
+                targetTable = "Viagem_Reclamacao";
+                targetColumns = "(reclamacao, viagem)";
+            }
+
+            Statement statement1 = connection.createStatement();
+            String query = "INSERT INTO " + targetTable + " " + targetColumns + " VALUES (" +
+                    ratingCode + ", " +
+                    avaliacao.codigoAlvo + ");";
+
+            statement1.executeUpdate(query);
+            statement1.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
