@@ -119,7 +119,9 @@ public class novoFuncionarioController {
 
             Funcionario funcionario = new Funcionario(cpf,nome,sobrenome,isMotorista);
             try {
-                Database.addEmployee(funcionario);
+                if (!Database.addEmployee(funcionario)) {
+                    throw new RuntimeException("Funcionário com esse nome já existe!");
+                }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("Funcionário cadastrado com sucesso!");

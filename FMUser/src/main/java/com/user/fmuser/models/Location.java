@@ -5,4 +5,13 @@ public class Location {
     public String localizacao;
 
     public enum LocationType {Ciclovia, Parada};
+
+    public Location(String location) {
+        this.localizacao = location;
+    }
+
+    public Location(int code, String location) {
+        this.codigo = code;
+        this.localizacao = location;
+    }
 }

@@ -61,7 +61,8 @@ CREATE TABLE Horario_dia_percurso(
 CREATE TABLE Motorista(
 	cpf VARCHAR(11) PRIMARY KEY,
 	nome VARCHAR(15) NOT NULL,
-	sobrenome VARCHAR(15) NOT NULL
+	sobrenome VARCHAR(15) NOT NULL,
+	UNIQUE (nome, sobrenome)
 );
 
 CREATE TABLE Veiculo(
@@ -90,7 +91,8 @@ CREATE TABLE Viagem(
 CREATE TABLE Cobrador(
 	cpf VARCHAR(11) NOT NULL PRIMARY KEY,
 	nome VARCHAR(15) NOT NULL,
-	sobrenome VARCHAR(15) NOT NULL
+	sobrenome VARCHAR(15) NOT NULL,
+	UNIQUE (nome, sobrenome)
 );
 
 CREATE TABLE Cobrador_Viagem(
@@ -107,13 +109,15 @@ CREATE TABLE Usuario(
 	sobrenome VARCHAR(15) NOT NULL,
 	email VARCHAR(254) UNIQUE NOT NULL,
 	senha VARCHAR(25) NOT NULL,
-	administrador BOOL NOT NULL
+	administrador BOOL NOT NULL,
+	UNIQUE (nome, sobrenome)
 );
 
 CREATE TABLE Avaliacao(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	texto VARCHAR(500) NOT NULL,
 	usuario CHAR(11) NOT NULL,
+	nota INT
 	FOREIGN KEY (usuario) REFERENCES Usuario(cpf) ON DELETE CASCADE
 );
 

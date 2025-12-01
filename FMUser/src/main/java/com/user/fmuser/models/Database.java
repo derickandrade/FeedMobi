@@ -16,6 +16,8 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
+        Funcionario emp = new Funcionario("03554014129", "b", "d", false);
+        addEmployee(emp);
         disconnect();
     }
 
@@ -350,7 +352,7 @@ public class Database {
      * Add an employee to the database using an object.
      * @param employee The employee to add
      */
-    public static void addEmployee(Funcionario employee) {
+    public static boolean addEmployee(Funcionario employee) {
         try {
             Statement statement = connection.createStatement();
             String employeeType = (employee.isMotorista) ? "Motorista" : "Cobrador";
@@ -359,16 +361,18 @@ public class Database {
             statement.executeUpdate(update);
 
             statement.close();
+            return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
     /**
      * Add a location (bike lane or bus stop) to the database using a Location object
      * @param location The Parada or Ciclovia object. These implement Location.
+     * @return true if the addition was effected, false otherwise.
      */
-    public static void addLocation(Location location) {
+    public static boolean addLocation(Location location) {
         try {
             Statement statement = connection.createStatement();
             String table = (location instanceof Parada) ? "Parada" : "Ciclovia";
@@ -377,8 +381,9 @@ public class Database {
             statement.executeUpdate(update);
 
             statement.close();
+            return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
@@ -386,8 +391,9 @@ public class Database {
      * Add a location (bike lane or bus stop) to the database using a name and type
      * @param name The name for the location.
      * @param type The type of the location (either LocationType.Ciclovia or LocationType.Parada)
+     * @return true if the addition was effected, false otherwise.
      */
-    public static void addLocation(String name, LocationType type) {
+    public static boolean addLocation(String name, LocationType type) {
         try {
             Statement statement = connection.createStatement();
             String table = (type == LocationType.Parada) ? "Parada" : "Ciclovia";
@@ -396,8 +402,82 @@ public class Database {
             statement.executeUpdate(update);
 
             statement.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Get a location from the database using its name and type
+     * @param name Name of the location
+     * @param type Type of the location
+     * @return A valid location if it was found, null otherwise.
+     */
+    public static Location retrieveLocation(String name, LocationType type) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (type == LocationType.Parada) ? "Parada" : "Ciclovia";
+            String query = "SELECT * FROM " + table + " WHERE localizacao = '" + name + "';";
+            ResultSet result = statement.executeQuery(query);
+
+            Location location = null;
+            if (result.first()) {
+                location = new Location(result.getInt("codigo"), result.getString("localizacao"));
+            }
+
+            result.close();
+            statement.close();
+
+            if (type == LocationType.Parada && location != null) {
+                location = new Parada(location.codigo, location.localizacao);
+            } else if (location != null) {
+                location = new Ciclovia(location.codigo, location.localizacao);
+            }
+
+            return location;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Receives a location object and tries to update it. The object must have its code set.
+     * @param location The location to update.
+     * @return true if the update was possible, false otherwise
+     */
+    public static boolean updateLocation(Location location) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (location instanceof Parada) ? "Parada" : "Ciclovia";
+            String update = "UPDATE " + table + " SET localizacao = '" + location.localizacao + "' " +
+                    "WHERE codigo = " + location.codigo + ";";
+            int updatecount = statement.executeUpdate(update);
+
+            statement.close();
+            return updatecount > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Delete a location from the database. Deletion may fail if a location with
+     * this code does not exist, or if the location is tied to a review.
+     * @param location A location object with a valid code.
+     * @return true if it was possible to remove the location, false otherwise.
+     */
+    public static boolean removeLocation(Location location) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (location instanceof Parada) ? "Parada" : "Ciclovia";
+            String update = "DELETE FROM " + table + " WHERE codigo = " + location.codigo + ";";
+            int updatecount = statement.executeUpdate(update);
+
+            statement.close();
+            return updatecount > 0;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }
