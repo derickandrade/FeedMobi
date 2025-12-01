@@ -24,7 +24,7 @@
         </Label>
 
         <HBox spacing="12.0">
-            <VBox prefHeight="120" prefWidth="259.0" styleClass="card">
+            <VBox prefHeight="200" prefWidth="259.0" styleClass="card">
                 <Label styleClass="card_title" text="Avaliações" />
                 <VBox styleClass="empty_state">
                     <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
@@ -39,7 +39,7 @@
                     </Pane>
                 </VBox>
             </VBox>
-            <VBox prefHeight="120" prefWidth="259.0" styleClass="card">
+            <VBox prefHeight="200" prefWidth="259.0" styleClass="card">
                 <Label styleClass="card_title" text="Infraestruturas" />
                 <VBox styleClass="empty_state">
                     <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
@@ -57,7 +57,7 @@
         </HBox>
 
         <HBox spacing="12.0">
-            <VBox prefHeight="120" prefWidth="168.0" styleClass="card">
+            <VBox prefHeight="200" prefWidth="168.0" styleClass="card">
                 <Label styleClass="card_title" text="Veículos" />
                 <VBox styleClass="empty_state">
                     <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
@@ -72,13 +72,15 @@
                     </Pane>
                 </VBox>
             </VBox>
-            <VBox prefHeight="120" prefWidth="168.0" styleClass="card">
+            <VBox prefHeight="200" prefWidth="168.0" styleClass="card">
                 <Label styleClass="card_title" text="Funcionários" />
-                <VBox styleClass="empty_state">
-                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
-                        <Image url="@images/empty.png" />
-                    </ImageView>
-                    <Label layoutY="25.0" prefHeight="27.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+
+                <VBox>
+                    <Label styleClass="dashboard_numeros" fx:id="funcionariosContagem" text="0" />
+                    <Label styleClass="dashboard_caption" text="Funcionários cadastrados" />
+                </VBox>
+
+                <VBox>
                     <Pane layoutY="68.0" onMouseClicked="#funcionarios" prefHeight="10.0" prefWidth="50.0">
                         <children>
                             <Label styleClass="verMais" text="Ver mais" />
