@@ -19,7 +19,7 @@ public class Database {
         Funcionario emp = new Funcionario("03554014129", "b", "d", false);
         addEmployee(emp);
 
-        Usuario us = new Usuario("12456290810", "c", "b", "yy", "3");
+        Usuario us = new Usuario("12456290810", "m", "c", "jb", "3");
         try {
             addUser(us);
         } catch (SQLException e) {
@@ -33,12 +33,13 @@ public class Database {
         Avaliacao av = new Avaliacao(
                 loc.codigo,
                 Avaliacao.TargetType.Parada,
-                3,
-                "parada mais ou menos",
+                1,
+                "parada BOSTA",
                 "12456290810"
         );
 
-        addReview(av);
+        boolean a =addReview(av);
+        System.out.println(a);
 
         disconnect();
     }
@@ -344,7 +345,7 @@ public class Database {
             }
 
             String preQuery = "SELECT * FROM Usuario JOIN Avaliacao " +
-                    "ON Usuario.cpf = '" + review.cpfUsuario + "' " +
+                    "ON Usuario.cpf = '" + review.cpfUsuario + "' AND Avaliacao.usuario = Usuario.cpf " +
                     "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo;";
 
             ResultSet results = preStatement.executeQuery(preQuery);
@@ -362,8 +363,6 @@ public class Database {
             statement.executeUpdate(update);
             statement.close();
 
-            System.err.println("Got 2");
-
             // Retrieve code of created rating
             Statement querystatement = connection.createStatement();
             ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
@@ -374,8 +373,6 @@ public class Database {
             int ratingCode = result.getInt("codigo");
             result.close();
             querystatement.close();
-
-            System.err.println("got 3");
 
             Statement statement1 = connection.createStatement();
             String query = "INSERT INTO " + targetTable + " " + targetColumns + " VALUES (" +
