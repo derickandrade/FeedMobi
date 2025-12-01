@@ -18,6 +18,27 @@ public class Database {
         connect();
         Funcionario emp = new Funcionario("03554014129", "b", "d", false);
         addEmployee(emp);
+
+        Usuario us = new Usuario("12456290810", "c", "b", "yy", "3");
+        try {
+            addUser(us);
+        } catch (SQLException e) {
+            System.out.println("user here heheh");
+        }
+
+        Location loc = new Parada("bem ali");
+        addLocation(loc);
+
+        Avaliacao av = new Avaliacao();
+        av.nota = 3;
+        av.tipoAlvo = Avaliacao.TargetType.Parada;
+        loc = retrieveLocation("bem ali", LocationType.Parada);
+        av.codigoAlvo = loc.codigo;
+        av.texto = "parada ok";
+        av.cpfUsuario = us.getCPF();
+
+        addReview(av);
+
         disconnect();
     }
 
@@ -306,19 +327,20 @@ public class Database {
         try {
             Statement statement = connection.createStatement();
             String update = "INSERT INTO Avaliacao (texto, usuario, nota) " +
-                    "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "', " + review.nota + "')"
+                    "VALUES ('" + review.texto + "', '" + review.cpfUsuario + "', " + review.nota + ")"
                     + ";";
 
             statement.executeUpdate(update);
             statement.close();
 
+            System.err.println("Got 2");
+
             // Retrieve code of created rating
             Statement querystatement = connection.createStatement();
             ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
                     "texto = '" + review.texto + "' AND " +
-                    "usuario = '" + review.cpfUsuario + "' AND " +
-                    "nota = " + review.nota
-                    + ";");
+                    "usuario = '" + review.cpfUsuario
+                    + "';");
             result.first();
             int ratingCode = result.getInt("codigo");
             result.close();
@@ -336,6 +358,8 @@ public class Database {
                 targetTable = "Viagem_Reclamacao";
                 targetColumns = "(reclamacao, viagem)";
             }
+
+            System.err.println("got 3");
 
             Statement statement1 = connection.createStatement();
             String query = "INSERT INTO " + targetTable + " " + targetColumns + " VALUES (" +
