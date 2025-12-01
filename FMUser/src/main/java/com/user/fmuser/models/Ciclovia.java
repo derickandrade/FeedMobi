@@ -1,6 +1,7 @@
 package com.user.fmuser.models;
 
-public class Ciclovia {
-    int codigo;
-    String localizacao;
+public class Ciclovia extends Location {
+    public Ciclovia(String location) {
+        this.localizacao = location;
+    }
 }

@@ -1,6 +1,7 @@
 package com.user.fmuser.models;
 
 import java.sql.*;
+import com.user.fmuser.models.Location.LocationType;
 
 public class Database {
     // Database URL
@@ -355,6 +356,43 @@ public class Database {
             String employeeType = (employee.isMotorista) ? "Motorista" : "Cobrador";
             String update = "INSERT INTO " + employeeType + " (cpf, nome, sobrenome) VALUES ('" +
                     employee.getCpf() + "', '" + employee.nome + "', '" + employee.sobrenome + "');";
+            statement.executeUpdate(update);
+
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Add a location (bike lane or bus stop) to the database using a Location object
+     * @param location The Parada or Ciclovia object. These implement Location.
+     */
+    public static void addLocation(Location location) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (location instanceof Parada) ? "Parada" : "Ciclovia";
+            String update = "INSERT INTO " + table + " (localizacao) VALUES ('" +
+                    location.localizacao + "');";
+            statement.executeUpdate(update);
+
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Add a location (bike lane or bus stop) to the database using a name and type
+     * @param name The name for the location.
+     * @param type The type of the location (either LocationType.Ciclovia or LocationType.Parada)
+     */
+    public static void addLocation(String name, LocationType type) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (type == LocationType.Parada) ? "Parada" : "Ciclovia";
+            String update = "INSERT INTO " + table + " (localizacao) VALUES ('" +
+                    name + "');";
             statement.executeUpdate(update);
 
             statement.close();
