@@ -38,6 +38,7 @@ CREATE TABLE Percurso(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
 	origem INT NOT NULL,
 	destino INT NOT NULL,
+    UNIQUE (origem, destino),
 	FOREIGN KEY (origem) REFERENCES Parada(codigo),
 	FOREIGN KEY (destino) REFERENCES Parada(codigo)
 );
@@ -143,5 +144,3 @@ CREATE TABLE Ciclovia_Reclamacao(
     FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
     FOREIGN KEY (ciclovia) REFERENCES Ciclovia(codigo)
 );
-
-
