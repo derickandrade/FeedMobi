@@ -1,17 +1,10 @@
 package com.user.fmuser.models;
 
 public class Funcionario {
+    private String cpf;
     public String nome;
     public String sobrenome;
-    private String cpf;
-
-    public Funcionario(String cpf, String nome, String sobrenome) {
-        if (!this.setCpf(cpf)) {
-            throw new IllegalArgumentException("Invalid CPF when constructing Funcionario");
-        }
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-    }
+    public boolean isMotorista;
 
     public String getCpf() {
         return cpf;
@@ -30,5 +23,14 @@ public class Funcionario {
         }
         this.cpf = cpf;
         return true;
+    }
+
+    public Funcionario(String cpf, String nome, String sobrenome, boolean isMotorista) {
+        if (!this.setCpf(cpf)) {
+            throw new IllegalArgumentException("Invalid CPF when constructing Funcionario");
+        }
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.isMotorista = isMotorista;
     }
 }

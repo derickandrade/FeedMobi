@@ -3,26 +3,60 @@
 ## Frontend
 
 ### Login
-- [ ] Tela de logar
+- [x] Tela de logar
 
 ### Usuário
 - [ ] Tela cadastrar usuário
 - [ ] Tela editar cadastro usuário
 
 ### Página Inicial
-- [ ] Tela Usuário avaliador
-- [ ] Tela Usuário gestor
+- **Tela Usuário avaliador**
+  - [x] Sem dados
+  - [ ] Com dados
+- **Tela Usuário gestor** 
+  - [x] Sem dados
+  - [ ] Com dados
 
 ### Avaliações
 - [ ] Tela Nova avaliação
 
 ### Gestão
-- [ ] Tela gestão de Avaliações (consulta)
-- [ ] Tela gestão de Infraestrutura
-- [ ] Tela gestão de Veículos
-- [ ] Tela gestão de Funcionários
-- [ ] Tela gestão de Percursos
-- [ ] Tela gestão de Viagens
+- **Tela gestão de Avaliações**
+  - [ ] Consulta
+    - [ ] Com dados
+    - [ ] Sem dados
+  - [ ] Incluir Avaliação
+  - [ ] Editar Avaliação
+- **Tela gestão de Infraestrutura**
+    - [ ] Consulta
+        - [ ] Com dados
+        - [ ] Sem dados
+    - [ ] Incluir Infraestrutura
+    - [ ] Editar Infraestrutura
+- **Tela gestão de Veículos**
+    - [ ] Consulta
+        - [ ] Com dados
+        - [ ] Sem dados
+    - [ ] Incluir Veículo
+    - [ ] Editar Veículo
+- **Tela gestão de Funcionários**
+    - [ ] Consulta
+        - [ ] Com dados
+        - [x] Sem dados
+    - [ ] Incluir Funcionário
+    - [ ] Editar Funcionário
+- **Tela gestão de Percursos**
+    - [ ] Consulta
+        - [ ] Com dados
+        - [ ] Sem dados
+    - [ ] Incluir Percurso
+    - [ ] Editar Percurso
+- **Tela gestão de Viagens**
+    - [ ] Consulta
+        - [ ] Com dados
+        - [ ] Sem dados
+    - [ ] Incluir Viagem
+    - [ ] Editar Viagem
 
 ## Backend
 

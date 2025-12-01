@@ -13,22 +13,22 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
     <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
         <HBox>
-        <ImageView preserveRatio="true" smooth="false">
-            <Image url="@images/icon.png" />
-        </ImageView>
+            <ImageView preserveRatio="true" smooth="false">
+                <Image url="@images/icon.png" />
+            </ImageView>
             <Label text="FeedMobi" textFill="WHITE">
-                    <Font name="Inter Bold" size="16.0" />
+                <Font name="Inter Bold" size="16.0" />
             </Label>
         </HBox>
         <Region HBox.hgrow="ALWAYS" />
         <HBox />
-      <Button fx:id="logoutButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="18.0" prefWidth="20.0" styleClass="tertiaryButton">
-         <graphic>
-         <ImageView preserveRatio="true" smooth="false">
-               <Image url="@images/logout.png" />
-         </ImageView>
-         </graphic>
-      </Button>
+        <Button fx:id="logoutButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="18.0" prefWidth="20.0" styleClass="tertiaryButton">
+            <graphic>
+                <ImageView preserveRatio="true" smooth="false">
+                    <Image url="@images/logout.png" />
+                </ImageView>
+            </graphic>
+        </Button>
     </HBox>
     <VBox styleClass="content_container">
         <Label fx:id="userNameLabel" styleClass="title" text="Olá, nome usuário !">
@@ -43,14 +43,14 @@
             </VBox>
         </VBox>
     </VBox>
-   <Pane prefHeight="167.0" prefWidth="600.0">
-      <children>
-         <Pane layoutX="91.0" prefHeight="29.0" prefWidth="446.0">
-            <children>
-               <Button defaultButton="true" layoutX="230.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#irParaAvaliacao" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Nova avaliação" />
-               <Button layoutX="1.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#atualizarCadastro" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Meu cadastro" />
-            </children>
-         </Pane>
-      </children>
-   </Pane>
+    <Pane prefHeight="167.0" prefWidth="600.0">
+        <children>
+            <Pane layoutX="91.0" prefHeight="29.0" prefWidth="446.0">
+                <children>
+                    <Button defaultButton="true" layoutX="230.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#irParaAvaliacao" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Nova avaliação" />
+                    <Button layoutX="1.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#atualizarCadastro" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Meu cadastro" />
+                </children>
+            </Pane>
+        </children>
+    </Pane>
 </VBox>

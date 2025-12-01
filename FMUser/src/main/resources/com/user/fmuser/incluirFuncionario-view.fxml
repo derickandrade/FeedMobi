@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.novoFuncionarioController">
+
+    <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
+        <HBox />
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox />
+        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="18.0" prefWidth="20.0" styleClass="tertiaryButton">
+            <graphic>
+                <ImageView preserveRatio="true" smooth="false">
+                    <Image url="@images/logout.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <VBox styleClass="content_container">
+
+        <Pane layoutX="51.0" layoutY="64.0" prefHeight="173.0" prefWidth="486.0">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <children>
+                <VBox>
+                    <HBox>
+                        <Button layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltar" styleClass="tertiaryButton">
+                            <graphic>
+                                <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" />
+                            </graphic>
+                        </Button>
+
+                        <Label styleClass="title" text="Funcionários">
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <Pane layoutY="34.0" prefHeight="128.0" prefWidth="536.0">
+                    <children>
+                        <TextField fx:id="cpfField" layoutY="29.0" onKeyTyped="#verificarCPF" prefHeight="28.0" prefWidth="267.0" promptText="000.000.000-00" styleClass="textField" />
+                        <ComboBox fx:id="cargoFuncionarioMenu" layoutX="278.0" layoutY="29.0" onAction="#handleCargoFuncionario" prefHeight="28.0" prefWidth="261.0" promptText="Selecionar" styleClass="select" />
+                        <TextField fx:id="nomeField" layoutY="90.0" prefHeight="28.0" prefWidth="267.0" styleClass="textField" />
+                        <TextField fx:id="sobrenomeField" layoutX="279.0" layoutY="90.0" prefHeight="28.0" prefWidth="261.0" styleClass="textField" />
+
+                        <Label layoutY="8.0" text="CPF" />
+                        <Label layoutX="278.0" layoutY="9.0" text="Cargo" />
+                        <Label layoutX="2.0" layoutY="70.0" text="Nome" />
+                        <Label layoutX="279.0" layoutY="70.0" text="Sobrenome" />
+
+                        <Label fx:id="cpfMessage" layoutX="143.0" layoutY="9.0" text="CPF já cadastrado!" textFill="RED" visible="false" />
+                        <Label fx:id="cargoMessage" layoutX="407.0" layoutY="13.0" text="Selecione um cargo!" textFill="RED" visible="false" />
+                        <Label fx:id="nomeMessage" layoutX="153.0" layoutY="73.0" text="Insira seu nome!" textFill="RED" visible="false" />
+                        <Label fx:id="sobrenomeMessage" layoutX="379.0" layoutY="73.0" text="Insira seu sobrenome!" textFill="RED" visible="false" />
+                    </children></Pane>
+            </children>
+        </Pane>
+        <Pane layoutX="103.0" layoutY="100.0" prefHeight="29.0" prefWidth="446.0">
+            <children>
+                <Button fx:id="cadastrarButton" defaultButton="true" layoutX="321.0" mnemonicParsing="false" onMouseClicked="#handleCadastrarFuncionario" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Cadastrar" />
+                <Button fx:id="cancelarButton" cancelButton="true" layoutX="91.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Cancelar" />
+            </children>
+        </Pane>
+
+    </VBox>
+
+
+
+
+</VBox>
