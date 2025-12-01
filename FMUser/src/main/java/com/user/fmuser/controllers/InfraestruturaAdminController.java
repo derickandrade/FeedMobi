@@ -23,7 +23,7 @@ public class InfraestruturaAdminController {
 
     @FXML
     public void incluirInfraestrutura() {
-
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/infraestruturaAdmin-view.fxml", "Infraestruturas");
     }
 
     @FXML
