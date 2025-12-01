@@ -89,6 +89,8 @@ public class novoFuncionarioController {
             cargoFuncionario = 0;
         }
 
+        isMotorista = (cargoFuncionario == 1);
+
         if(cargoMessage !=null ){
             cargoMessage.setVisible(cargoFuncionario == 0);
         }
@@ -110,6 +112,8 @@ public class novoFuncionarioController {
         cargoMessage.setVisible(!cargoValido);
 
         if(cpfValido && nomeValido && sobrenomeValido && cargoValido) {
+            isMotorista = (cargoFuncionario == 1);
+
             Funcionario funcionario = new Funcionario(cpf,nome,sobrenome,isMotorista);
             try {
                 //Database.addEmployee(funcionario);
