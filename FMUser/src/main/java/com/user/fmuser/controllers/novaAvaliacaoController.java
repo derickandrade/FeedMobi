@@ -207,8 +207,23 @@ public class novaAvaliacaoController {
         }
     }
 
+    public void successMessage() {
+        Alert success = new Alert(Alert.AlertType.INFORMATION);
+        success.setTitle("SUCESSO");
+        success.setHeaderText("Avaliação realizada com sucesso!");
+        success.showAndWait();
+    }
+
+    public void errorMessage() {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle("ERRO");
+        error.setHeaderText("Não foi possível avaliar!");
+        error.setContentText("Ocorreu um erro ao tentar avaliar.\nTente novamente.");
+        error.showAndWait();
+    }
+
     @FXML
-    public void avaliarViagem() {
+    public void handleAvaliarViagem() {
         vehicleCode = vehicleCodeField.getText();
         origin = originMenu.getValue();
         destination = destinationMenu.getValue();
@@ -217,8 +232,8 @@ public class novaAvaliacaoController {
         comentario = comentarioField.getText();
 
         boolean validVehicleCode = !(vehicleCode.isEmpty());
-        boolean validOrigin = origin != null && origin.isEmpty();
-        boolean validDestination = destination != null && destination.isEmpty();
+        boolean validOrigin = origin == null ? false : !origin.isEmpty();
+        boolean validDestination = destination == null ? false : !destination.isEmpty();
         boolean validDate = date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now());
         boolean validComentario = !comentario.isEmpty();
 
@@ -235,20 +250,19 @@ public class novaAvaliacaoController {
                 validDestination &&
                 validDate &&
                 validTime(time) &&
-                avaliacao != 0) {
-            int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
-            Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
-
-            if (Database.addReview(review)) {
-                Alert sucesso = new Alert(Alert.AlertType.INFORMATION);
-                sucesso.setTitle("SUCESSO");
-                sucesso.setHeaderText("Avaliação realizada com sucesso!");
-            } else {
-                Alert erro = new Alert(Alert.AlertType.ERROR);
-                erro.setTitle("ERRO");
-                erro.setHeaderText("Não foi possível avaliar!");
-                erro.setContentText("Ocorreu um erro ao tentar avaliar.\nTente novamente.");
-                erro.showAndWait();
+                avaliacao != 0 &&
+                validComentario)
+        {
+            try {
+                int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
+                Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
+                if (Database.addReview(review)) {
+                    successMessage();
+                } else {
+                    errorMessage();
+                }
+            } catch (Exception e) {
+                errorMessage();
             }
         }
     }
