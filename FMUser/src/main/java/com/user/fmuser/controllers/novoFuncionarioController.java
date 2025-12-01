@@ -116,7 +116,7 @@ public class novoFuncionarioController {
 
             Funcionario funcionario = new Funcionario(cpf,nome,sobrenome,isMotorista);
             try {
-                //Database.addEmployee(funcionario);
+                Database.addEmployee(funcionario);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("Funcionário cadastrado com sucesso!");

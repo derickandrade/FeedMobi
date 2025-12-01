@@ -1,8 +1,6 @@
 package com.user.fmuser.models;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class Database {
     // Database URL
@@ -16,32 +14,7 @@ public class Database {
      * @param args Test function args
      */
     public static void main(String[] args) {
-        Time time = Time.valueOf("23:02:03");
-        System.out.println(time);
-
         connect();
-
-        int code = retrieveTripCode(3, "A", "B", "seg", Time.valueOf("12:00:00"));
-        System.out.println(code);
-
-        Avaliacao avaliacao = new Avaliacao();
-        avaliacao.codigoAlvo = code;
-        avaliacao.tipoAlvo = Avaliacao.TargetType.Viagem;
-        avaliacao.cpfUsuario = "03554014109";
-        avaliacao.texto = "uaur";
-
-        addReview(avaliacao);
-
-        avaliacao.texto = "viagem RUIM pqp";
-
-        addReview(avaliacao);
-
-        avaliacao.codigoAlvo = 1;
-        avaliacao.tipoAlvo = Avaliacao.TargetType.Parada;
-        avaliacao.texto = "parada RUIM";
-
-        addReview(avaliacao);
-
         disconnect();
     }
 
@@ -282,11 +255,12 @@ public class Database {
 
     /**
      * Given a few parameters, return the corresponding trip from the database.
+     *
      * @param vehicleCode A vehicle code to search.
-     * @param origin Trip origin location name
+     * @param origin      Trip origin location name
      * @param destination Trip destination location name
-     * @param day Day of the week. See validDay() for details.
-     * @param time An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
+     * @param day         Day of the week. See validDay() for details.
+     * @param time        An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
      * @return The regular trip code if the trip is found, -1 otherwise.
      */
     public static int retrieveTripCode(int vehicleCode, String origin, String destination, String day, Time time) {
@@ -299,7 +273,7 @@ public class Database {
                     "hdp.dia = '" + day + "' AND " +
                     "hdp.hora = '" + time + "' AND " +
                     "hdp.percurso = p.codigo AND " +
-                    "pa1.localizacao = '" + origin + "' AND "   +
+                    "pa1.localizacao = '" + origin + "' AND " +
                     "pa2.localizacao = '" + destination + "' AND " +
                     "p.origem = pa1.codigo AND " +
                     "p.destino = pa2.codigo"
@@ -322,6 +296,7 @@ public class Database {
 
     /**
      * Given a review object type, add this review to the database.
+     *
      * @param review The review to add.
      */
     public static void addReview(Avaliacao review) {
@@ -365,6 +340,20 @@ public class Database {
 
             statement1.executeUpdate(query);
             statement1.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addEmployee(Funcionario employee) {
+        try {
+            Statement statement = connection.createStatement();
+            String employeeType = (employee.isMotorista) ? "Motorista" : "Cobrador";
+            String update = "INSERT INTO " + employeeType + " (cpf, nome, sobrenome) VALUES ('" +
+                    employee.getCpf() + "', '" + employee.nome + "', '" + employee.sobrenome + "');";
+            statement.executeUpdate(update);
+
+            statement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

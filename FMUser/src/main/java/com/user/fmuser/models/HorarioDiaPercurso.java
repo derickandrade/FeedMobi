@@ -3,9 +3,9 @@ package com.user.fmuser.models;
 import java.sql.Time;
 
 public class HorarioDiaPercurso {
-    private String dia;
     public Time horario;
     public Percurso percurso;
+    private String dia;
 
     public String getDia() {
         return dia;

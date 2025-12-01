@@ -1,7 +1,5 @@
 package com.user.fmuser.models;
 
-import java.sql.Time;
-
 public class Viagem {
     public int codigo;
     public Funcionario motorista;
