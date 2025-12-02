@@ -20,37 +20,101 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
+        fillTables();
+        disconnect();
+    }
+
+    private static void fillTables() {
         Parada p1 = new Parada("A");
         Parada p2 = new Parada("B");
+        Parada p3 = new Parada("C");
+        Parada p4 = new Parada("D");
+        Parada p5 = new Parada("E");
+
         addLocation(p1);
         addLocation(p2);
-        p1 = (Parada) retrieveLocation(p1); // Get code
-        p2 = (Parada) retrieveLocation(p2); // Get code
+        addLocation(p3);
+        addLocation(p4);
+        addLocation(p5);
 
-        Usuario user = new Usuario("12332112332", "Farofo", "da Silva",  "farofo@gmail.com", "123");
+        p1 = (Parada) retrieveLocation(p1);
+        p2 = (Parada) retrieveLocation(p2);
+        p3 = (Parada) retrieveLocation(p3);
+        p4 = (Parada) retrieveLocation(p4);
+        p5 = (Parada) retrieveLocation(p5);
+
+        Ciclovia c1 = new Ciclovia("A");
+        Ciclovia c2 = new Ciclovia("B");
+        Ciclovia c3 = new Ciclovia("C");
+        Ciclovia c4 = new Ciclovia("D");
+        Ciclovia c5 = new Ciclovia("E");
+
+        addLocation(c1);
+        addLocation(c2);
+        addLocation(c3);
+        addLocation(c4);
+        addLocation(c5);
+
+        c1 = (Ciclovia) retrieveLocation(c1);
+        c2 = (Ciclovia) retrieveLocation(c2);
+        c3 = (Ciclovia) retrieveLocation(c3);
+        c4 = (Ciclovia) retrieveLocation(c4);
+        c5 = (Ciclovia) retrieveLocation(c5);
+
+        Percurso pc1 = new Percurso(p1, p2);
+        Percurso pc2 = new Percurso(p2, p4);
+        Percurso pc3 = new Percurso(p1, p5);
+        Percurso pc4 = new Percurso(p3, p2);
+        Percurso pc5 = new Percurso(p4, p1);
+
+        addRoute(pc1);
+        addRoute(pc2);
+        addRoute(pc3);
+        addRoute(pc4);
+        addRoute(pc5);
+
+        pc1 = retrieveRoute(pc1);
+        pc2 = retrieveRoute(pc2);
+        pc3 = retrieveRoute(pc3);
+        pc4 = retrieveRoute(pc4);
+        pc5 = retrieveRoute(pc5);
+
+        Usuario u1 = new Usuario("00000000000", "Adécio", "de Almeida", "a@a.a", "a");
+        Usuario u2 = new Usuario("00000000001", "Bernardo", "Bernardes", "b@b.b", "b");
+        Usuario u3 = new Usuario("00000000002", "Caio", "Castro", "c@c.c", "c");
+        Usuario u4 = new Usuario("00000000003", "Dênis", "Dorival", "d@d.d", "d");
+        Usuario u5 = new Usuario("00000000004", "Eliane", "Elis", "e@e.e", "e");
+        Usuario adm = new Usuario("11111111111", "Nirva", "Neves", "n@n.n", "n");
+        adm.setIsAdmin(true);
+
         try {
-            addUser(user);
+            addUser(u1);
+            addUser(u2);
+            addUser(u3);
+            addUser(u4);
+            addUser(u5);
+            addUser(adm);
         } catch (SQLException e) {
-            System.out.println("oh noes");
+            System.err.println("Users already registered");
         }
 
-        Avaliacao rev = new Avaliacao(p1.codigo, Avaliacao.TargetType.Parada, 3, "uaur", user.getCPF());
-        Avaliacao rev2 = new Avaliacao(p2.codigo, Avaliacao.TargetType.Parada, 5, "uaurs", user.getCPF());
-        System.out.println(addReview(rev));
-        System.out.println(addReview(rev2));
-        rev2.nota = 4;
-        System.out.println(addReview(rev2));
+        HorarioDiaPercurso hdp1 = new HorarioDiaPercurso(Time.valueOf("12:00:00"), "seg", pc1);
+        HorarioDiaPercurso hdp2 = new HorarioDiaPercurso(Time.valueOf("13:00:00"), "ter", pc1);
+        HorarioDiaPercurso hdp3 = new HorarioDiaPercurso(Time.valueOf("14:00:00"), "qua", pc3);
+        HorarioDiaPercurso hdp4 = new HorarioDiaPercurso(Time.valueOf("09:00:00"), "sex", pc5);
+        HorarioDiaPercurso hdp5 = new HorarioDiaPercurso(Time.valueOf("13:00:00"), "seg", pc2);
 
-        ArrayList<Avaliacao> avs = retrieveReviews();
-        List<String> avsDisplay = avs.stream().map(av -> av.codigoAlvo + " " + av.nota + " " + av.cpfUsuario)
-                .collect(Collectors.toList());
+        addHDP(hdp1);
+        addHDP(hdp2);
+        addHDP(hdp3);
+        addHDP(hdp4);
+        addHDP(hdp5);
 
-        System.out.println(avsDisplay);
-
-        Avaliacao rev3 = retrieveReview(p2.codigo, Avaliacao.TargetType.Parada, user.getCPF());
-        System.out.println(rev3.nota + " " + rev3.texto);
-
-        disconnect();
+        hdp1 = retrieveHDP(hdp1);
+        hdp2 = retrieveHDP(hdp2);
+        hdp3 = retrieveHDP(hdp3);
+        hdp4 = retrieveHDP(hdp4);
+        hdp5 = retrieveHDP(hdp5);
     }
 
     /**
