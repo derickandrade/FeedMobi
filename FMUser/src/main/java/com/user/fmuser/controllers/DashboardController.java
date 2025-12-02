@@ -2,6 +2,7 @@ package com.user.fmuser.controllers;
 
 import com.user.fmuser.models.Database;
 import com.user.fmuser.models.Funcionario;
+import com.user.fmuser.models.Veiculo;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,9 @@ public class DashboardController implements Initializable {
     @FXML
     private Label funcionariosContagem;
 
+    @FXML
+    private Label veiculosContagem;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         atualizarContadores();
@@ -27,6 +31,10 @@ public class DashboardController implements Initializable {
         ArrayList<Funcionario> funcionarios = Database.retrieveEmployees();
         int count = (funcionarios == null) ? 0 : funcionarios.size();
         funcionariosContagem.setText(String.valueOf(count));
+
+        ArrayList<Veiculo> veiculos = Database.retrieveVehicles();
+        int count1 = (veiculos == null) ? 0 : veiculos.size();
+        veiculosContagem.setText(String.valueOf(count1));
     }
 
     @FXML

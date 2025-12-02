@@ -32,19 +32,19 @@
                 </Label>
             </HBox>
         </VBox>
-        <VBox prefWidth="510.0" styleClass="card">
+        <VBox prefWidth="530.0" styleClass="card">
 
-            <TableView fx:id="veiculosTable" layoutY="-1.0" prefHeight="200" prefWidth="500">
+            <TableView fx:id="veiculosTable" layoutY="-1.0" prefHeight="200" prefWidth="500.0">
                 <columns>
-                    <TableColumn prefWidth="70" text="Placa" fx:id="colPlaca" />
-                    <TableColumn prefWidth="90" text="Data" fx:id="colData" />
-                    <TableColumn prefWidth="100" text="Assentos" fx:id="colAssentos" />
-                    <TableColumn prefWidth="140" text="Capacidade em pé" fx:id="colCapacidade" />
-                    <TableColumn prefWidth="100" text="Ações" fx:id="colAcoes" />
+                    <TableColumn fx:id="colPlaca" prefWidth="70" text="Placa" />
+                    <TableColumn fx:id="colData" prefWidth="90" text="Data" />
+                    <TableColumn fx:id="colAssentos" prefWidth="80" text="Assentos" />
+                    <TableColumn fx:id="colCapacidade" prefWidth="140" text="Capacidade em pé" />
+                    <TableColumn fx:id="colAcoes" prefWidth="110" text="Ações" />
                 </columns>
             </TableView>
 
-            <VBox styleClass="empty_state" fx:id="emptyStateVBox" visible="false" managed="false">
+            <VBox fx:id="emptyStateVBox" managed="false" styleClass="empty_state" visible="false">
                 <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
                     <Image url="@images/empty.png" />
                 </ImageView>

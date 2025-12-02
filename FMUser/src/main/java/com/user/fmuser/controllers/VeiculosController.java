@@ -101,8 +101,8 @@ public class VeiculosController implements Initializable {
                 editButton.getStyleClass().add("tertiaryButton");
                 deleteButton.getStyleClass().add("tertiaryButton");
 
-                editButton.setPrefWidth(70);
-                deleteButton.setPrefWidth(70);
+                editButton.setPrefWidth(15);
+                deleteButton.setPrefWidth(15);
 
                 container.setAlignment(Pos.CENTER);
 
