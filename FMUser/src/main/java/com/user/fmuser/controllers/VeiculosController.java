@@ -1,12 +1,10 @@
 package com.user.fmuser.controllers;
 
 import com.user.fmuser.MainApplication;
-import com.user.fmuser.models.Location;
 import com.user.fmuser.models.Veiculo;
 import com.user.fmuser.models.Database;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.beans.Observable;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +18,6 @@ import javafx.scene.shape.SVGPath;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class VeiculosController implements Initializable {
@@ -29,7 +26,7 @@ public class VeiculosController implements Initializable {
     private TableView<Veiculo> veiculosTable;
 
     @FXML
-    private TableColumn<Location, Void> colAcoes;
+    private TableColumn<Veiculo, Void> colAcoes;
 
     @FXML
     private TableColumn<Veiculo,String> colPlaca;
@@ -83,7 +80,7 @@ public class VeiculosController implements Initializable {
         colAssentos.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getAssentos())));
         colCapacidade.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getCapacidadeEmPe())));
 
-        colAcoes.setCellFactory(col -> new TableCell<Location, Void>() {
+        colAcoes.setCellFactory(col -> new TableCell<Veiculo, Void>() {
             private final Button editButton = new Button("");
             private final Button deleteButton = new Button("");
             private final HBox container = new HBox(10, editButton, deleteButton);
@@ -107,12 +104,12 @@ public class VeiculosController implements Initializable {
                 container.setAlignment(Pos.CENTER);
 
                 editButton.setOnAction(event -> {
-                    Location item = getTableView().getItems().get(getIndex());
+                    Veiculo item = getTableView().getItems().get(getIndex());
                     //editarVeiculo(item);
                 });
 
                 deleteButton.setOnAction(event -> {
-                    Location item = getTableView().getItems().get(getIndex());
+                    Veiculo item = getTableView().getItems().get(getIndex());
                     //excluirVeiculo(item);
                 });
             }
