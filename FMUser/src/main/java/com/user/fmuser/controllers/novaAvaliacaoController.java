@@ -374,6 +374,36 @@ public class novaAvaliacaoController {
     }
 
     @FXML
+    public void handleAvaliarParada() {
+        String paradaNome = localMenu.getValue();
+        String comentario = comentarioField.getText();
+        boolean validParada = paradaNome != null && !paradaNome.isEmpty();
+        boolean validComentario = comentario != null && !comentario.isEmpty();
+        cicloviaMessage.setVisible(!validParada);
+        notaMessage.setVisible(avaliacao == 0);
+        comentarioMessage.setVisible(!validComentario);
+        if (validParada &&
+                validComentario &&
+                avaliacao != 0) {
+            Parada parada = (Parada) Database.retrieveLocation(paradaNome, Location.LocationType.Parada);
+            int nota = avaliacao;
+            Avaliacao avaliacao = new Avaliacao(parada.codigo, Avaliacao.TargetType.Parada, nota, comentario, MainApplication.usuarioSessao.getCPF());
+            if (Database.addReview(avaliacao)) {
+                if (image != null) {
+                    if (Database.addImage(avaliacao, image)) {
+                        successMessage("Avaliação realizada com sucesso!");
+                    } else {
+                        successMessage("Avaliação realizada, ocorreu um erro com o upload da imagem.");
+                    }
+                }
+                successMessage("Avaliação realizada com sucesso!");
+            } else {
+                errorMessage("Ocorreu um erro realizar a avaliação. Tente novamente!");
+            }
+        }
+    }
+
+    @FXML
     public void voltarHome() {
         String tela = "/com/user/fmuser/home-view.fxml";
         if (MainApplication.usuarioSessao.isAdmin()) {

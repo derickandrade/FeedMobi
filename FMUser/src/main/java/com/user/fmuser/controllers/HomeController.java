@@ -40,7 +40,7 @@ public class HomeController implements Initializable {
             telaAvaliacao = "/com/user/fmuser/viagem-view.fxml";
         }
         else if (tipoAvaliacao == 2) {
-            telaAvaliacao = "/com/user/fmuser/infraestruturas-view.fxml";
+            telaAvaliacao = "/com/user/fmuser/infraestrutura-view.fxml";
         }
         else if (tipoAvaliacao == 3) {
             telaAvaliacao = "/com/user/fmuser/ciclovia-view.fxml";

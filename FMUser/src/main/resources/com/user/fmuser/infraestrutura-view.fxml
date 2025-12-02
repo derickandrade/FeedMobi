@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.novaAvaliacaoController">
+   <children>
+      <HBox prefHeight="40.0" prefWidth="600.0" styleClass="header_mobi">
+         <children>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onMouseClicked="#logout" styleClass="tertiaryButton">
+               <graphic>
+                  <ImageView fx:id="logoutIcon" fitHeight="16.0" fitWidth="16.0" onMouseClicked="#logout" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <Region prefHeight="24.0" prefWidth="200.0" />
+      <HBox prefHeight="307.0" prefWidth="600.0">
+         <children>
+            <Region prefHeight="200.0" prefWidth="51.0" />
+            <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="350.0" prefWidth="498.0">
+               <children>
+                  <Label layoutX="33.0" text="Nova avaliação">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutY="323.0" prefHeight="29.0" prefWidth="498.0">
+                     <children>
+                        <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
+                           <children>
+                              <Button fx:id="avaliarButton" defaultButton="true" layoutX="180.0" mnemonicParsing="false" onMouseClicked="#handleAvaliarParada" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Avaliar" />
+                              <Button cancelButton="true" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="42.0" prefHeight="49.0" prefWidth="498.0">
+                     <children>
+                        <Label text="Tipo de avaliação" />
+                        <Label layoutX="260.0" text="Parada/Estação" />
+                        <ComboBox fx:id="tipoAvaliacaoMenu" layoutX="1.0" layoutY="21.0" onAction="#handleTipoAvaliacao" prefHeight="28.0" prefWidth="241.0" promptText="Selecionar" styleClass="select" />
+                        <ComboBox fx:id="localMenu" layoutX="259.0" layoutY="21.0" prefHeight="28.0" prefWidth="241.0" styleClass="select" />
+                        <Label fx:id="cicloviaMessage" layoutX="376.0" text="Selecione uma parada!" textFill="RED" visible="false" />
+                     </children>
+                  </Pane>
+                  <Button layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
+                     <graphic>
+                        <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" onMouseClicked="#voltarHome" />
+                     </graphic>
+                  </Button>
+                  <Pane layoutY="102.0" prefHeight="49.0" prefWidth="498.0">
+                     <children>
+                        <Pane prefHeight="49.0" prefWidth="241.0">
+                           <children>
+                              <Label text="Nota" />
+                              <Pane layoutY="21.0" prefHeight="28.0" prefWidth="116.0">
+                                 <children>
+                                    <ImageView fx:id="star4" fitHeight="30.0" fitWidth="30.0" layoutX="71.0" onMouseClicked="#clicouEstrela4" onMouseEntered="#acenderEstrela4" onMouseExited="#definirNota" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/star.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="star1" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#clicouEstrela1" onMouseEntered="#acenderEstrela1" onMouseExited="#definirNota" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/star.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="star2" fitHeight="30.0" fitWidth="30.0" layoutX="24.0" onMouseClicked="#clicouEstrela2" onMouseEntered="#acenderEstrela2" onMouseExited="#definirNota" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/star.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="star3" fitHeight="30.0" fitWidth="30.0" layoutX="48.0" onMouseClicked="#clicouEstrela3" onMouseEntered="#acenderEstrela3" onMouseExited="#definirNota" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/star.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="star5" fitHeight="30.0" fitWidth="30.0" layoutX="94.0" onMouseClicked="#clicouEstrela5" onMouseEntered="#acenderEstrela5" onMouseExited="#definirNota" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/star.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                              <Label fx:id="notaMessage" layoutX="129.0" layoutY="32.0" text="Insira uma nota!" textFill="RED" visible="false" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="157.0" prefHeight="88.0" prefWidth="498.0">
+                     <children>
+                        <TextArea fx:id="comentarioField" layoutY="21.0" prefHeight="67.0" prefWidth="498.0" styleClass="textArea" />
+                        <Label text="Comentário" />
+                        <Label fx:id="comentarioMessage" layoutX="382.0" layoutY="5.0" text="Insira um comentário!" textFill="RED" visible="false" />
+                     </children>
+                  </Pane>
+                  <Pane layoutY="265.0" prefHeight="46.0" prefWidth="498.0">
+                     <children>
+                        <Label text="Foto" />
+                        <Label fx:id="imageName" layoutY="29.0" prefHeight="17.0" prefWidth="164.0" text="Selecione uma imagem">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="carregarImagemButton" layoutX="164.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#carregarImagem" prefHeight="29.0" prefWidth="32.0" styleClass="secondaryButton">
+                           <graphic>
+                              <SVGPath content="M7.125 10.2188C6.72917 9.80208 6.53125 9.29167 6.53125 8.6875C6.53125 8.08333 6.73958 7.57292 7.15625 7.15625C7.57292 6.73958 8.07292 6.53125 8.65625 6.53125C9.26042 6.53125 9.77083 6.73958 10.1875 7.15625C10.6042 7.57292 10.8125 8.08333 10.8125 8.6875C10.8125 9.27083 10.6042 9.77083 10.1875 10.1875C9.77083 10.6042 9.26042 10.8125 8.65625 10.8125C8.05208 10.8125 7.54167 10.6146 7.125 10.2188ZM6.3125 11.0312C6.95833 11.6771 7.73958 12 8.65625 12C9.57292 12 10.3542 11.6771 11 11.0312C11.6667 10.3854 12 9.60417 12 8.6875C12 7.77083 11.6667 6.98958 11 6.34375C10.3542 5.67708 9.57292 5.34375 8.65625 5.34375C7.73958 5.34375 6.95833 5.67708 6.3125 6.34375C5.66667 6.98958 5.34375 7.77083 5.34375 8.6875C5.34375 9.60417 5.66667 10.3854 6.3125 11.0312ZM4 6V4H6V2H10.6562L11.875 3.34375H14C14.3542 3.34375 14.6667 3.47917 14.9375 3.75C15.2083 4.02083 15.3438 4.33333 15.3438 4.6875V12.6875C15.3438 13.0417 15.2083 13.3542 14.9375 13.625C14.6667 13.875 14.3542 14 14 14H3.34375C2.98958 14 2.67708 13.875 2.40625 13.625C2.13542 13.3542 2 13.0417 2 12.6875V6H4ZM2 2V0H3.34375V2H5.34375V3.34375H3.34375V5.34375H2V3.34375H0V2H2Z" fill="#009532" scaleX="1.2" scaleY="1.2" />
+                           </graphic></Button>
+                        <Button layoutX="213.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#removeImage" prefHeight="29.0" prefWidth="32.0" style="-fx-border-color: #920200;" styleClass="secondaryButton">
+                           <graphic>
+                              <SVGPath content="M9.3125 0.65625V2H0V0.65625H2.3125L3 0H6.3125L7 0.65625H9.3125ZM0.65625 10.6562V2.65625H8.65625V10.6562C8.65625 11.0104 8.52083 11.3229 8.25 11.5938C7.97917 11.8646 7.66667 12 7.3125 12H2C1.64583 12 1.33333 11.8646 1.0625 11.5938C0.791667 11.3229 0.65625 11.0104 0.65625 10.6562Z" fill="#920200" />
+                           </graphic>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children></Pane>
+            <Region prefHeight="307.0" prefWidth="51.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
