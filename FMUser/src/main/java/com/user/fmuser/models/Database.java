@@ -748,6 +748,73 @@ public class Database {
         }
     }
 
+    /**
+     * Retrieve all routes (Percursos) from the database.
+     * Alternative version: fetches each Parada separately
+     *
+     * @return ArrayList containing all Percurso objects, or null if error occurs
+     */
+    public static ArrayList<Percurso> retrieveRoutes() {
+        try {
+            ArrayList<Percurso> routes = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Percurso";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                int codigoPercurso = results.getInt("codigo");
+                int codigoOrigem = results.getInt("origem");
+                int codigoDestino = results.getInt("destino");
+
+                // Buscar a Parada de origem
+                Parada origem = retrieveParada(codigoOrigem);
+
+                // Buscar a Parada de destino
+                Parada destino = retrieveParada(codigoDestino);
+
+                // Criar Percurso apenas se ambas as paradas foram encontradas
+                if (origem != null && destino != null) {
+                    Percurso temp = new Percurso(codigoPercurso, origem, destino);
+                    routes.add(temp);
+                }
+            }
+
+            results.close();
+            statement.close();
+
+            return routes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Helper method to fetch a Parada by its code
+     */
+    public static Parada retrieveParada(int code) {
+        try {
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * FROM Parada WHERE codigo = '" + code + "';";
+            ResultSet result = statement.executeQuery(query);
+
+            Parada parada = null;
+            if (result.first()) {
+                parada = new Parada(
+                        result.getInt("codigo"),
+                        result.getString("localizacao")
+                );
+            }
+            result.close();
+            statement.close();
+            return parada;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean removeRoute(Percurso route) {
         try {
             Statement statement = connection.createStatement();
