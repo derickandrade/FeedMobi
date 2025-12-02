@@ -833,4 +833,93 @@ public class Database {
             return false;
         }
     }
+
+    /**
+     * Add a vehicle to the database using an object. Will fail if there exists a vehicle
+     * with the same plate already, even if CPF differs.
+     *
+     * @param vehicle The vehicle to add
+     * @return true if it was possible to add the vehicle, false otherwise.
+     */
+
+    public static boolean addVehicle(Veiculo vehicle) {
+        try {
+            Statement statement = connection.createStatement();
+            String updateVeiculo = "INSERT INTO Veiculo (data_validade, assentos, capacidade_em_pe) " +
+                    "VALUES ('" + vehicle.dataValidade + "', " + vehicle.assentos + ", " + vehicle.capacidadeEmPe + ")";
+            statement.executeUpdate(updateVeiculo);
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
+
+            // If it is a bus, insert plate information
+            if (vehicle.getPlaca() != null) {
+                // Recover vehicle number
+                ResultSet vehicleNumber = statement1.executeQuery("SELECT LAST_INSERT_ID()");
+                int idGenerated = 0;
+                if (vehicleNumber.next()) {
+                    idGenerated = vehicleNumber.getInt(1);
+                }
+                vehicleNumber.close();
+
+                // Insert Plate into Onibus_Placa
+                if (idGenerated > 0) {
+                    String updatePlate = "INSERT INTO Onibus_Placa (numero, placa) " +
+                            "VALUES (" + idGenerated + ", '" + vehicle.getPlaca() + "')";
+                    statement1.executeUpdate(updatePlate);
+                }
+            }
+            statement1.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static ArrayList<Veiculo> retrieveVehicles() {
+        try {
+            ArrayList<Veiculo> veiculos = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Veiculo";
+            ResultSet results = statement.executeQuery(query);
+
+            while(results.next()) {
+                Veiculo temp = new Veiculo(
+                        results.getInt("numero"),
+                        results.getDate("data_validade"),
+                        results.getInt("assentos"),
+                        results.getInt("capacidade_em_pe")
+                );
+                veiculos.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
+            query = "SELECT * FROM Onibus_Placa";
+            ResultSet results1 = statement1.executeQuery(query);
+
+            while(results1.next()) {
+                int numero = results1.getInt("numero");
+                String placa = results1.getString("placa");
+
+                for (Veiculo veiculo : veiculos) {
+                    if (veiculo.numero == numero) {
+                        veiculo.setPlaca(placa);
+                        break;
+                    }
+                }
+            }
+
+            results1.close();
+            statement1.close();
+
+            return veiculos;
+
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 }

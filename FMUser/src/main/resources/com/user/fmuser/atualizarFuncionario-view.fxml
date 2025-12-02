@@ -62,7 +62,7 @@
         </Pane>
         <Pane layoutX="103.0" layoutY="100.0" prefHeight="29.0" prefWidth="446.0">
             <children>
-                <Button fx:id="cadastrarButton" defaultButton="true" layoutX="321.0" mnemonicParsing="false" onMouseClicked="#handleCadastrarFuncionario" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Cadastrar" />
+                <Button fx:id="cadastrarButton" defaultButton="true" layoutX="321.0" mnemonicParsing="false" onMouseClicked="#handleAtualizarFuncionario" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Atualizar" />
                 <Button fx:id="cancelarButton" cancelButton="true" layoutX="91.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Cancelar" />
             </children>
         </Pane>

@@ -45,4 +45,15 @@ public class Funcionario {
     public boolean isMotorista() {
         return isMotorista;
     }
+
+    public void setMotorista(boolean isMotorista) {
+        this.isMotorista = isMotorista;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
+    }
 }

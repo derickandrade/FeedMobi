@@ -49,5 +49,18 @@ public class Veiculo {
         this.placa = plate;
         return true;
     }
+
+    public int getNumero() {
+        return this.numero;
+    }
+    public Date getDataValidade() {
+        return this.dataValidade;
+    }
+    public int getAssentos() {
+        return this.assentos;
+    }
+    public int getCapacidadeEmPe() {
+        return this.capacidadeEmPe;
+    }
 }
 

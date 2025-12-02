@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.VeiculosController">
+    <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
+        <HBox />
+        <Region HBox.hgrow="ALWAYS" />
+        <HBox />
+        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="18.0" prefWidth="20.0" styleClass="tertiaryButton">
+            <graphic>
+                <ImageView preserveRatio="true" smooth="false">
+                    <Image url="@images/logout.png" />
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+    <VBox styleClass="content_container">
+
+        <VBox>
+            <HBox>
+                <Button layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltar" styleClass="tertiaryButton">
+                    <graphic>
+                        <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" />
+                    </graphic>
+                </Button>
+
+                <Label styleClass="title" text="Veículos">
+                </Label>
+            </HBox>
+        </VBox>
+        <VBox prefWidth="530.0" styleClass="card">
+
+            <TableView fx:id="veiculosTable" layoutY="-1.0" prefHeight="200" prefWidth="500.0">
+                <columns>
+                    <TableColumn fx:id="colPlaca" prefWidth="70" text="Placa" />
+                    <TableColumn fx:id="colData" prefWidth="90" text="Data" />
+                    <TableColumn fx:id="colAssentos" prefWidth="80" text="Assentos" />
+                    <TableColumn fx:id="colCapacidade" prefWidth="140" text="Capacidade em pé" />
+                    <TableColumn fx:id="colAcoes" prefWidth="110" text="Ações" />
+                </columns>
+            </TableView>
+
+            <VBox fx:id="emptyStateVBox" managed="false" styleClass="empty_state" visible="false">
+                <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
+                    <Image url="@images/empty.png" />
+                </ImageView>
+                <Label layoutY="25.0" styleClass="caption" text="Nenhum dado para mostrar" />
+            </VBox>
+        </VBox>
+
+    </VBox>
+    <Pane prefHeight="167.0" prefWidth="600.0">
+        <Pane layoutX="35.0" prefHeight="29.0" prefWidth="530.0">
+            <Button defaultButton="true" layoutX="315.0" mnemonicParsing="false" onMouseClicked="#irParaIncluirVeiculo" prefHeight="29.0" prefWidth="215.0" styleClass="defaultButton" text="Incluir Veículo" />
+            <Button layoutX="90.0" mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="215.0" styleClass="secondaryButton" text="Cancelar" />
+        </Pane>
+    </Pane>
+</VBox>

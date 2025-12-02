@@ -60,10 +60,10 @@
             <VBox prefHeight="200" prefWidth="168.0" styleClass="card">
                 <Label styleClass="card_title" text="Veículos" />
                 <VBox styleClass="empty_state">
-                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
-                        <Image url="@images/empty.png" />
-                    </ImageView>
-                    <Label layoutY="25.0" prefHeight="36.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
+                    <VBox>
+                        <Label styleClass="dashboard_numeros" fx:id="veiculosContagem" text="0" />
+                        <Label styleClass="dashboard_caption" text="Veículos cadastrados" />
+                    </VBox>
                     <Pane layoutY="68.0" onMouseClicked="#veiculos" prefHeight="21.0" prefWidth="226.0">
                         <children>
                             <Label styleClass="verMais" text="Ver mais" />

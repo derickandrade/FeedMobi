@@ -75,6 +75,11 @@
     -fx-padding: 24px 32px 24px 32px;
 }
 
+.content_container_tables {
+    -fx-spacing: 8px;
+    -fx-padding: 16px 16px 16px 16px;
+}
+
 .textField {
     -fx-border-color: #5e605e;
     -fx-border-radius: 4px;

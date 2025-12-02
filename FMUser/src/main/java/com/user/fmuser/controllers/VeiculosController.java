@@ -1,42 +1,44 @@
 package com.user.fmuser.controllers;
 
 import com.user.fmuser.MainApplication;
-import com.user.fmuser.models.Funcionario;
+import com.user.fmuser.models.Veiculo;
 import com.user.fmuser.models.Database;
-import javafx.beans.property.SimpleStringProperty;
 import com.user.fmuser.utils.ScreenManager;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.SVGPath;
 
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class FuncionariosController implements Initializable {
-
-    @FXML
-    private TableView<Funcionario> funcionariosTable;
+public class VeiculosController implements Initializable {
 
     @FXML
-    private TableColumn<Funcionario, String> colCpf;
+    private TableView<Veiculo> veiculosTable;
 
     @FXML
-    private TableColumn<Funcionario, String> colNome;
+    private TableColumn<Veiculo, Void> colAcoes;
 
     @FXML
-    private TableColumn<Funcionario, String> colCargo;
+    private TableColumn<Veiculo,String> colPlaca;
 
     @FXML
-    private TableColumn<Funcionario, Void> colAcoes;
+    private TableColumn<Veiculo,String> colData;
 
     @FXML
-    private VBox emptyStateVBox;
+    private TableColumn<Veiculo,String> colAssentos;
+
+    @FXML
+    private TableColumn<Veiculo,String> colCapacidade;
 
     public static final String EDIT_SVG = "M11.8125 2.6875L10.5938 3.90625L8.09375 1.40625L9.3125 0.1875C9.4375 0.0625 9.59375 0 9.78125 0C9.96875 0 10.125 0.0625 10.25 0.1875L11.8125 1.75C11.9375 1.875 12 2.03125 12 2.21875C12 2.40625 11.9375 2.5625 11.8125 2.6875ZM0 9.5L7.375 2.125L9.875 4.625L2.5 12H0V9.5Z";
 
@@ -44,7 +46,10 @@ public class FuncionariosController implements Initializable {
 
     private static boolean isEdit = false;
 
-    public static Funcionario itemAtt;
+    public static Veiculo itemAtt;
+
+    @FXML
+    private VBox emptyStateVBox;
 
     @FXML
     public void logout() {
@@ -58,23 +63,24 @@ public class FuncionariosController implements Initializable {
     }
 
     @FXML
-        public void irParaIncluirFuncionario() {
-        novoFuncionarioController.isEdit = false;
-        novoFuncionarioController.itemAtt = null;
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/incluirFuncionario-view.fxml", "Incluir");
+    public void irParaIncluirVeiculo() {
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/incluirVeiculo-view.fxml", "Incluir");
     }
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        colCpf.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getCpf()));
-        colNome.setCellValueFactory(cell -> new SimpleStringProperty(
-                cell.getValue().getNome() + " " + cell.getValue().getSobrenome()
+        colPlaca.setCellValueFactory(cell -> {
+            String placa = cell.getValue().getPlaca();
+            String text = (placa != null && !placa.trim().isEmpty()) ? placa : "Metrô";
+            return new SimpleStringProperty(text);
+        });
+        colData.setCellValueFactory(cell -> new SimpleStringProperty(
+                cell.getValue().getDataValidade() != null ? cell.getValue().getDataValidade().toString() : ""
         ));
-        colCargo.setCellValueFactory(cell -> new SimpleStringProperty(
-                cell.getValue().isMotorista() ? "Motorista" : "Cobrador"
-        ));
+        colAssentos.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getAssentos())));
+        colCapacidade.setCellValueFactory(cell -> new SimpleStringProperty(String.valueOf(cell.getValue().getCapacidadeEmPe())));
 
-        colAcoes.setCellFactory(col -> new TableCell<Funcionario, Void>() {
+        colAcoes.setCellFactory(col -> new TableCell<Veiculo, Void>() {
             private final Button editButton = new Button("");
             private final Button deleteButton = new Button("");
             private final HBox container = new HBox(10, editButton, deleteButton);
@@ -92,19 +98,19 @@ public class FuncionariosController implements Initializable {
                 editButton.getStyleClass().add("tertiaryButton");
                 deleteButton.getStyleClass().add("tertiaryButton");
 
-                editButton.setPrefWidth(20);
-                deleteButton.setPrefWidth(20);
+                editButton.setPrefWidth(15);
+                deleteButton.setPrefWidth(15);
 
                 container.setAlignment(Pos.CENTER);
 
                 editButton.setOnAction(event -> {
-                    Funcionario item = getTableView().getItems().get(getIndex());
-                    editarFuncionario(item);
+                    Veiculo item = getTableView().getItems().get(getIndex());
+                    //editarVeiculo(item);
                 });
 
                 deleteButton.setOnAction(event -> {
-                    Funcionario item = getTableView().getItems().get(getIndex());
-                    excluirFuncionario(item);
+                    Veiculo item = getTableView().getItems().get(getIndex());
+                    //excluirVeiculo(item);
                 });
             }
 
@@ -118,26 +124,28 @@ public class FuncionariosController implements Initializable {
                 }
             }
         });
-        atualizarTableFuncionarios();
+
+
+        atualizarTableVeiculos();
+
     }
 
-    private void atualizarTableFuncionarios() {
-        ArrayList<Funcionario> funcionarios = Database.retrieveEmployees();
-        ObservableList<Funcionario> observable = FXCollections.observableArrayList();
-        if (funcionarios != null && !funcionarios.isEmpty()) {
-            observable.addAll(funcionarios);
+    private void atualizarTableVeiculos() {
+        ArrayList<Veiculo> veiculos = Database.retrieveVehicles();
+        ObservableList<Veiculo> observable = FXCollections.observableArrayList();
+        if (veiculos != null && !veiculos.isEmpty()) {
+            observable.addAll(veiculos);
         }
-        funcionariosTable.setItems(observable);
+        veiculosTable.setItems(observable);
         atualizarVisibilidade();
     }
 
     private void atualizarVisibilidade() {
-        boolean hasData = funcionariosTable.getItems() != null && !funcionariosTable.getItems().isEmpty();
-        funcionariosTable.setVisible(hasData);
-        funcionariosTable.setManaged(hasData);
+        boolean hasData = veiculosTable.getItems() != null && !veiculosTable.getItems().isEmpty();
+        veiculosTable.setVisible(hasData);
+        veiculosTable.setManaged(hasData);
         emptyStateVBox.setVisible(!hasData);
         emptyStateVBox.setManaged(!hasData);
-
     }
 
     private void successMessage(String frase) {
@@ -154,23 +162,20 @@ public class FuncionariosController implements Initializable {
         error.showAndWait();
     }
 
-    private void excluirFuncionario(Funcionario item) {
-        if (Database.removeEmployee(item)) {
-            successMessage("Funcionário excluído com sucesso!");
-            atualizarTableFuncionarios();
+    /*private void excluirVeiculo(Location item) {
+        if (Database.removeVehicle(item)) {
+            successMessage("Veículo excluído com sucesso!");
+            atualizarTableVeiculos();
         }
         else {
-            errorMessage("Não foi possível excluir o funcionário!\nTente novamente.");
+            errorMessage("Não foi possível excluir o veículo!\nTente novamente.");
         }
     }
 
-    private void editarFuncionario(Funcionario item) {
+    private void editarVeiculo(Location item) {
         isEdit = true;
         itemAtt = item;
-
-        novoFuncionarioController.isEdit = true;
-        novoFuncionarioController.itemAtt = item;
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/atualizarFuncionario-view.fxml", "Funcionário");
-    }
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/atualizarVeículo-view.fxml", "Veículo");
+    }*/
 
 }
