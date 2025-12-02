@@ -80,6 +80,13 @@ CREATE TABLE Onibus_Placa(
 	FOREIGN KEY (numero) REFERENCES Veiculo(numero) ON DELETE CASCADE
 );
 
+CREATE TABLE Cobrador(
+	cpf VARCHAR(11) NOT NULL PRIMARY KEY,
+	nome VARCHAR(15) NOT NULL,
+	sobrenome VARCHAR(15) NOT NULL,
+	UNIQUE (nome, sobrenome)
+);
+
 CREATE TABLE Viagem(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
     horario_dia_percurso INT NOT NULL,
@@ -90,13 +97,6 @@ CREATE TABLE Viagem(
 	FOREIGN KEY (motorista) REFERENCES Motorista(cpf),
     FOREIGN KEY (cobrador) REFERENCES Cobrador(cpf),
 	FOREIGN KEY (veiculo) REFERENCES Veiculo(numero)
-);
-
-CREATE TABLE Cobrador(
-	cpf VARCHAR(11) NOT NULL PRIMARY KEY,
-	nome VARCHAR(15) NOT NULL,
-	sobrenome VARCHAR(15) NOT NULL,
-	UNIQUE (nome, sobrenome)
 );
 
 CREATE TABLE Usuario(

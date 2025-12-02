@@ -4,6 +4,8 @@ import com.user.fmuser.models.Location.LocationType;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Database {
     // Database URL
@@ -24,14 +26,26 @@ public class Database {
         addLocation(p2);
         p1 = (Parada) retrieveLocation(p1); // Get code
         p2 = (Parada) retrieveLocation(p2); // Get code
-        Percurso pc1 = new Percurso(p1, p2);
-        addRoute(pc1);
-        pc1 = retrieveRoute(pc1); // Get code
-        HorarioDiaPercurso hdp = new HorarioDiaPercurso(Time.valueOf("12:00:00"), "seg", pc1);
-        addHDP(hdp);
-        hdp = retrieveHDP(hdp);
 
-        removeLocation(p1);
+        Usuario user = new Usuario("12332112332", "Farofo", "da Silva",  "farofo@gmail.com", "123");
+        try {
+            addUser(user);
+        } catch (SQLException e) {
+            System.out.println("oh noes");
+        }
+
+        Avaliacao rev = new Avaliacao(p1.codigo, Avaliacao.TargetType.Parada, 3, "uaur", user.getCPF());
+        Avaliacao rev2 = new Avaliacao(p2.codigo, Avaliacao.TargetType.Parada, 5, "uaurs", user.getCPF());
+        System.out.println(addReview(rev));
+        System.out.println(addReview(rev2));
+        rev2.nota = 4;
+        System.out.println(addReview(rev2));
+
+        ArrayList<Avaliacao> avs = retrieveReviews();
+        List<String> avsDisplay = avs.stream().map(av -> av.codigoAlvo + " " + av.nota + " " + av.cpfUsuario)
+                .collect(Collectors.toList());
+
+        System.out.println(avsDisplay);
         disconnect();
     }
 
@@ -284,20 +298,24 @@ public class Database {
 
             String targetTable;
             String targetColumns;
+            String targetName;
             if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
                 targetTable = "Ciclovia_Reclamacao";
                 targetColumns = "(reclamacao, ciclovia)";
+                targetName = "ciclovia";
             } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
                 targetTable = "Parada_Reclamacao";
                 targetColumns = "(reclamacao, parada)";
+                targetName = "parada";
             } else {
                 targetTable = "Viagem_Reclamacao";
                 targetColumns = "(reclamacao, viagem)";
+                targetName = "viagem";
             }
 
             String preQuery = "SELECT * FROM Usuario JOIN Avaliacao " +
                     "ON Usuario.cpf = '" + review.cpfUsuario + "' AND Avaliacao.usuario = Usuario.cpf " +
-                    "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo;";
+                    "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo AND c." + targetName + " = " + review.codigoAlvo +";";
 
             ResultSet results = preStatement.executeQuery(preQuery);
 
@@ -349,7 +367,7 @@ public class Database {
 
             while (results1.next()) {
                 Avaliacao temp = new Avaliacao(results1.getInt("Parada_Reclamacao.parada"), Avaliacao.TargetType.Parada,
-                        results1.getInt("Avaliacao.nota"), results1.getString("Avaliacao.texto"), results1.getString("Avaliacao.cpf"));
+                        results1.getInt("Avaliacao.nota"), results1.getString("Avaliacao.texto"), results1.getString("Avaliacao.usuario"));
                 avaliacoes.add(temp);
             }
 
@@ -357,13 +375,13 @@ public class Database {
             statement1.close();
 
             Statement statement2 = connection.createStatement();
-            query = "SELECT * FROM Avaliacao JOIN Parada_Reclamacao ON " +
-                    "Parada_Reclamacao.reclamacao = Avaliacao.codigo";
+            query = "SELECT * FROM Avaliacao JOIN Ciclovia_Reclamacao ON " +
+                    "Ciclovia_Reclamacao.reclamacao = Avaliacao.codigo";
             ResultSet results2 = statement2.executeQuery(query);
 
-            while (results1.next()) {
-                Avaliacao temp = new Avaliacao(results1.getInt("Parada_Reclamacao.parada"), Avaliacao.TargetType.Ciclovia,
-                        results2.getInt("Avaliacao.nota"), results2.getString("Avaliacao.texto"), results2.getString("Avaliacao.cpf"));
+            while (results2.next()) {
+                Avaliacao temp = new Avaliacao(results2.getInt("Ciclovia_Reclamacao.ciclovia"), Avaliacao.TargetType.Ciclovia,
+                        results2.getInt("Avaliacao.nota"), results2.getString("Avaliacao.texto"), results2.getString("Avaliacao.usuario"));
                 avaliacoes.add(temp);
             }
 
@@ -372,6 +390,7 @@ public class Database {
 
             return avaliacoes;
         } catch (SQLException e) {
+            System.err.println(e.toString());
             return null;
         }
     }
