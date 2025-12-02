@@ -36,7 +36,7 @@
                             </graphic>
                         </Button>
 
-                        <Label styleClass="title" text="Funcionários">
+                        <Label styleClass="title" text="Incluir Funcionário">
                         </Label>
                     </HBox>
                 </VBox>
