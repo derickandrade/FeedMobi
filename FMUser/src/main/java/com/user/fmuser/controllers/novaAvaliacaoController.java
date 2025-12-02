@@ -1,16 +1,21 @@
 package com.user.fmuser.controllers;
 
 import com.user.fmuser.MainApplication;
-import com.user.fmuser.models.Avaliacao;
-import com.user.fmuser.models.Database;
+import com.user.fmuser.models.*;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class novaAvaliacaoController {
@@ -26,12 +31,17 @@ public class novaAvaliacaoController {
     private static int avaliacao = 0;
     public Image estrelaAcesa;
     public Image estrelaApagada;
+
+    public static File image;
+
     @FXML
     public ImageView logoutIcon;
     @FXML
     public Button voltarButton;
     @FXML
     public Button logoutButton;
+    @FXML
+    public Button carregarImagemButton;
     @FXML
     public DatePicker datePicker;
     @FXML
@@ -42,8 +52,6 @@ public class novaAvaliacaoController {
     public ComboBox<String> destinationMenu;
     @FXML
     public ComboBox<String> localMenu;
-    @FXML
-    public ComboBox<String> cicloviaMenu;
     @FXML
     public TextField horaField;
     @FXML
@@ -74,6 +82,11 @@ public class novaAvaliacaoController {
     public Label notaMessage;
     @FXML
     public Label comentarioMessage;
+    @FXML
+    public Label imageName;
+    @FXML
+    public Label cicloviaMessage;
+
     protected String horaBuffer;
 
     public static void resetarCampos() {
@@ -103,7 +116,6 @@ public class novaAvaliacaoController {
 
         tipoAvaliacaoMenu.getItems().addAll("Percurso/Viagem", "Parada/Estação", "Ciclovia");
 
-
         if (resourceUrl == null) {
             System.err.println("Erro: Recurso 'star_fill.png' não encontrado. Verifique o caminho.");
             return;
@@ -112,12 +124,36 @@ public class novaAvaliacaoController {
 
         if (tipoAvaliacao == 1) {
             texto = "Percurso/Viagem";
+
             originMenu.getItems().addAll("UnB", "Rodoviária");
             destinationMenu.getItems().addAll("UnB", "Rodoviária");
         } else if (tipoAvaliacao == 2) {
             texto = "Parada/Estação";
+            ArrayList<Location> locations = Database.retrieveLocations();
+            ArrayList<String> paradas = new ArrayList<>();
+            assert locations != null;
+            for (Location location : locations) {
+                if (location instanceof  Parada) {
+                    paradas.add(location.localizacao);
+                }
+            }
+            if (paradas != null) {
+                localMenu.getItems().addAll(paradas);
+            }
+
         } else if (tipoAvaliacao == 3) {
             texto = "Ciclovia";
+            ArrayList<Location> locations = Database.retrieveLocations();
+            ArrayList<String> ciclovias = new ArrayList<>();
+            assert locations != null;
+            for (Location location : locations) {
+                if (location instanceof Ciclovia) {
+                    ciclovias.add(location.localizacao);
+                }
+            }
+            if (ciclovias != null) {
+                localMenu.getItems().addAll(ciclovias);
+            }
         } else {
             texto = null;
         }
@@ -126,12 +162,43 @@ public class novaAvaliacaoController {
         if (date == null) {
             date = LocalDate.now();
         }
-        datePicker.setValue(date);
+        if (datePicker != null) {
+            datePicker.setValue(date);
+        }
 
         if (comentario != null) {
             comentarioField.setText(comentario);
         }
+    }
 
+    @FXML
+    public void carregarImagem() {
+        carregarImagemButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Abrir Arquivo de Imagem");
+
+            // Define filtros de extensão para mostrar apenas arquivos de imagem
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Arquivos de Imagem", "*.png", "*.jpg", "*.gif"),
+                    new FileChooser.ExtensionFilter("Todos os Arquivos", "*.*")
+            );
+
+            Stage newStage = new Stage();
+            image = fileChooser.showOpenDialog(newStage);
+            newStage.close();
+            if (image != null) {
+                imageName.setText(image.getName());
+            }
+        });
+
+    }
+
+    @FXML
+    public void removeImage() {
+        if (image != null) {
+            image = null;
+            imageName.setText("Selecione uma imagem");
+        }
     }
 
     @FXML
@@ -207,18 +274,17 @@ public class novaAvaliacaoController {
         }
     }
 
-    public void successMessage() {
+    public void successMessage(String frase) {
         Alert success = new Alert(Alert.AlertType.INFORMATION);
         success.setTitle("SUCESSO");
-        success.setHeaderText("Avaliação realizada com sucesso!");
+        success.setHeaderText(frase);
         success.showAndWait();
     }
 
-    public void errorMessage() {
+    public void errorMessage(String frase) {
         Alert error = new Alert(Alert.AlertType.ERROR);
         error.setTitle("ERRO");
-        error.setHeaderText("Não foi possível avaliar!");
-        error.setContentText("Ocorreu um erro ao tentar avaliar.\nTente novamente.");
+        error.setHeaderText(frase);
         error.showAndWait();
     }
 
@@ -257,12 +323,12 @@ public class novaAvaliacaoController {
                 int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
                 Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
                 if (Database.addReview(review)) {
-                    successMessage();
+                    successMessage("Avaliação realizada com sucesso!");
                 } else {
-                    errorMessage();
+                    errorMessage("Ocorreu um erro ao realizar a avaliação. Tente novamente!");
                 }
             } catch (Exception e) {
-                errorMessage();
+                errorMessage("Ocorreu um erro ao realizar a avaliação. Tente novamente!");
             }
         }
     }
@@ -274,6 +340,36 @@ public class novaAvaliacaoController {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @FXML
+    public void handleAvaliarCiclovia() {
+        String cicloviaNome = localMenu.getValue();
+        String comentario = comentarioField.getText();
+        boolean validCiclovia = cicloviaNome != null && !cicloviaNome.isEmpty();
+        boolean validComentario = comentario != null && !comentario.isEmpty();
+        cicloviaMessage.setVisible(!validCiclovia);
+        notaMessage.setVisible(avaliacao == 0);
+        comentarioMessage.setVisible(!validComentario);
+        if (validCiclovia &&
+                validComentario &&
+                avaliacao != 0) {
+            Ciclovia ciclovia = (Ciclovia) Database.retrieveLocation(cicloviaNome, Location.LocationType.Ciclovia);
+            int nota = avaliacao;
+            Avaliacao avaliacao = new Avaliacao(ciclovia.codigo, Avaliacao.TargetType.Ciclovia, nota, comentario, MainApplication.usuarioSessao.getCPF());
+            if (Database.addReview(avaliacao)) {
+                if (image != null) {
+                    if (Database.addImage(avaliacao, image)) {
+                        successMessage("Avaliação realizada com sucesso!");
+                    } else {
+                        successMessage("Avaliação realizada, ocorreu um erro com o upload da imagem.");
+                    }
+                }
+                successMessage("Avaliação realizada com sucesso!");
+            } else {
+                errorMessage("Ocorreu um erro realizar a avaliação. Tente novamente!");
+            }
         }
     }
 
