@@ -19,6 +19,7 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         atualizarContadores();
+        InfraestruturaAdminController.carregarDados();
     }
 
     // atualizar o número de funcionarios
@@ -35,7 +36,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     public void infraestruturas() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/infraestruturaAdmin-view.fxml", "Infraestruturas");
+        InfraestruturaAdminController.setScreen();
     }
 
     @FXML

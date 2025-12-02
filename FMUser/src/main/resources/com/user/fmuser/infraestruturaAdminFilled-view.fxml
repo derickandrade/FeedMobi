@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -21,7 +20,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane layoutX="51.0" layoutY="64.0" prefHeight="148.96" prefWidth="498.0">
+      <Pane layoutX="51.0" layoutY="64.0" prefHeight="358.0" prefWidth="498.0">
          <children>
             <Pane prefHeight="28.0" prefWidth="498.0">
                <children>
@@ -37,25 +36,18 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutY="44.0" prefHeight="59.96" prefWidth="498.0" styleClass="tableField">
+            <Pane layoutY="44.0" prefHeight="258.0" prefWidth="498.0" styleClass="tableField">
                <children>
-                  <Pane layoutX="12.0" layoutY="12.0" prefHeight="35.96" prefWidth="474.0">
-                     <children>
-                        <ImageView fitHeight="18.45" fitWidth="29.51" layoutX="221.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/empty.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="190.0" layoutY="26.0" text="Nenhum dado para mostrar." textFill="#adb5bd">
-                           <font>
-                              <Font size="8.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
+                  <TableView fx:id="infraestruturaTable" prefHeight="256.0" prefWidth="496.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+                    <columns>
+                      <TableColumn fx:id="tipoColumn" prefWidth="89.5999755859375" style="-fx-background-color: transparent;" text="Tipo" />
+                      <TableColumn fx:id="localizacaoColumn" prefWidth="320.8000030517578" text="Localização" />
+                        <TableColumn fx:id="acoesColumn" prefWidth="87.20001220703125" text="Ações" />
+                    </columns>
+                  </TableView>
                </children>
             </Pane>
-            <Pane layoutY="120.0" prefHeight="29.0" prefWidth="498.0">
+            <Pane layoutY="330.0" prefHeight="29.0" prefWidth="498.0">
                <children>
                   <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                      <children>

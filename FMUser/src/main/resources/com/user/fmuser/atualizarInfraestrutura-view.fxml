@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.InfraestruturaAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.InfraestruturaAdminController">
    <children>
       <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
          <children>
@@ -21,11 +23,11 @@
             </Pane>
          </children>
       </Pane>
-      <Pane layoutX="51.0" layoutY="64.0" prefHeight="148.96" prefWidth="498.0">
+      <Pane layoutX="51.0" layoutY="64.0" prefHeight="200.0" prefWidth="498.0">
          <children>
             <Pane prefHeight="28.0" prefWidth="498.0">
                <children>
-                  <Pane layoutY="6.0" onMouseClicked="#voltarDashboard" prefHeight="20.0" prefWidth="20.0" styleClass="back">
+                  <Pane layoutY="6.0" onMouseClicked="#voltar" prefHeight="20.0" prefWidth="20.0" styleClass="back">
                      <children>
                         <SVGPath fx:id="backIcon" content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" layoutY="3.0" styleClass="backIcon" />
                      </children>
@@ -37,32 +39,28 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutY="44.0" prefHeight="59.96" prefWidth="498.0" styleClass="tableField">
+            <Pane layoutY="44.0" prefHeight="49.0" prefWidth="498.0">
                <children>
-                  <Pane layoutX="12.0" layoutY="12.0" prefHeight="35.96" prefWidth="474.0">
+                  <Label text="Tipo" />
+                  <ComboBox fx:id="tipoComboBox" layoutY="22.0" prefHeight="28.0" prefWidth="498.0" promptText="Selecionar" styleClass="select" />
+                  <Label fx:id="tipoMessage" layoutX="399.0" text="Selecione um tipo!" textFill="RED" visible="false" />
+               </children>
+            </Pane>
+            <Pane layoutY="170.0" prefHeight="29.0" prefWidth="498.0">
+               <children>
+                  <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                      <children>
-                        <ImageView fitHeight="18.45" fitWidth="29.51" layoutX="221.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/empty.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="190.0" layoutY="26.0" text="Nenhum dado para mostrar." textFill="#adb5bd">
-                           <font>
-                              <Font size="8.0" />
-                           </font>
-                        </Label>
+                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#atualizar" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Atualizar" />
+                        <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                      </children>
                   </Pane>
                </children>
             </Pane>
-            <Pane layoutY="120.0" prefHeight="29.0" prefWidth="498.0">
+            <Pane layoutY="104.0" prefHeight="49.0" prefWidth="498.0">
                <children>
-                  <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
-                     <children>
-                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirInfraestrutura" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
-                        <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
-                     </children>
-                  </Pane>
+                  <Label text="Localização" />
+                  <TextField fx:id="localField" layoutY="22.0" prefHeight="28.0" prefWidth="498.0" styleClass="textField" />
+                  <Label fx:id="localMessage" layoutX="404.0" text="Informe um local!" textFill="RED" visible="false" />
                </children>
             </Pane>
          </children>

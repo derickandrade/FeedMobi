@@ -181,3 +181,11 @@
     -fx-font-size: 8px;
     -fx-text-fill: #ADB5BD;
 }
+
+.editIcon {
+    -fx-fill: #009532;
+}
+
+.deleteIcon {
+    -fx-fill: #950200;
+}

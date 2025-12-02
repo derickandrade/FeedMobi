@@ -542,6 +542,51 @@ public class Database {
     }
 
     /**
+     * Retrieve all locations (both Paradas and Ciclovias) from the database.
+     *
+     * @return ArrayList containing all Location objects, or null if error occurs
+     */
+    public static ArrayList<Location> retrieveLocations() {
+        try {
+            ArrayList<Location> locations = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Parada";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                Parada temp = new Parada(
+                        results.getInt("codigo"),
+                        results.getString("localizacao")
+                );
+                locations.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
+            query = "SELECT * FROM Ciclovia";
+            ResultSet results1 = statement1.executeQuery(query);
+
+            while (results1.next()) {
+                Ciclovia temp = new Ciclovia(
+                        results1.getInt("codigo"),
+                        results1.getString("localizacao")
+                );
+                locations.add(temp);
+            }
+
+            results1.close();
+            statement1.close();
+
+            return locations;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    /**
      * Receives a location object and tries to update it. The object must have its code set.
      *
      * @param location The location to update.
