@@ -1228,6 +1228,7 @@ public class Database {
 
             return updated > 0;
         } catch (SQLException | FileNotFoundException e) {
+            System.err.println(e.getMessage());
             return false;
         }
     }
