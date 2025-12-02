@@ -798,6 +798,51 @@ public class Database {
         }
     }
 
+    public static ArrayList<Veiculo> retrieveVehicles() {
+        try {
+            ArrayList<Veiculo> veiculos = new ArrayList<>();
 
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Veiculo";
+            ResultSet results = statement.executeQuery(query);
+
+            while(results.next()) {
+                Veiculo temp = new Veiculo(
+                        results.getInt("numero"),
+                        results.getDate("data_validade"),
+                        results.getInt("assentos"),
+                        results.getInt("capacidade_em_pe")
+                );
+                veiculos.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
+            query = "SELECT * FROM Onibus_Placa";
+            ResultSet results1 = statement1.executeQuery(query);
+
+            while(results.next()) {
+                int numero = results1.getInt("numero");
+                String placa = results1.getString("placa");
+
+                for (Veiculo veiculo : veiculos) {
+                    if (veiculo.numero == numero) {
+                        veiculo.setPlaca(placa);
+                        break;
+                    }
+                }
+            }
+
+            results1.close();
+            statement1.close();
+
+            return veiculos;
+
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 
 }
