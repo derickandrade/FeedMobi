@@ -33,4 +33,16 @@ public class Funcionario {
         this.cpf = cpf;
         return true;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public boolean isMotorista() {
+        return isMotorista;
+    }
 }

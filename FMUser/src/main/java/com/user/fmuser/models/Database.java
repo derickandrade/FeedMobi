@@ -4,8 +4,6 @@ import com.user.fmuser.models.Location.LocationType;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Database {
     // Database URL
@@ -20,24 +18,22 @@ public class Database {
      */
     public static void main(String[] args) {
         connect();
-        Funcionario func1 = new Funcionario("11111111111", "A", "A", true);
-        Funcionario func2 = new Funcionario("22222222222", "B", "B", true);
-        Funcionario func3 = new Funcionario("33333333333", "C", "C", false);
-        Funcionario func4 = new Funcionario("44444444444", "J", "D", false);
-//        addEmployee(func1);
-//        addEmployee(func2);
-//        addEmployee(func3);
-//        addEmployee(func4);
-        updateEmployee(func4);
+        Parada p1 = new Parada("A");
+        Parada p2 = new Parada("B");
+        addLocation(p1);
+        addLocation(p2);
+        p1 = (Parada) retrieveLocation(p1); // Get code
+        p2 = (Parada) retrieveLocation(p2); // Get code
+        Percurso pc1 = new Percurso(p1, p2);
+        addRoute(pc1);
+        pc1 = retrieveRoute(pc1); // Get code
+        HorarioDiaPercurso hdp = new HorarioDiaPercurso(Time.valueOf("12:00:00"), "seg", pc1);
+        addHDP(hdp);
+        hdp = retrieveHDP(hdp);
 
-        ArrayList<Funcionario> funcs = retrieveEmployees();
+        System.out.println(hdp.codigo + " " + hdp.hora + " " + hdp.getDia());
+        System.out.println(hdp.percurso.codigo + " " + hdp.percurso.origem.localizacao + " " + hdp.percurso.destino.localizacao);
 
-        List<String> funcsDisplay = funcs
-                .stream()
-                .map(func -> func.getCpf() + " " + func.isMotorista + " " + func.nome + " " + func.sobrenome)
-                .collect(Collectors.toList());
-
-        System.out.println(funcsDisplay);
         disconnect();
     }
 
@@ -543,19 +539,46 @@ public class Database {
 
             Location location = null;
             if (result.first()) {
-                location = new Location(result.getInt("codigo"), result.getString("localizacao"));
+                if (type == LocationType.Parada) {
+                    location = new Parada(result.getInt("codigo"), result.getString("localizacao"));
+                } else {
+                    location = new Ciclovia(result.getInt("codigo"), result.getString("localizacao"));
+                }
             }
 
             result.close();
             statement.close();
+            return location;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            if (type == LocationType.Parada && location != null) {
-                location = new Parada(location.codigo, location.localizacao);
-            } else if (location != null) {
-                location = new Ciclovia(location.codigo, location.localizacao);
+    /**
+     * Get a location from the database using an object
+     *
+     * @param location Location object containing name.
+     * @return A valid location if it was found, null otherwise.
+     */
+    public static Location retrieveLocation(Location location) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (location instanceof Parada) ? "Parada" : "Ciclovia";
+            String query = "SELECT * FROM " + table + " WHERE localizacao = '" + location.localizacao + "';";
+            ResultSet result = statement.executeQuery(query);
+
+            Location new_location = null;
+            if (result.first()) {
+                if (location instanceof Parada) {
+                    new_location = new Parada(result.getInt("codigo"), result.getString("localizacao"));
+                } else {
+                    new_location = new Ciclovia(result.getInt("codigo"), result.getString("localizacao"));
+                }
             }
 
-            return location;
+            result.close();
+            statement.close();
+            return new_location;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -644,6 +667,28 @@ public class Database {
         }
     }
 
+    public static Percurso retrieveRoute(Percurso route) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Percurso WHERE " +
+                    "Percurso.origem = " + route.origem.codigo + " AND " +
+                    "Percurso.destino = " + route.destino.codigo + ";";
+
+            ResultSet result = statement.executeQuery(query);
+
+            Percurso percurso = null;
+            if (result.first()) {
+                percurso = new Percurso(result.getInt("codigo"), route.origem, route.destino);
+            }
+
+            result.close();
+            statement.close();
+            return percurso;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static boolean removeRoute(Percurso route) {
         try {
             Statement statement = connection.createStatement();
@@ -673,6 +718,44 @@ public class Database {
             return updated > 0;
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    public static boolean addHDP(HorarioDiaPercurso hdp) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "INSERT INTO Horario_dia_percurso (hora, dia, percurso) VALUES " +
+                    "('" + hdp.hora + "', '" + hdp.getDia() + "', " + hdp.percurso.codigo + ");";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static HorarioDiaPercurso retrieveHDP(HorarioDiaPercurso hdp) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Horario_dia_percurso hdp WHERE " +
+                    "hdp.dia = '" + hdp.getDia() + "' AND " +
+                    "hdp.hora = '" + hdp.hora + "' AND " +
+                    "hdp.percurso = " + hdp.percurso.codigo + ";";
+
+            ResultSet result = statement.executeQuery(query);
+
+            HorarioDiaPercurso new_hdp = null;
+            if (result.first()) {
+                new_hdp = new HorarioDiaPercurso(result.getInt("codigo"), hdp.hora, hdp.getDia(), hdp.percurso);
+            }
+
+            result.close();
+            statement.close();
+            return new_hdp;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
