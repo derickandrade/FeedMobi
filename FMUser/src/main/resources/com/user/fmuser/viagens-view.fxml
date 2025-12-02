@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.ViagemAdminController">
+   <children>
+      <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
+         <children>
+            <Pane layoutX="35.0" layoutY="11.0" prefHeight="19.0" prefWidth="530.0">
+               <children>
+                  <Pane layoutX="515.0" layoutY="3.0" onMouseClicked="#logout" prefHeight="13.5" prefWidth="13.5" styleClass="logout">
+                     <children>
+                        <SVGPath fx:id="logoutIcon" content="M1.5 13.5C1.0875 13.5 0.734375 13.3531 0.440625 13.0594C0.146875 12.7656 0 12.4125 0 12V1.5C0 1.0875 0.146875 0.734375 0.440625 0.440625C0.734375 0.146875 1.0875 0 1.5 0H6.75V1.5H1.5V12H6.75V13.5H1.5ZM9.75 10.5L8.71875 9.4125L10.6313 7.5H4.5V6H10.6313L8.71875 4.0875L9.75 3L13.5 6.75L9.75 10.5Z" styleClass="logoutIcon" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane layoutX="51.0" layoutY="64.0" prefHeight="148.96" prefWidth="498.0">
+         <children>
+            <Pane prefHeight="28.0" prefWidth="498.0">
+               <children>
+                  <Pane layoutY="6.0" onMouseClicked="#voltarDashboard" prefHeight="20.0" prefWidth="20.0" styleClass="back">
+                     <children>
+                        <SVGPath fx:id="backIcon" content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" layoutY="3.0" styleClass="backIcon" />
+                     </children>
+                  </Pane>
+                  <Label layoutX="20.0" text="Viagens" textFill="#5e605e">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutY="44.0" prefHeight="59.96" prefWidth="498.0" styleClass="tableField">
+               <children>
+                  <Pane layoutX="12.0" layoutY="12.0" prefHeight="35.96" prefWidth="474.0">
+                     <children>
+                        <ImageView fitHeight="18.45" fitWidth="29.51" layoutX="221.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/empty.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="190.0" layoutY="26.0" text="Nenhum dado para mostrar." textFill="#adb5bd">
+                           <font>
+                              <Font size="8.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutY="120.0" prefHeight="29.0" prefWidth="498.0">
+               <children>
+                  <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
+                     <children>
+                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirViagem" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
+                        <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</Pane>

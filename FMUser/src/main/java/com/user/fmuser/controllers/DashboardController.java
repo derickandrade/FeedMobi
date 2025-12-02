@@ -1,5 +1,6 @@
 package com.user.fmuser.controllers;
 
+import com.user.fmuser.MainApplication;
 import com.user.fmuser.models.*;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
@@ -77,11 +78,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     public void viagens() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/viagens-view.fxml", "Viagens");
+        ViagemAdminController.setScreen();
     }
 
     @FXML
     public void logout() {
+        MainApplication.logout();
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
 
