@@ -84,6 +84,7 @@ CREATE TABLE Viagem(
 	codigo INT AUTO_INCREMENT PRIMARY KEY,
     horario_dia_percurso INT NOT NULL,
 	motorista VARCHAR(11) NOT NULL,
+    cobrador VARCHAR(11),
 	veiculo INT NOT NULL,
 	FOREIGN KEY (horario_dia_percurso) REFERENCES Horario_dia_percurso(codigo),
 	FOREIGN KEY (motorista) REFERENCES Motorista(cpf),
@@ -95,14 +96,6 @@ CREATE TABLE Cobrador(
 	nome VARCHAR(15) NOT NULL,
 	sobrenome VARCHAR(15) NOT NULL,
 	UNIQUE (nome, sobrenome)
-);
-
-CREATE TABLE Cobrador_Viagem(
-	viagem INT NOT NULL,
-	cobrador VARCHAR(11) NOT NULL,
-	PRIMARY KEY (viagem, cobrador),
-	FOREIGN KEY (cobrador) REFERENCES Cobrador(cpf),
-	FOREIGN KEY (viagem) REFERENCES Viagem(codigo)
 );
 
 CREATE TABLE Usuario(
