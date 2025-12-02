@@ -115,6 +115,30 @@ public class Database {
         hdp3 = retrieveHDP(hdp3);
         hdp4 = retrieveHDP(hdp4);
         hdp5 = retrieveHDP(hdp5);
+
+        Avaliacao a1 = new Avaliacao(c1.codigo, Avaliacao.TargetType.Ciclovia, 5, "Ciclovia boa", u1.getCPF());
+        Avaliacao a2 = new Avaliacao(c1.codigo, Avaliacao.TargetType.Ciclovia, 3, "Ciclovia meh", u2.getCPF());
+        Avaliacao a3 = new Avaliacao(c2.codigo, Avaliacao.TargetType.Ciclovia, 5, "Ciclovia boa", u1.getCPF());
+        Avaliacao a4 = new Avaliacao(c2.codigo, Avaliacao.TargetType.Ciclovia, 1, "Ciclovia horrível", u2.getCPF());
+        Avaliacao a5 = new Avaliacao(c3.codigo, Avaliacao.TargetType.Ciclovia, 5, "Ciclovia boa", u3.getCPF());
+
+        addReview(a1);
+        addReview(a2);
+        addReview(a3);
+        addReview(a4);
+        addReview(a5);
+
+        Avaliacao ap1 = new Avaliacao(p1.codigo, Avaliacao.TargetType.Parada, 5, "Parada boa", u1.getCPF());
+        Avaliacao ap2 = new Avaliacao(p1.codigo, Avaliacao.TargetType.Parada, 3, "Parada meh", u2.getCPF());
+        Avaliacao ap3 = new Avaliacao(p2.codigo, Avaliacao.TargetType.Parada, 5, "Parada boa", u1.getCPF());
+        Avaliacao ap4 = new Avaliacao(p2.codigo, Avaliacao.TargetType.Parada, 1, "Parada horrível", u2.getCPF());
+        Avaliacao ap5 = new Avaliacao(p3.codigo, Avaliacao.TargetType.Parada, 5, "Parada boa", u3.getCPF());
+
+        addReview(ap1);
+        addReview(ap2);
+        addReview(ap3);
+        addReview(ap4);
+        addReview(ap5);
     }
 
     /**
@@ -402,12 +426,9 @@ public class Database {
 
             // Retrieve code of created rating
             Statement querystatement = connection.createStatement();
-            ResultSet result = querystatement.executeQuery("SELECT codigo FROM Avaliacao WHERE " +
-                    "texto = '" + review.texto + "' AND " +
-                    "usuario = '" + review.cpfUsuario
-                    + "';");
+            ResultSet result = querystatement.executeQuery("SELECT LAST_INSERT_ID()");
             result.first();
-            int ratingCode = result.getInt("codigo");
+            int ratingCode = result.getInt("LAST_INSERT_ID()");
             result.close();
             querystatement.close();
 
