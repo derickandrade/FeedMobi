@@ -31,20 +31,20 @@
     - [ ] Consulta
         - [ ] Com dados
         - [ ] Sem dados
-    - [ ] Incluir Infraestrutura
-    - [ ] Editar Infraestrutura
+    - [x] Incluir Infraestrutura
+    - [x] Editar Infraestrutura
 - **Tela gestão de Veículos**
     - [ ] Consulta
-        - [ ] Com dados
+        - [x] Com dados
         - [ ] Sem dados
-    - [ ] Incluir Veículo
+    - [x] Incluir Veículo
     - [ ] Editar Veículo
 - **Tela gestão de Funcionários**
     - [ ] Consulta
-        - [ ] Com dados
+        - [x] Com dados
         - [x] Sem dados
     - [x] Incluir Funcionário
-    - [ ] Editar Funcionário
+    - [x] Editar Funcionário
 - **Tela gestão de Percursos**
     - [ ] Consulta
         - [ ] Com dados
@@ -68,13 +68,13 @@
 - [x] Retornar o código de uma ciclovia a partir do local.
 - [ ] Retornar as avaliações de um CPF.
 - [ ] Retornar todas avaliações
-- [ ] Retornar todas paradas com respectivos status
-- [ ] Retornar todas ciclovias com respectivos status
-- [ ] Retornar todos veículos
-- [ ] Retornar todos funcionários
+- [x] Retornar todas paradas <strike>com respectivos status</strike>
+- [x] Retornar todas ciclovias <strike>com respectivos status</strike>
+- [x] Retornar todos veículos
+- [x] Retornar todos funcionários
 - [ ] Retornar todos os percursos
 - [ ] Retornar todas as viagens
-- [ ] Retornar a placa de um veículo se houver
+- [x] Retornar a placa de um veículo se houver
 
 ### Funcionalidades inserção
 - [x] Adicionar um usuário ao BD.
@@ -82,9 +82,9 @@
 - [x] Inserir uma avaliação de viagem com o código da avaliação + código da viagem.
 - [x] Inserir uma avaliação de parada com o código da avaliação + código da parada.
 - [x] Inserir uma avaliação de ciclovia com o código da avaliação + código da ciclovia.
-- [ ] Incluir uma parada -> Parada
-- [ ] Incluir uma ciclovia  -> Ciclovia
-- [ ] Incluir um veículo -> Veiculo
+- [x] Incluir uma parada -> Parada
+- [x] Incluir uma ciclovia  -> Ciclovia
+- [x] Incluir um veículo -> Veiculo
 - [x] Incluir um funcionário -> Funcionário
 - [ ] Incluir um percurso -> Percurso
 - [ ] Incluir uma viagem -> Viagem
@@ -99,10 +99,10 @@
 - [ ] Atualizar uma viagem -> Viagem
 
 ### Funcionalidades de exclusão
-- [ ] Excluir uma parada / apenas se não vinculado a avaliação
-- [ ] Excluir uma ciclovia / apenas se não vinculado a avaliação
+- [x] Excluir uma parada / apenas se não vinculado a avaliação
+- [x] Excluir uma ciclovia / apenas se não vinculado a avaliação
 - [ ] Excluir um veículo / apenas se não vinculado a avaliação
-- [ ] Excluir um funcionário / apenas se não vinculado a avaliação
+- [x] Excluir um funcionário / apenas se não vinculado a avaliação
 - [ ] Excluir um percurso / apenas se não vinculado a avaliação
 - [ ] Excluir uma viagem / apenas se não vinculado a avaliação
 
