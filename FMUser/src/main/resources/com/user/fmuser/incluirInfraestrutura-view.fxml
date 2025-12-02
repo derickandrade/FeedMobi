@@ -40,6 +40,7 @@
                <children>
                   <Label text="Tipo" />
                   <ComboBox fx:id="tipoComboBox" layoutY="22.0" prefHeight="28.0" prefWidth="498.0" promptText="Selecionar" styleClass="select" />
+                  <Label fx:id="tipoMessage" layoutX="399.0" text="Selecione um tipo!" textFill="RED" visible="false" />
                </children>
             </Pane>
             <Pane layoutY="170.0" prefHeight="29.0" prefWidth="498.0">
@@ -56,6 +57,7 @@
                <children>
                   <Label text="Localização" />
                   <TextField fx:id="localField" layoutY="22.0" prefHeight="28.0" prefWidth="498.0" styleClass="textField" />
+                  <Label fx:id="localMessage" layoutX="404.0" text="Informe um local!" textFill="RED" visible="false" />
                </children>
             </Pane>
          </children>

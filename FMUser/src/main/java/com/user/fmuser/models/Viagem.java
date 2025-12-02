@@ -5,5 +5,20 @@ public class Viagem {
     public Funcionario motorista;
     public Funcionario cobrador;
     public HorarioDiaPercurso horarioDiaPercurso;
-    Veiculo veiculo;
+    public Veiculo veiculo;
+
+    public Viagem(Funcionario motorista, Funcionario cobrador, HorarioDiaPercurso hdp, Veiculo veiculo) {
+        this.motorista = motorista;
+        this.cobrador = cobrador;
+        this.horarioDiaPercurso = hdp;
+        this.veiculo = veiculo;
+    }
+
+    public Viagem(int codigo, Funcionario motorista, Funcionario cobrador, HorarioDiaPercurso hdp, Veiculo veiculo) {
+        this.motorista = motorista;
+        this.cobrador = cobrador;
+        this.horarioDiaPercurso = hdp;
+        this.veiculo = veiculo;
+        this.codigo = codigo;
+    }
 }
