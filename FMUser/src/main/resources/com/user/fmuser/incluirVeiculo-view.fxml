@@ -57,8 +57,8 @@
 
                         <Label fx:id="placaMessage" layoutX="143.0" layoutY="9.0" text="Placa já cadastrada!" textFill="RED" visible="false" />
                         <Label fx:id="dataMessage" layoutX="407.0" layoutY="13.0" text="Selecione uma data!" textFill="RED" visible="false" />
-                        <Label fx:id="assentosMessage" layoutX="153.0" layoutY="73.0" text="Insira uma quantidade!" textFill="RED" visible="false" />
-                        <Label fx:id="capacidadeMessage" layoutX="379.0" layoutY="73.0" text="Insira uma quantidade!" textFill="RED" visible="false" />
+                        <Label fx:id="assentosMessage" layoutX="153.0" layoutY="73.0" text="Insira uma quantidade válida!" textFill="RED" visible="false" />
+                        <Label fx:id="capacidadeMessage" layoutX="379.0" layoutY="73.0" text="Insira uma quantidade válida!" textFill="RED" visible="false" />
                     </children></Pane>
             </children>
         </Pane>
