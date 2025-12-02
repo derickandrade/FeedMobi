@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.InfraestruturaAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.PercursoAdminController">
    <children>
       <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
          <children>
@@ -32,7 +32,7 @@
                         <SVGPath fx:id="backIcon" content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" layoutY="3.0" styleClass="backIcon" />
                      </children>
                   </Pane>
-                  <Label layoutX="20.0" text="Infraestrutura" textFill="#5e605e">
+                  <Label layoutX="20.0" text="Percursos" textFill="#5e605e">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -41,11 +41,11 @@
             </Pane>
             <Pane layoutY="44.0" prefHeight="258.0" prefWidth="498.0" styleClass="tableField">
                <children>
-                  <TableView fx:id="infraestruturaTable" prefHeight="256.0" prefWidth="496.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
+                  <TableView fx:id="percursoTable" prefHeight="256.0" prefWidth="496.0" style="-fx-border-color: transparent; -fx-background-color: transparent;">
                     <columns>
-                      <TableColumn fx:id="tipoColumn" prefWidth="89.5999755859375" style="-fx-background-color: transparent;" text="Tipo" />
-                      <TableColumn fx:id="localizacaoColumn" prefWidth="320.8000030517578" text="Localização" />
-                        <TableColumn fx:id="acoesColumn" prefWidth="87.20001220703125" text="Ações" />
+                      <TableColumn fx:id="origemColumn" prefWidth="152.79998779296875" style="-fx-background-color: transparent;" text="Origem" />
+                      <TableColumn fx:id="destinoColumn" prefWidth="210.39996337890625" text="Destino" />
+                        <TableColumn fx:id="acoesColumn" prefWidth="136.0" text="Ações" />
                     </columns>
                   </TableView>
                </children>
@@ -54,7 +54,7 @@
                <children>
                   <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                      <children>
-                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirInfraestrutura" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
+                        <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#incluirPercurso" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Incluir" />
                         <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                      </children>
                   </Pane>

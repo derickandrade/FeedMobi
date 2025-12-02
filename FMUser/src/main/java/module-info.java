@@ -9,6 +9,7 @@ module com.user.fmuser {
     requires java.logging;
     requires jdk.compiler;
     requires javafx.graphics;
+    requires javafx.base;
 
     opens com.user.fmuser to javafx.fxml;
     exports com.user.fmuser;
