@@ -1,10 +1,12 @@
 package com.user.fmuser.models;
 
 import com.user.fmuser.models.Location.LocationType;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -1227,6 +1229,59 @@ public class Database {
             return updated > 0;
         } catch (SQLException | FileNotFoundException e) {
             return false;
+        }
+    }
+
+    public static Image retrieveImage(Avaliacao review) {
+        try {
+            String targetTable;
+            String targetColumns;
+            String targetName;
+
+            if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
+                targetTable = "Ciclovia_Reclamacao";
+                targetColumns = "(reclamacao, ciclovia)";
+                targetName = "ciclovia";
+            } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
+                targetTable = "Parada_Reclamacao";
+                targetColumns = "(reclamacao, parada)";
+                targetName = "parada";
+            } else {
+                return null;
+            }
+
+            // Get review code
+            String querycode = "SELECT * FROM Usuario JOIN Avaliacao " +
+                    "ON Usuario.cpf = Avaliacao.usuario AND Usuario.cpf = '" + review.cpfUsuario + "' " +
+                    "JOIN " + targetTable + " t ON t." + targetName + " = " + review.codigoAlvo + " " +
+                    "AND t.reclamacao = Avaliacao.codigo;";
+
+            Statement stmt = connection.createStatement();
+            ResultSet result = stmt.executeQuery(querycode);
+            int code;
+            if (result.first()) {
+                code = result.getInt("Avaliacao.codigo");
+            } else {
+                return null;
+            }
+
+            String query = "SELECT foto FROM " + targetTable + " WHERE reclamacao = " + code + ";";
+            Statement stmt1 = connection.createStatement();
+
+            Image image = null;
+            ResultSet rs = stmt1.executeQuery(query);
+            if (rs.next()) {
+                InputStream is = rs.getBinaryStream("photo");
+
+                if (is != null) {
+                    image = new Image(is);
+                }
+            }
+
+            return image;
+        } catch (SQLException e) {
+            System.err.println("Error retrieving image: " + e.getMessage());
+            return null;
         }
     }
 }
