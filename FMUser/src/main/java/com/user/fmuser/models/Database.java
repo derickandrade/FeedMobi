@@ -2,10 +2,11 @@ package com.user.fmuser.models;
 
 import com.user.fmuser.models.Location.LocationType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Database {
     // Database URL
@@ -407,7 +408,7 @@ public class Database {
 
             String preQuery = "SELECT * FROM Usuario JOIN Avaliacao " +
                     "ON Usuario.cpf = '" + review.cpfUsuario + "' AND Avaliacao.usuario = Usuario.cpf " +
-                    "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo AND c." + targetName + " = " + review.codigoAlvo +";";
+                    "JOIN " + targetTable + " c ON c.reclamacao = Avaliacao.codigo AND c." + targetName + " = " + review.codigoAlvo + ";";
 
             ResultSet results = preStatement.executeQuery(preQuery);
 
@@ -613,7 +614,7 @@ public class Database {
             String targetTable = (employee.isMotorista) ? "Motorista" : "Cobrador";
             String query = "UPDATE " + targetTable + " " +
                     "SET nome = '" + employee.nome + "', sobrenome = '" + employee.sobrenome + "' " +
-                    "WHERE cpf = '" + employee.getCpf() +"';";
+                    "WHERE cpf = '" + employee.getCpf() + "';";
 
             int updated = statement.executeUpdate(query);
             statement.close();
@@ -818,6 +819,7 @@ public class Database {
 
     /**
      * Add a route to the database.
+     *
      * @param route The route to add, must have its Parada fields set with their codes.
      * @return true if route was added, false otherwise.
      */
@@ -1139,7 +1141,7 @@ public class Database {
             String query = "SELECT * FROM Veiculo";
             ResultSet results = statement.executeQuery(query);
 
-            while(results.next()) {
+            while (results.next()) {
                 Veiculo temp = new Veiculo(
                         results.getInt("numero"),
                         results.getDate("data_validade"),
@@ -1156,7 +1158,7 @@ public class Database {
             query = "SELECT * FROM Onibus_Placa";
             ResultSet results1 = statement1.executeQuery(query);
 
-            while(results1.next()) {
+            while (results1.next()) {
                 int numero = results1.getInt("numero");
                 String placa = results1.getString("placa");
 
@@ -1175,6 +1177,56 @@ public class Database {
 
         } catch (SQLException e) {
             return null;
+        }
+    }
+
+    public static boolean addImage(Avaliacao review, File image) {
+        try {
+            FileInputStream fis = new FileInputStream(image);
+
+            String targetTable;
+            String targetColumns;
+            String targetName;
+
+            if (review.tipoAlvo == Avaliacao.TargetType.Ciclovia) {
+                targetTable = "Ciclovia_Reclamacao";
+                targetColumns = "(reclamacao, ciclovia)";
+                targetName = "ciclovia";
+            } else if (review.tipoAlvo == Avaliacao.TargetType.Parada) {
+                targetTable = "Parada_Reclamacao";
+                targetColumns = "(reclamacao, parada)";
+                targetName = "parada";
+            } else {
+                return false;
+            }
+
+            // Get review code
+            String querycode = "SELECT * FROM Usuario JOIN Avaliacao " +
+                    "ON Usuario.cpf = Avaliacao.usuario AND Usuario.cpf = '" + review.cpfUsuario + "' " +
+                    "JOIN " + targetTable + " t ON t." + targetName + " = " + review.codigoAlvo + " " +
+                    "AND t.reclamacao = Avaliacao.codigo;";
+
+            Statement stmt = connection.createStatement();
+            ResultSet result = stmt.executeQuery(querycode);
+            int code;
+            if (result.first()) {
+                code = result.getInt("Avaliacao.codigo");
+            } else {
+                return false;
+            }
+
+            String query = "UPDATE " + targetTable + " " +
+                    "SET foto = ? WHERE reclamacao = " + code + ";";
+
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            pstmt.setBinaryStream(1, fis, (int) image.length());
+
+            int updated = pstmt.executeUpdate();
+
+            return updated > 0;
+        } catch (SQLException | FileNotFoundException e) {
+            return false;
         }
     }
 }
