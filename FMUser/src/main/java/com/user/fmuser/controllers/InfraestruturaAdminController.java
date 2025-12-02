@@ -186,7 +186,7 @@ public class InfraestruturaAdminController implements Initializable {
             tipoComboBox.getItems().addAll("Parada", "Ciclovia");
         }
 
-        if (isEdit) {
+        if (isEdit && tipoComboBox != null) {
             if (itemAtt instanceof Parada) {
                 tipoComboBox.setValue("Parada");
             } else {

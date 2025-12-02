@@ -1,8 +1,6 @@
 package com.user.fmuser.controllers;
 
-import com.user.fmuser.models.Database;
-import com.user.fmuser.models.Funcionario;
-import com.user.fmuser.models.Veiculo;
+import com.user.fmuser.models.*;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,10 +18,17 @@ public class DashboardController implements Initializable {
     @FXML
     private Label veiculosContagem;
 
+    @FXML
+    private Label infraestruturasContagem;
+
+    @FXML
+    private Label percursosContagem;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         atualizarContadores();
         InfraestruturaAdminController.carregarDados();
+        PercursoAdminController.carregarDados();
     }
 
     // atualizar o número de funcionarios
@@ -35,6 +40,14 @@ public class DashboardController implements Initializable {
         ArrayList<Veiculo> veiculos = Database.retrieveVehicles();
         int count1 = (veiculos == null) ? 0 : veiculos.size();
         veiculosContagem.setText(String.valueOf(count1));
+
+        ArrayList<Location> infraestruturas = Database.retrieveLocations();
+        int count2 = (infraestruturas == null) ? 0 : infraestruturas.size();
+        infraestruturasContagem.setText(String.valueOf(count2));
+
+        ArrayList<Percurso> percursos = Database.retrieveRoutes();
+        int count3 = (percursos == null) ? 0 : percursos.size();
+        percursosContagem.setText(String.valueOf(count3));
     }
 
     @FXML
@@ -59,7 +72,7 @@ public class DashboardController implements Initializable {
 
     @FXML
     public void percursos() {
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/percursos-view.fxml", "Percursos");
+        PercursoAdminController.setScreen();
     }
 
     @FXML
