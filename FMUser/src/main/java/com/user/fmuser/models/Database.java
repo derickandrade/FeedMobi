@@ -338,6 +338,44 @@ public class Database {
         }
     }
 
+    public static ArrayList<Avaliacao> retrieveReviews() {
+        try {
+            ArrayList<Avaliacao> avaliacoes = new ArrayList<>();
+
+            Statement statement1 = connection.createStatement();
+            String query = "SELECT * FROM Avaliacao JOIN Parada_Reclamacao ON " +
+                    "Parada_Reclamacao.reclamacao = Avaliacao.codigo";
+            ResultSet results1 = statement1.executeQuery(query);
+
+            while (results1.next()) {
+                Avaliacao temp = new Avaliacao(results1.getInt("Parada_Reclamacao.parada"), Avaliacao.TargetType.Parada,
+                        results1.getInt("Avaliacao.nota"), results1.getString("Avaliacao.texto"), results1.getString("Avaliacao.cpf"));
+                avaliacoes.add(temp);
+            }
+
+            results1.close();
+            statement1.close();
+
+            Statement statement2 = connection.createStatement();
+            query = "SELECT * FROM Avaliacao JOIN Parada_Reclamacao ON " +
+                    "Parada_Reclamacao.reclamacao = Avaliacao.codigo";
+            ResultSet results2 = statement2.executeQuery(query);
+
+            while (results1.next()) {
+                Avaliacao temp = new Avaliacao(results1.getInt("Parada_Reclamacao.parada"), Avaliacao.TargetType.Ciclovia,
+                        results2.getInt("Avaliacao.nota"), results2.getString("Avaliacao.texto"), results2.getString("Avaliacao.cpf"));
+                avaliacoes.add(temp);
+            }
+
+            results2.close();
+            statement2.close();
+
+            return avaliacoes;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
     /**
      * Add an employee to the database using an object. Will fail if there exists an employee
      * with the same name already, even if CPF differs.
