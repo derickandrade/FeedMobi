@@ -53,10 +53,17 @@ public class novoFuncionarioController {
     @FXML
     public ComboBox<String> cargoFuncionarioMenu;
 
+    public static boolean isEdit = false;
+    public static Funcionario itemAtt;
+
 
     @FXML
     public void initialize(){
+
         cargoFuncionarioMenu.getItems().addAll("Motorista", "Cobrador");
+
+        //para atualizar o cargo corretamente
+        cargoFuncionarioMenu.setOnAction(e -> handleCargoFuncionario());
 
         if (cargoFuncionario == 1) {
             texto = "Motorista";
@@ -74,6 +81,21 @@ public class novoFuncionarioController {
         cargoMessage.setVisible(false);
         nomeMessage.setVisible(false);
         sobrenomeMessage.setVisible(false);
+
+        // preenche os campos se é modo edição
+        if (isEdit && itemAtt != null) {
+            cpfField.setText(itemAtt.getCpf());
+            cpfField.setDisable(true);
+            cargoFuncionarioMenu.setDisable(true);
+            nomeField.setText(itemAtt.getNome());
+            sobrenomeField.setText(itemAtt.getSobrenome());
+            cargoFuncionario = itemAtt.isMotorista() ? 1 : 2;
+            cargoFuncionarioMenu.setValue(cargoFuncionario == 1 ? "Motorista" : "Cobrador");
+        } else {
+            // não deixa trocar cpf
+            cpfField.setDisable(false);
+            cargoFuncionarioMenu.setDisable(false);
+        }
     }
 
     @FXML
@@ -138,6 +160,49 @@ public class novoFuncionarioController {
             }
         }
 
+    }
+
+    @FXML
+    public void handleAtualizarFuncionario() {
+        if (!isEdit || itemAtt == null) return;
+
+        String novoNome = nomeField.getText();
+        String novoSobrenome = sobrenomeField.getText();
+        boolean motorista = (cargoFuncionario == 1);
+
+        boolean nomeValido = novoNome != null && !novoNome.isEmpty();
+        boolean sobrenomeValido = novoSobrenome != null && !novoSobrenome.isEmpty();
+        boolean cargoValido = (cargoFuncionario == 1 || cargoFuncionario == 2);
+
+        nomeMessage.setVisible(!nomeValido);
+        sobrenomeMessage.setVisible(!sobrenomeValido);
+        cargoMessage.setVisible(!cargoValido);
+
+        if (!nomeValido || !sobrenomeValido || !cargoValido) {
+            return;
+        }
+
+        itemAtt.setNome(novoNome);
+        itemAtt.setSobrenome(novoSobrenome);
+        itemAtt.setMotorista(motorista);
+
+        if (Database.updateEmployee(itemAtt)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Funcionário atualizado com sucesso!");
+            alert.showAndWait();
+
+            isEdit = false;
+            itemAtt = null;
+            cargoFuncionario = 0;
+            texto = "Selecionar";
+
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/funcionarios-view.fxml", "Funcionários");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERRO");
+            alert.setHeaderText("Não foi possível atualizar o funcionário!");
+            alert.showAndWait();
+        }
     }
 
     @FXML

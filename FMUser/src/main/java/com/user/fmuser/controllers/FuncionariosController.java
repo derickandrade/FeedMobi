@@ -59,7 +59,8 @@ public class FuncionariosController implements Initializable {
 
     @FXML
         public void irParaIncluirFuncionario() {
-
+        novoFuncionarioController.isEdit = false;
+        novoFuncionarioController.itemAtt = null;
         ScreenManager.getInstance().showScreen("/com/user/fmuser/incluirFuncionario-view.fxml", "Incluir");
     }
 
@@ -166,6 +167,9 @@ public class FuncionariosController implements Initializable {
     private void editarFuncionario(Funcionario item) {
         isEdit = true;
         itemAtt = item;
+
+        novoFuncionarioController.isEdit = true;
+        novoFuncionarioController.itemAtt = item;
         ScreenManager.getInstance().showScreen("/com/user/fmuser/atualizarFuncionario-view.fxml", "Funcionário");
     }
 
