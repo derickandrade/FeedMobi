@@ -675,4 +675,46 @@ public class Database {
             return false;
         }
     }
+
+    /**
+     * Add a vehicle to the database using an object. Will fail if there exists a vehicle
+     * with the same plate already, even if CPF differs.
+     *
+     * @param vehicle The vehicle to add
+     * @return true if it was possible to add the vehicle, false otherwise.
+     */
+
+    public static boolean addVehicle(Veiculo vehicle) {
+        try {
+            Statement statement = connection.createStatement();
+            String updateVeiculo = "INSERT INTO Veiculo (data_validade, assentos, capacidade_em_pe) " +
+                    "VALUES ('" + vehicle.dataValidade + "', " + vehicle.assentos + ", " + vehicle.capacidadeEmPe + ")";
+            statement.executeUpdate(updateVeiculo);
+
+            // If it is a bus, insert plate information
+            if (vehicle.getPlaca() != null) {
+                // Recover vehicle number
+                ResultSet vehicleNumber = statement.executeQuery("SELECT LAST_INSERT_ID()");
+                int idGenerated = 0;
+                if (vehicleNumber.next()) {
+                    idGenerated = vehicleNumber.getInt(1);
+                }
+                vehicleNumber.close();
+
+                // Insert Plate into Onibus_Placa
+                if (idGenerated > 0) {
+                    String updatePlate = "INSERT INTO Onibus_Placa (numero, placa) " +
+                            "VALUES (" + idGenerated + ", '" + vehicle.getPlaca() + "')";
+                    statement.executeUpdate(updatePlate);
+                }
+            }
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+
+
 }
