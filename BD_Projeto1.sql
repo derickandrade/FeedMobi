@@ -88,6 +88,7 @@ CREATE TABLE Viagem(
 	veiculo INT NOT NULL,
 	FOREIGN KEY (horario_dia_percurso) REFERENCES Horario_dia_percurso(codigo),
 	FOREIGN KEY (motorista) REFERENCES Motorista(cpf),
+    FOREIGN KEY (cobrador) REFERENCES Cobrador(cpf),
 	FOREIGN KEY (veiculo) REFERENCES Veiculo(numero)
 );
 

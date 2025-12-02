@@ -31,9 +31,7 @@ public class Database {
         addHDP(hdp);
         hdp = retrieveHDP(hdp);
 
-        System.out.println(hdp.codigo + " " + hdp.hora + " " + hdp.getDia());
-        System.out.println(hdp.percurso.codigo + " " + hdp.percurso.origem.localizacao + " " + hdp.percurso.destino.localizacao);
-
+        removeLocation(p1);
         disconnect();
     }
 
@@ -267,47 +265,6 @@ public class Database {
                 statement.close();
                 return null;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Given a few parameters, return the corresponding trip from the database.
-     *
-     * @param vehicleCode A vehicle code to search.
-     * @param origin      Trip origin location name
-     * @param destination Trip destination location name
-     * @param day         Day of the week. See validDay() for details.
-     * @param time        An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
-     * @return The regular trip code if the trip is found, -1 otherwise.
-     */
-    public static int retrieveTripCode(int vehicleCode, String origin, String destination, String day, Time time) {
-        try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT v.codigo FROM Viagem v, Horario_dia_percurso hdp, Percurso p, Veiculo ve, Parada pa1, Parada pa2 " +
-                    "WHERE ve.numero = " + vehicleCode + " AND " +
-                    "v.veiculo = ve.numero AND " +
-                    "v.horario_dia_percurso = hdp.codigo AND " +
-                    "hdp.dia = '" + day + "' AND " +
-                    "hdp.hora = '" + time + "' AND " +
-                    "hdp.percurso = p.codigo AND " +
-                    "pa1.localizacao = '" + origin + "' AND " +
-                    "pa2.localizacao = '" + destination + "' AND " +
-                    "p.origem = pa1.codigo AND " +
-                    "p.destino = pa2.codigo"
-                    + ";";
-
-            ResultSet results = statement.executeQuery(query);
-
-            int result = -1;
-            if (results.first()) {
-                result = results.getInt("v.codigo");
-            }
-
-            statement.close();
-            results.close();
-            return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -756,6 +713,79 @@ public class Database {
             return new_hdp;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean addTrip(Viagem trip) {
+        try {
+            Statement statement = connection.createStatement();
+            String cobrador = (trip.cobrador == null) ? "NULL" : "'" + trip.cobrador.getCpf() + "'";
+            String query = "INSERT INTO Viagem (horario_dia_percurso, motorista, cobrador, veiculo) VALUES " +
+                    "(" + trip.horarioDiaPercurso.codigo + ", '" + trip.motorista.getCpf() + "', " +
+                    cobrador + ", " + trip.veiculo.numero + ");";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Given a few parameters, return the corresponding trip from the database.
+     *
+     * @param vehicleCode A vehicle code to search.
+     * @param origin      Trip origin location name
+     * @param destination Trip destination location name
+     * @param day         Day of the week. See validDay() for details.
+     * @param time        An SQL time type. You can obtain this for example with Time.valueOf("hh:mm:ss");
+     * @return The regular trip code if the trip is found, -1 otherwise.
+     */
+    public static int retrieveTripCode(int vehicleCode, String origin, String destination, String day, Time time) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT v.codigo FROM Viagem v, Horario_dia_percurso hdp, Percurso p, Veiculo ve, Parada pa1, Parada pa2 " +
+                    "WHERE ve.numero = " + vehicleCode + " AND " +
+                    "v.veiculo = ve.numero AND " +
+                    "v.horario_dia_percurso = hdp.codigo AND " +
+                    "hdp.dia = '" + day + "' AND " +
+                    "hdp.hora = '" + time + "' AND " +
+                    "hdp.percurso = p.codigo AND " +
+                    "pa1.localizacao = '" + origin + "' AND " +
+                    "pa2.localizacao = '" + destination + "' AND " +
+                    "p.origem = pa1.codigo AND " +
+                    "p.destino = pa2.codigo"
+                    + ";";
+
+            ResultSet results = statement.executeQuery(query);
+
+            int result = -1;
+            if (results.first()) {
+                result = results.getInt("v.codigo");
+            }
+
+            statement.close();
+            results.close();
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean removeTrip(int code) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM Viagem WHERE " +
+                    "Viagem.codigo = " + code + ";";
+
+            int updated = statement.executeUpdate(query);
+
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
         }
     }
 }
