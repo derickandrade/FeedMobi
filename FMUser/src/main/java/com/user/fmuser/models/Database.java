@@ -848,11 +848,14 @@ public class Database {
             String updateVeiculo = "INSERT INTO Veiculo (data_validade, assentos, capacidade_em_pe) " +
                     "VALUES ('" + vehicle.dataValidade + "', " + vehicle.assentos + ", " + vehicle.capacidadeEmPe + ")";
             statement.executeUpdate(updateVeiculo);
+            statement.close();
+
+            Statement statement1 = connection.createStatement();
 
             // If it is a bus, insert plate information
             if (vehicle.getPlaca() != null) {
                 // Recover vehicle number
-                ResultSet vehicleNumber = statement.executeQuery("SELECT LAST_INSERT_ID()");
+                ResultSet vehicleNumber = statement1.executeQuery("SELECT LAST_INSERT_ID()");
                 int idGenerated = 0;
                 if (vehicleNumber.next()) {
                     idGenerated = vehicleNumber.getInt(1);
@@ -863,10 +866,10 @@ public class Database {
                 if (idGenerated > 0) {
                     String updatePlate = "INSERT INTO Onibus_Placa (numero, placa) " +
                             "VALUES (" + idGenerated + ", '" + vehicle.getPlaca() + "')";
-                    statement.executeUpdate(updatePlate);
+                    statement1.executeUpdate(updatePlate);
                 }
             }
-            statement.close();
+            statement1.close();
             return true;
         } catch (SQLException e) {
             return false;
@@ -898,7 +901,7 @@ public class Database {
             query = "SELECT * FROM Onibus_Placa";
             ResultSet results1 = statement1.executeQuery(query);
 
-            while(results.next()) {
+            while(results1.next()) {
                 int numero = results1.getInt("numero");
                 String placa = results1.getString("placa");
 

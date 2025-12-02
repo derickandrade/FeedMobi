@@ -36,10 +36,10 @@
 
             <TableView fx:id="veiculosTable" layoutY="-1.0" prefHeight="200" prefWidth="500">
                 <columns>
-                    <TableColumn prefWidth="70" text="Codigo" fx:id="colCodigo" />
-                    <TableColumn prefWidth="70" text="Data" fx:id="colData" />
+                    <TableColumn prefWidth="70" text="Placa" fx:id="colPlaca" />
+                    <TableColumn prefWidth="90" text="Data" fx:id="colData" />
                     <TableColumn prefWidth="100" text="Assentos" fx:id="colAssentos" />
-                    <TableColumn prefWidth="160" text="Capacidade em pé" fx:id="colCapacidade" />
+                    <TableColumn prefWidth="140" text="Capacidade em pé" fx:id="colCapacidade" />
                     <TableColumn prefWidth="100" text="Ações" fx:id="colAcoes" />
                 </columns>
             </TableView>
