@@ -46,6 +46,10 @@ public class Database {
                 .collect(Collectors.toList());
 
         System.out.println(avsDisplay);
+
+        Avaliacao rev3 = retrieveReview(p2.codigo, Avaliacao.TargetType.Parada, user.getCPF());
+        System.out.println(rev3.nota + " " + rev3.texto);
+
         disconnect();
     }
 
@@ -389,6 +393,48 @@ public class Database {
             statement2.close();
 
             return avaliacoes;
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+            return null;
+        }
+    }
+
+    public static Avaliacao retrieveReview(int targetCode, Avaliacao.TargetType targetType, String userCpf) {
+        try {
+            Statement stmt = connection.createStatement();
+            String targetTable;
+            String targetColumns;
+            String targetName;
+
+            if (targetType == Avaliacao.TargetType.Ciclovia) {
+                targetTable = "Ciclovia_Reclamacao";
+                targetColumns = "(reclamacao, ciclovia)";
+                targetName = "ciclovia";
+            } else if (targetType == Avaliacao.TargetType.Parada) {
+                targetTable = "Parada_Reclamacao";
+                targetColumns = "(reclamacao, parada)";
+                targetName = "parada";
+            } else {
+                targetTable = "Viagem_Reclamacao";
+                targetColumns = "(reclamacao, viagem)";
+                targetName = "viagem";
+            }
+
+            String query = "SELECT * FROM Usuario JOIN Avaliacao " +
+                    "ON Usuario.cpf = Avaliacao.usuario AND Usuario.cpf = '" + userCpf + "' " +
+                    "JOIN " + targetTable + " t ON t." + targetName + " = " + targetCode + " " +
+                    "AND t.reclamacao = Avaliacao.codigo;";
+
+            ResultSet result = stmt.executeQuery(query);
+            Avaliacao av = null;
+            if (result.next()) {
+                av = new Avaliacao(targetCode, targetType, result.getInt("Avaliacao.nota"), result.getString("Avaliacao.texto"),
+                        userCpf);
+            }
+
+            result.close();
+            stmt.close();
+            return av;
         } catch (SQLException e) {
             System.err.println(e.toString());
             return null;
