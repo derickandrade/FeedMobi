@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS Cobrador_Viagem;
 DROP TABLE IF EXISTS Viagem_Reclamacao;
 DROP TABLE IF EXISTS Parada_Reclamacao;
 DROP TABLE IF EXISTS Ciclovia_Reclamacao;
-DROP TABLE IF EXISTS Cobrador;
 DROP TABLE IF EXISTS Viagem;
+DROP TABLE IF EXISTS Cobrador;
 DROP TABLE IF EXISTS Motorista;
 DROP TABLE IF EXISTS Onibus_Placa;
 DROP TABLE IF EXISTS Veiculo;
@@ -139,3 +139,41 @@ CREATE TABLE Ciclovia_Reclamacao(
     FOREIGN KEY (reclamacao) REFERENCES Avaliacao(codigo) ON DELETE CASCADE,
     FOREIGN KEY (ciclovia) REFERENCES Ciclovia(codigo)
 );
+
+-- view que cria relatório geral das avaliações usando union all para juntar o select das três tabelas relacionadas
+CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
+       SELECT
+           A.codigo,
+           A.texto,
+           A.nota,
+           A.usuario,
+           'Viagem' AS tipo_avaliacao,
+           V.viagem AS codigo_id
+       FROM Avaliacao A
+       JOIN Viagem_Reclamacao V ON A.codigo = V.reclamacao
+
+        UNION ALL
+
+        SELECT
+            A.codigo,
+            A.texto,
+            A.nota,
+            A.usuario,
+            'Parada' AS tipo_avaliacao,
+            P.parada AS codigo_id
+       FROM Avaliacao A
+       JOIN Parada_Reclamacao p on A.codigo = P.reclamacao
+
+       UNION ALL
+
+        SELECT
+           A.codigo,
+           A.texto,
+           A.nota,
+           A.usuario,
+           'Ciclovia' AS tipo_avaliacao,
+           C.ciclovia AS codigo_id
+        FROM Avaliacao A
+        JOIN Ciclovia_Reclamacao C on A.codigo = C.reclamacao;
+
+
