@@ -3,33 +3,28 @@
 > Sistema de Gestão da Qualidade do Transporte Público Multimodal do DF
 
 ## Objetivo
-Projeto de sistema para gerenciar as reclamações da população, monitorar o estado da frota de ônibus, controlar a infraestrutura urbana (paradas, estações, ciclovias) e avaliar comparativamente a satisfação dos usuários entre diferentes modais de transporte, com base nos problemas reais identificados no sistema de transporte do Distrito Federal.
+Projeto para gerenciar reclamações da população, monitorar frota, controlar infraestrutura urbana (paradas, estações, ciclovias) e avaliar satisfação dos usuários entre diferentes modais no Distrito Federal.
 
 ![img_2.png](img_2.png)
 
-## Modelo Relacional
-![relacional.svg](relacional.svg)
+## Requisitos
+- Java 17+ (ou versão usada no projeto)
+- MariaDB (10.3+ recomendado)
+- Build tool: Gradle ou Maven (conforme o projeto)
+- IDE: IntelliJ IDEA / VS Code (com suporte a JavaFX)
 
 ## Stack
 * MariaDB - Banco de Dados
 * JDBC - Backend
 * JavaFX - Frontend
 
-## Diagrama de acesso à Camada de Persistência
-![relacional.svg](dcp2.png)
-
-## Como rodar aplicação localmente
-
 ## Perfis de Acesso
-* Consulta de avaliações realizadas
-* Incluir Nova Avaliação
-
-### Usuário avaliador
-
-### Gestor
-![img_3.png](img_3.png)
-* Dashboard
-* Gestão de itens registro de Infraestrutura, Veículos, Funcionários, Percursos e Viagens
+* Usuário avaliador
+  * Consultar avaliações
+  * Incluir nova avaliação
+* Gestor
+  * Dashboard
+  * Gestão de Infraestrutura, Veículos, Funcionários, Percursos e Viagens
 
 ## Regras de Negócio
 
@@ -42,7 +37,7 @@ Caso não estejam vinculados a nenhuma avaliação, permite a exclusão.
 
 ### View
 
-> Cria um relatório geral das avaliações usando UNION ALL para juntar o select das três tabelas relacionadas
+> Consolida um relatório geral das avaliações (Viagem, Parada, Ciclovia). 
 
 ```sql
 
@@ -86,4 +81,4 @@ CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
 
 ### Trigger
 
-### 
+### Procedure
