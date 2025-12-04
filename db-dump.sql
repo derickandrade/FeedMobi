@@ -38,11 +38,11 @@ VALUES (1, 'L2 NORTE'),
        (3,'Eixão Norte');
 
 INSERT INTO Veiculo (numero, data_validade, assentos, capacidade_em_pe)
-VALUES (1,'2030-12-01', 42, 20), -- numero 1 (auto increment)
-       (2,'2029-06-15', 38, 15), -- numero 2
-       (3,'2028-01-20', 60, 40), -- numero 3
-       (4,'2031-11-30', 42, 20), -- numero 4
-       (5,'2030-05-10', 25, 10); -- numero 5
+VALUES (1,'2030-12-01', 42, 20),
+       (2,'2029-06-15', 38, 15),
+       (3,'2028-01-20', 60, 40),
+       (4,'2031-11-30', 42, 20),
+       (5,'2030-05-10', 25, 10);
 
 -- tabelas dependentes de nível 1
 INSERT INTO Onibus_Placa (numero, placa)

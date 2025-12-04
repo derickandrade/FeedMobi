@@ -84,6 +84,80 @@ SELECT * FROM Relatorio_Geral_Avaliacoes;
 
 
 ### Trigger
+> Criação de uma tabela de Log e triggers para saber exatamente quando um item foi adicionado ao sistema de gestão
+
+```sql
+CREATE TABLE Log_Gestao(
+   codigo INT AUTO_INCREMENT,
+   item_adicionado VARCHAR(15),
+   item_conteudo VARCHAR(25),
+   data_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+
+DROP TRIGGER IF EXISTS Ciclovia_Adicionada;
+DROP TRIGGER IF EXISTS Veiculo_Adicionado;
+DROP TRIGGER IF EXISTS Motorista_Adicionado;
+DROP TRIGGER IF EXISTS Cobrador_Adicionado;
+
+CREATE TRIGGER Ciclovia_Adicionada
+    AFTER INSERT ON Ciclovia
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Ciclovia', NEW.localizacao, CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Veiculo_Adicionado
+    AFTER INSERT ON Veiculo
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Veiculo', 'Metrô/Ônibus', CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Motorista_Adicionado
+    AFTER INSERT ON Motorista
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Motorista', NEW.cpf, CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Cobrador_Adicionado
+    AFTER INSERT ON Cobrador
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Cobrador', NEW.cpf, CURRENT_TIMESTAMP());
+END;
+```
+
+```sql
+
+INSERT INTO Parada (localizacao)
+VALUES ('SQN 213 - L1');
+
+INSERT INTO Ciclovia (localizacao)
+VALUES ('L2 Sul');
+
+INSERT INTO Veiculo (data_validade, assentos, capacidade_em_pe)
+VALUES ('2030-12-01', 21, 18);
+
+INSERT INTO Motorista (cpf, nome, sobrenome)
+VALUES ('87650623882', 'Jorge', 'Beltrano');
+
+INSERT INTO Cobrador (cpf, nome, sobrenome)
+VALUES ('44643550805', 'Fulano', 'José');
+
+SELECT  * FROM Log_Gestao;
+```
 
 ### Procedure
 > Procedure para calcular média das avaliações e para consultar histórico de avaliações de um motorista

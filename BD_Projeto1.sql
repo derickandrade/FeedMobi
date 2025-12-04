@@ -207,5 +207,58 @@ WHERE M.cpf = p_cpf
 ORDER BY H.dia, H.hora;
 END;
 
+-- trigger para tabela de log de gestão
+-- cria tabela
+CREATE TABLE Log_Gestao(
+    codigo INT AUTO_INCREMENT,
+    item_adicionado VARCHAR(15),
+    item_conteudo VARCHAR(25),
+    data_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+
+-- triggers quando adiciona parada, ciclovia, veiculo, motorista e cobrador
+DROP TRIGGER IF EXISTS Ciclovia_Adicionada;
+DROP TRIGGER IF EXISTS Veiculo_Adicionado;
+DROP TRIGGER IF EXISTS Motorista_Adicionado;
+DROP TRIGGER IF EXISTS Cobrador_Adicionado;
+
+CREATE TRIGGER Ciclovia_Adicionada
+    AFTER INSERT ON Ciclovia
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Ciclovia', NEW.localizacao, CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Veiculo_Adicionado
+    AFTER INSERT ON Veiculo
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Veiculo', 'Metrô/Ônibus', CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Motorista_Adicionado
+    AFTER INSERT ON Motorista
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Motorista', NEW.cpf, CURRENT_TIMESTAMP());
+END;
+
+
+CREATE TRIGGER Cobrador_Adicionado
+    AFTER INSERT ON Cobrador
+    FOR EACH ROW
+BEGIN
+
+    INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
+    VALUES ('Cobrador', NEW.cpf, CURRENT_TIMESTAMP());
+END;
 
 
