@@ -22,6 +22,9 @@ DROP TABLE IF EXISTS Ciclovia;
 DROP TABLE IF EXISTS Avaliacao;
 DROP TABLE IF EXISTS Usuario;
 
+-- para limpar procedures e triggers
+DROP PROCEDURE IF EXISTS Media_Notas;
+DROP PROCEDURE IF EXISTS Historico_Motorista;
 
 -- criando as tabelas
 CREATE TABLE Parada(
@@ -175,5 +178,34 @@ CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
            C.ciclovia AS codigo_id
         FROM Avaliacao A
         JOIN Ciclovia_Reclamacao C on A.codigo = C.reclamacao;
+
+
+-- procedure 1: para calcula media das avaliacoes
+CREATE PROCEDURE Media_Notas()
+BEGIN
+SELECT
+    COUNT(*) as Total_Avaliacoes,
+    IFNULL(AVG(nota), 0) as Media_Geral
+FROM Avaliacao;
+END;
+
+-- procedure 2: histórico de avaliações de um motorista
+CREATE PROCEDURE Historico_Motorista(IN p_cpf VARCHAR(11))
+BEGIN
+SELECT
+    M.cpf AS Motorista,
+    OP.placa AS Onibus,
+    IFNULL(A.nota, '-') AS Nota_Recebida
+FROM Motorista M
+     INNER JOIN Viagem V ON M.cpf = V.motorista
+     INNER JOIN Horario_dia_percurso H ON V.horario_dia_percurso = H.codigo
+     INNER JOIN Veiculo Vc ON V.veiculo = Vc.numero
+     LEFT JOIN Onibus_Placa OP ON Vc.numero = OP.numero
+     LEFT JOIN Viagem_Reclamacao VR ON V.codigo = VR.viagem
+     LEFT JOIN Avaliacao A ON VR.reclamacao = A.codigo
+WHERE M.cpf = p_cpf
+ORDER BY H.dia, H.hora;
+END;
+
 
 
