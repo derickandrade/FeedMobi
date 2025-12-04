@@ -1,4 +1,3 @@
-
 -- para limpar tabelas que trocaram de nome
 DROP TABLE IF EXISTS Viagem_Reclamacao;
 DROP TABLE IF EXISTS Parada_Reclamacao;
@@ -21,6 +20,7 @@ DROP TABLE IF EXISTS Parada;
 DROP TABLE IF EXISTS Ciclovia;
 DROP TABLE IF EXISTS Avaliacao;
 DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS Log_Gestao;
 
 -- para limpar procedures e triggers
 DROP PROCEDURE IF EXISTS Media_Notas;
@@ -143,6 +143,14 @@ CREATE TABLE Ciclovia_Reclamacao(
     FOREIGN KEY (ciclovia) REFERENCES Ciclovia(codigo)
 );
 
+-- tabela de log de gestão
+CREATE TABLE Log_Gestao(
+    codigo INT AUTO_INCREMENT PRIMARY KEY,
+    item_adicionado VARCHAR(15),
+    item_conteudo VARCHAR(25),
+    data_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- view que cria relatório geral das avaliações usando union all para juntar o select das três tabelas relacionadas
 CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
        SELECT
@@ -165,7 +173,7 @@ CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
             'Parada' AS tipo_avaliacao,
             P.parada AS codigo_id
        FROM Avaliacao A
-       JOIN Parada_Reclamacao p on A.codigo = P.reclamacao
+       JOIN Parada_Reclamacao P ON A.codigo = P.reclamacao
 
        UNION ALL
 
@@ -177,44 +185,43 @@ CREATE OR REPLACE VIEW Relatorio_Geral_Avaliacoes AS
            'Ciclovia' AS tipo_avaliacao,
            C.ciclovia AS codigo_id
         FROM Avaliacao A
-        JOIN Ciclovia_Reclamacao C on A.codigo = C.reclamacao;
+        JOIN Ciclovia_Reclamacao C ON A.codigo = C.reclamacao;
 
 
--- procedure 1: para calcula media das avaliacoes
+-- procedure 1: para calcular média das avaliações
+DELIMITER //
+
 CREATE PROCEDURE Media_Notas()
 BEGIN
-SELECT
-    COUNT(*) as Total_Avaliacoes,
-    IFNULL(AVG(nota), 0) as Media_Geral
-FROM Avaliacao;
-END;
+    SELECT
+        COUNT(*) as Total_Avaliacoes,
+        IFNULL(AVG(nota), 0) as Media_Geral
+    FROM Avaliacao;
+END //
+
+DELIMITER ;
 
 -- procedure 2: histórico de avaliações de um motorista
+DELIMITER //
+
 CREATE PROCEDURE Historico_Motorista(IN p_cpf VARCHAR(11))
 BEGIN
-SELECT
-    M.cpf AS Motorista,
-    OP.placa AS Onibus,
-    IFNULL(A.nota, '-') AS Nota_Recebida
-FROM Motorista M
-     INNER JOIN Viagem V ON M.cpf = V.motorista
-     INNER JOIN Horario_dia_percurso H ON V.horario_dia_percurso = H.codigo
-     INNER JOIN Veiculo Vc ON V.veiculo = Vc.numero
-     LEFT JOIN Onibus_Placa OP ON Vc.numero = OP.numero
-     LEFT JOIN Viagem_Reclamacao VR ON V.codigo = VR.viagem
-     LEFT JOIN Avaliacao A ON VR.reclamacao = A.codigo
-WHERE M.cpf = p_cpf
-ORDER BY H.dia, H.hora;
-END;
+    SELECT
+        M.cpf AS Motorista,
+        OP.placa AS Onibus,
+        IFNULL(A.nota, '-') AS Nota_Recebida
+    FROM Motorista M
+         INNER JOIN Viagem V ON M.cpf = V.motorista
+         INNER JOIN Horario_dia_percurso H ON V.horario_dia_percurso = H.codigo
+         INNER JOIN Veiculo Vc ON V.veiculo = Vc.numero
+         LEFT JOIN Onibus_Placa OP ON Vc.numero = OP.numero
+         LEFT JOIN Viagem_Reclamacao VR ON V.codigo = VR.viagem
+         LEFT JOIN Avaliacao A ON VR.reclamacao = A.codigo
+    WHERE M.cpf = p_cpf
+    ORDER BY H.dia, H.hora;
+END //
 
--- trigger para tabela de log de gestão
--- cria tabela
-CREATE TABLE Log_Gestao(
-    codigo INT AUTO_INCREMENT,
-    item_adicionado VARCHAR(15),
-    item_conteudo VARCHAR(25),
-    data_registro DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+DELIMITER ;
 
 -- triggers quando adiciona parada, ciclovia, veiculo, motorista e cobrador
 DROP TRIGGER IF EXISTS Ciclovia_Adicionada;
@@ -222,43 +229,38 @@ DROP TRIGGER IF EXISTS Veiculo_Adicionado;
 DROP TRIGGER IF EXISTS Motorista_Adicionado;
 DROP TRIGGER IF EXISTS Cobrador_Adicionado;
 
+DELIMITER //
+
 CREATE TRIGGER Ciclovia_Adicionada
     AFTER INSERT ON Ciclovia
     FOR EACH ROW
 BEGIN
-
     INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
     VALUES ('Ciclovia', NEW.localizacao, CURRENT_TIMESTAMP());
-END;
-
+END //
 
 CREATE TRIGGER Veiculo_Adicionado
     AFTER INSERT ON Veiculo
     FOR EACH ROW
 BEGIN
-
     INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
     VALUES ('Veiculo', 'Metrô/Ônibus', CURRENT_TIMESTAMP());
-END;
-
+END //
 
 CREATE TRIGGER Motorista_Adicionado
     AFTER INSERT ON Motorista
     FOR EACH ROW
 BEGIN
-
     INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
     VALUES ('Motorista', NEW.cpf, CURRENT_TIMESTAMP());
-END;
-
+END //
 
 CREATE TRIGGER Cobrador_Adicionado
     AFTER INSERT ON Cobrador
     FOR EACH ROW
 BEGIN
-
     INSERT INTO Log_Gestao (item_adicionado, item_conteudo, data_registro)
     VALUES ('Cobrador', NEW.cpf, CURRENT_TIMESTAMP());
-END;
+END //
 
-
+DELIMITER ;
