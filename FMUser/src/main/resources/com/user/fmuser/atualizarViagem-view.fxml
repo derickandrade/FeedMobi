@@ -5,7 +5,10 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.ViagemAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.user.fmuser.controllers.ViagemAdminController">
     <children>
         <Pane prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: #009532;">
             <children>
@@ -29,7 +32,7 @@
                                 <SVGPath fx:id="backIcon" content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" layoutY="3.0" styleClass="backIcon" />
                             </children>
                         </Pane>
-                        <Label layoutX="20.0" text="Incluir Viagem" textFill="#5e605e">
+                        <Label layoutX="20.0" text="Atualizar Viagem" textFill="#5e605e">
                             <font>
                                 <Font size="20.0" />
                             </font>
@@ -43,7 +46,7 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="motoristaComboBox" layoutX="14.0" layoutY="45.0" prefHeight="29.0" prefWidth="220.0" promptText="Selecione o motorista" styleClass="inputField" />
+                        <ComboBox fx:id="motoristaComboBox" layoutX="14.0" layoutY="45.0" prefHeight="29.0" prefWidth="470.0" promptText="Selecione o motorista" styleClass="inputField" />
                         <Label fx:id="motoristaMessage" layoutX="14.0" layoutY="78.0" text="Campo obrigatório" textFill="#e74c3c" visible="false">
                             <font>
                                 <Font size="12.0" />
@@ -55,26 +58,26 @@
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="cobradorComboBox" layoutX="14.0" layoutY="125.0" prefHeight="29.0" prefWidth="220.0" promptText="Selecione o cobrador (opcional)" styleClass="inputField" />
+                        <ComboBox fx:id="cobradorComboBox" layoutX="14.0" layoutY="125.0" prefHeight="29.0" prefWidth="470.0" promptText="Selecione o cobrador (opcional)" styleClass="inputField" />
                         <Label fx:id="cobradorMessage" layoutX="14.0" layoutY="158.0" text="Campo inválido" textFill="#e74c3c" visible="false">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
 
-                        <Label layoutX="250.0" layoutY="100.0" text="Horário/Dia/Percurso:" textFill="#5e605e">
+                        <Label layoutX="14.0" layoutY="180.0" text="Horário/Dia/Percurso:" textFill="#5e605e">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="hdpComboBox" layoutX="250.0" layoutY="127.0" prefHeight="29.0" prefWidth="213.0" promptText="Selecione horário, dia e percurso" styleClass="inputField" />
+                        <ComboBox fx:id="hdpComboBox" layoutX="14.0" layoutY="205.0" prefHeight="29.0" prefWidth="470.0" promptText="Selecione horário, dia e percurso" styleClass="inputField" />
                         <Label fx:id="hdpMessage" layoutX="14.0" layoutY="238.0" text="Campo obrigatório" textFill="#e74c3c" visible="false">
                             <font>
                                 <Font size="12.0" />
                             </font>
                         </Label>
 
-                        <Label layoutX="249.0" layoutY="20.0" text="Veículo:" textFill="#5e605e">
+                        <Label layoutX="250.0" layoutY="100.0" text="Veículo:" textFill="#5e605e">
                             <font>
                                 <Font size="14.0" />
                             </font>
@@ -91,7 +94,7 @@
                     <children>
                         <Pane layoutX="154.0" prefHeight="29.0" prefWidth="344.0">
                             <children>
-                                <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#confirmar" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Confirmar" />
+                                <Button layoutX="180.0" mnemonicParsing="false" onMouseClicked="#atualizar" prefHeight="29.0" prefWidth="164.0" styleClass="defaultButton" text="Atualizar" />
                                 <Button mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="29.0" prefWidth="164.0" styleClass="secondaryButton" text="Cancelar" />
                             </children>
                         </Pane>

@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.DashboardController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.DashboardController">
     <HBox prefHeight="37.0" prefWidth="600.0" styleClass="header_mobi">
         <HBox />
         <Region HBox.hgrow="ALWAYS" />
@@ -28,7 +20,7 @@
       </Button>
     </HBox>
 
-    <VBox spacing="16.0" styleClass="content_container">
+    <VBox prefHeight="457.0" prefWidth="600.0" spacing="16.0" styleClass="content_container">
         <Label styleClass="title" text="Dashboard da gestão">
         </Label>
 
@@ -49,6 +41,7 @@
                   </VBox>
                </children>
             </HBox>
+            <Label onMouseClicked="#avaliacoes" styleClass="verMais" text="Ver mais" />
             </VBox>
             <VBox prefHeight="110.0" prefWidth="259.0" styleClass="card">
                 <Label styleClass="card_title" text="Infraestruturas">
@@ -119,13 +112,11 @@
         </HBox>
 
         <HBox spacing="12.0">
-            <VBox prefHeight="120" prefWidth="530.0" styleClass="card">
+            <VBox prefHeight="71.0" prefWidth="530.0" styleClass="card">
                     <Label styleClass="card_title" text="Viagens" />
+            <Label fx:id="viagensContagem" styleClass="dashboard_numeros" text="0" />
+            <Label styleClass="dashboard_caption" text="Viagens cadastradas" />
                 <VBox styleClass="empty_state">
-                    <ImageView layoutX="43.0" preserveRatio="true" smooth="false">
-                        <Image url="@images/empty.png" />
-                    </ImageView>
-                    <Label layoutY="25.0" prefHeight="36.0" prefWidth="173.0" styleClass="caption" text="Nenhum dado para mostrar" />
                     <Pane layoutY="68.0" onMouseClicked="#viagens" prefHeight="21.0" prefWidth="226.0">
                         <children>
                             <Label styleClass="verMais" text="Ver mais" />
@@ -139,7 +130,10 @@
     </VBox>
    <Region prefHeight="11.02" prefWidth="600.0" />
    <Region prefHeight="11.02" prefWidth="600.0" />
-   <Pane prefHeight="94.0" prefWidth="600.0" />
+   <Pane prefHeight="173.0" prefWidth="600.0">
+      <children>
+         <Button layoutX="501.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#verLogs" styleClass="defaultButton" text="Ver logs" />
+      </children></Pane>
    <GridPane>
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

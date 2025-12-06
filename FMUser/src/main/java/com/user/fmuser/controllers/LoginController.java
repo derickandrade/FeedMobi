@@ -47,7 +47,8 @@ public class LoginController implements Initializable {
                     ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
                 }
                 else {
-                    ScreenManager.getInstance().showScreen("/com/user/fmuser/home-view.fxml", "Home");
+                    HomeController.carregarDados();
+                    HomeController.setScreen();
                 }
             }
             else {

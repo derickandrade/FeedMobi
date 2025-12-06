@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -124,9 +125,19 @@ public class novaAvaliacaoController {
 
         if (tipoAvaliacao == 1) {
             texto = "Percurso/Viagem";
+            ArrayList<Location> locations = Database.retrieveLocations();
+            ArrayList<String> paradas = new ArrayList<>();
+            assert locations != null;
+            for (Location location : locations) {
+                if (location instanceof  Parada) {
+                    paradas.add(location.localizacao);
+                }
+            }
+            if (paradas != null) {
+                originMenu.getItems().addAll(paradas);
+                destinationMenu.getItems().addAll(paradas);
+            }
 
-            originMenu.getItems().addAll("UnB", "Rodoviária");
-            destinationMenu.getItems().addAll("UnB", "Rodoviária");
         } else if (tipoAvaliacao == 2) {
             texto = "Parada/Estação";
             ArrayList<Location> locations = Database.retrieveLocations();
@@ -221,6 +232,7 @@ public class novaAvaliacaoController {
     @FXML
     public void logout() {
         MainApplication.logout();
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
 
     @FXML
@@ -320,12 +332,42 @@ public class novaAvaliacaoController {
                 validComentario)
         {
             try {
-                int tripCode = Database.retrieveTripCode(Integer.getInteger(vehicleCode), origin, destination, date.toString(), java.sql.Time.valueOf(time));
-                Avaliacao review = new Avaliacao(tripCode, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
-                if (Database.addReview(review)) {
-                    successMessage("Avaliação realizada com sucesso!");
-                } else {
-                    errorMessage("Ocorreu um erro ao realizar a avaliação. Tente novamente!");
+                String dia = date.getDayOfWeek().toString();
+                switch (dia) {
+                    case "SUNDAY":
+                        dia = "dom";
+                        break;
+                    case "MONDAY":
+                        dia = "seg";
+                        break;
+                    case "TUESDAY":
+                        dia = "ter";
+                        break;
+                    case "WEDNESDAY":
+                        dia = "qua";
+                        break;
+                    case "THRUSDAY":
+                        dia = "qui";
+                        break;
+                    case "FRIDAY":
+                        dia = "sex";
+                        break;
+                    case "SATURDAY":
+                        dia = "sab";
+                        break;
+                }
+                ArrayList<Viagem> viagens = Database.retrieveTrips();
+                Viagem viagemReview = null;
+                for (Viagem viagem : viagens) {
+                    if (viagem.horarioDiaPercurso.percurso.origem.localizacao.equals(origin) && viagem.horarioDiaPercurso.percurso.destino.localizacao.equals(destination) && viagem.veiculo.numero == Integer.valueOf(vehicleCode) && viagem.horarioDiaPercurso.getDia().equals(dia)) {
+                        Avaliacao review = new Avaliacao(viagem.codigo, Avaliacao.TargetType.Viagem, avaliacao, comentario, MainApplication.usuarioSessao.getCPF());
+                        if (Database.addReview(review)) {
+                            successMessage("Avaliação realizada com sucesso!");
+                        } else {
+                            errorMessage("Ocorreu um erro ao realizar a avaliação. Tente novamente!");
+                        }
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 errorMessage("Ocorreu um erro ao realizar a avaliação. Tente novamente!");
@@ -405,17 +447,17 @@ public class novaAvaliacaoController {
 
     @FXML
     public void voltarHome() {
-        String tela = "/com/user/fmuser/home-view.fxml";
         if (MainApplication.usuarioSessao.isAdmin()) {
-            tela = "/com/user/fmuser/dashboard-view.fxml";
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
+        } else {
+            HomeController.setScreen();
         }
-        ScreenManager.getInstance().showScreen(tela, "Home");
     }
 
     @FXML
     public void cancelarAvaliacao() {
         resetarCampos();
-        voltarHome();
+        HomeController.setScreen();
     }
 
     @FXML

@@ -1,10 +1,7 @@
 package com.user.fmuser.controllers;
 
 import com.user.fmuser.MainApplication;
-import com.user.fmuser.models.Database;
-import com.user.fmuser.models.Parada;
-import com.user.fmuser.models.Percurso;
-import com.user.fmuser.models.Location;
+import com.user.fmuser.models.*;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.SVGPath;
 
 import java.net.URL;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -105,6 +105,9 @@ public class PercursoAdminController implements Initializable {
 
                 if (Database.addRoute(novoPercurso)) {
                     successMessage("Percurso adicionado com sucesso!");
+                    Time hour = Time.valueOf(LocalTime.of(12,30));
+                    HorarioDiaPercurso hdp = new HorarioDiaPercurso(hour,"seg", novoPercurso);
+                    Database.addHDP(hdp);
                     carregarDados();
                 } else {
                     errorMessage("Não foi possível adicionar o percurso!\nTente novamente.");

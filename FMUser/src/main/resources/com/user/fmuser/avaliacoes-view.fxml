@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.AvaliacoesController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.HomeController">
    <children>
       <HBox prefHeight="40.0" prefWidth="600.0" styleClass="header_mobi">
          <children>
@@ -43,9 +36,9 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="voltarButton" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#voltarHome" styleClass="tertiaryButton">
+                  <Button layoutY="3.0" mnemonicParsing="false" onMouseClicked="#cancelarAvaliacao" styleClass="tertiaryButton">
                      <graphic>
-                        <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" onMouseClicked="#voltarHome" />
+                        <SVGPath content="M13.3594 5.85938V7.5H3.20312L7.85156 12.1875L6.67969 13.3594L0 6.67969L6.67969 0L7.85156 1.17188L3.20312 5.85938H13.3594Z" fill="#5e605e" onMouseClicked="#cancelarAvaliacao" />
                      </graphic>
                   </Button>
                   <Pane layoutX="154.0" layoutY="121.0" prefHeight="29.0" prefWidth="344.0">
@@ -58,10 +51,9 @@
                      <children>
                         <TableView fx:id="avaliacoesTable" layoutY="-1.0" prefHeight="60.0" prefWidth="498.0">
                           <columns>
-                            <TableColumn prefWidth="97.59997403621674" text="Data" />
-                            <TableColumn prefWidth="87.19995880126953" text="Linha" />
-                              <TableColumn prefWidth="72.7999267578125" text="Nota" />
-                              <TableColumn prefWidth="239.60000610351562" text="Comentário" />
+                            <TableColumn fx:id="notaColumn" prefWidth="54.20001524686813" text="Nota" />
+                              <TableColumn fx:id="tipoColumn" prefWidth="105.79999160766602" text="Tipo" />
+                              <TableColumn fx:id="textoColumn" prefWidth="301.9999694824219" text="Comentário" />
                           </columns>
                         </TableView>
                      </children>

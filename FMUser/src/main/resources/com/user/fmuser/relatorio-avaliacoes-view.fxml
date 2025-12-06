@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.RelatorioAvaliacoesController">
+    <HBox prefHeight="37.0" prefWidth="800.0" styleClass="header_mobi">
+        <HBox>
+            <ImageView preserveRatio="true" smooth="false">
+                <Image url="@images/icon.png" />
+            </ImageView>
+            <Label text="FeedMobi - Relatório de Avaliações" textFill="WHITE">
+                <Font name="Inter Bold" size="16.0" />
+            </Label>
+        </HBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="voltarButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#voltar" prefHeight="25.0" prefWidth="60.0" styleClass="tertiaryButton" text="Voltar" />
+    </HBox>
+    <VBox prefHeight="463.0" prefWidth="800.0" styleClass="content_container" spacing="10">
+        <Label styleClass="title" text="Relatório Geral de Avaliações" />
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <Label text="Filtrar por tipo:" />
+            <ComboBox fx:id="filtroTipoComboBox" prefWidth="150.0" />
+            <Button text="Aplicar Filtro" onMouseClicked="#aplicarFiltro" styleClass="defaultButton" />
+            <Button text="Limpar Filtro" onMouseClicked="#limparFiltro" styleClass="secondaryButton" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Atualizar" onMouseClicked="#atualizarTabela" styleClass="defaultButton" />
+        </HBox>
+        <VBox VBox.vgrow="ALWAYS">
+            <TableView fx:id="relatorioTable" prefHeight="350.0" prefWidth="780.0" styleClass="tableField">
+                <columns>
+                    <TableColumn fx:id="codigoColumn" prefWidth="60.0" text="Código" />
+                    <TableColumn fx:id="tipoColumn" prefWidth="80.0" text="Tipo" />
+                    <TableColumn fx:id="codigoIdColumn" prefWidth="80.0" text="ID Alvo" />
+                    <TableColumn fx:id="notaColumn" prefWidth="60.0" text="Nota" />
+                    <TableColumn fx:id="usuarioColumn" prefWidth="120.0" text="Usuário (CPF)" />
+                    <TableColumn fx:id="textoColumn" prefWidth="380.0" text="Comentário" />
+                </columns>
+            </TableView>
+        </VBox>
+        <HBox spacing="20" style="-fx-padding: 10;">
+            <Label fx:id="totalLabel" text="Total de avaliações: 0" styleClass="subtitle" />
+            <Label fx:id="mediaLabel" text="Nota média: 0.0" styleClass="subtitle" />
+        </HBox>
+    </VBox>
+</VBox>

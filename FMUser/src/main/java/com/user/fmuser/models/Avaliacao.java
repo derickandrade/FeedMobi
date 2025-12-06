@@ -15,4 +15,27 @@ public class Avaliacao {
         this.texto = text;
         this.cpfUsuario = userCpf;
     }
+    public int getNota() {
+        return nota;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public String getTipo() {
+        return tipoAlvo.toString();
+    }
+
+    public TargetType getTipoAlvo() {
+        return tipoAlvo;
+    }
+
+    public int getCodigoAlvo() {
+        return codigoAlvo;
+    }
+
+    public String getCpfUsuario() {
+        return cpfUsuario;
+    }
 }

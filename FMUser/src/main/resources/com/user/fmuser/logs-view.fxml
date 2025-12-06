@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user.fmuser.controllers.DashboardController">
+   <children>
+      <TableView fx:id="logTableView" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="itemColumn" prefWidth="158.4000244140625" text="Item" />
+          <TableColumn fx:id="contentColumn" prefWidth="213.4000244140625" text="Conteúdo" />
+            <TableColumn fx:id="dateColumn" prefWidth="226.5999755859375" text="Date" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>

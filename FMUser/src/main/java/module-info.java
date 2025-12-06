@@ -12,6 +12,7 @@ module com.user.fmuser {
     requires javafx.base;
 
     opens com.user.fmuser to javafx.fxml;
+    opens com.user.fmuser.models to javafx.base;
     exports com.user.fmuser;
     exports com.user.fmuser.controllers;
     opens com.user.fmuser.controllers to javafx.fxml;

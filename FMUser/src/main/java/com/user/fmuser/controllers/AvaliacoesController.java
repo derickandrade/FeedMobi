@@ -5,16 +5,27 @@ import com.user.fmuser.models.Usuario;
 import com.user.fmuser.utils.ScreenManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import com.user.fmuser.models.Avaliacao;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class AvaliacoesController implements Initializable {
 
     @FXML
     protected TableView<Avaliacao> avaliacoesTable;
+
+    @FXML
+    private TableColumn<Avaliacao, Integer> notaColumn;
+
+    @FXML
+    private TableColumn<Avaliacao, String> textoColumn;
+
+    @FXML
+    private TableColumn<Avaliacao, String> tipoColumn;
 
     @FXML
     public void novaAvaliacao() {
@@ -50,8 +61,20 @@ public class AvaliacoesController implements Initializable {
         ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
     }
 
+    private void configurarTabela() {
+        // Configurar as colunas (ajuste os nomes de acordo com sua classe Avaliacao)
+        notaColumn.setCellValueFactory(new PropertyValueFactory<>("nota"));
+        textoColumn.setCellValueFactory(new PropertyValueFactory<>("texto"));
+        tipoColumn.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+
+        avaliacoesTable.setItems(HomeController.avaliacoes);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if (avaliacoesTable != null) {
+            HomeController.carregarDados();
+            configurarTabela();
+        }
     }
 }

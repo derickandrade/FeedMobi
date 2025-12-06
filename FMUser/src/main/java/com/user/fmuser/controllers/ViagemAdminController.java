@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.SVGPath;
 
 import java.net.URL;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -79,21 +78,25 @@ public class ViagemAdminController implements Initializable {
 
     @FXML
     public void voltar() {
+        isEdit = false;
         setScreen();
     }
 
     @FXML
     public void voltarDashboard() {
+        isEdit = false;
         ScreenManager.getInstance().showScreen("/com/user/fmuser/dashboard-view.fxml", "Home");
     }
 
     @FXML
     public void incluirViagem() {
+        isEdit = false;
         ScreenManager.getInstance().showScreen("/com/user/fmuser/incluirViagem-view.fxml", "Viagens");
     }
 
     @FXML
     public void logout() {
+        isEdit = false;
         MainApplication.logout();
         ScreenManager.getInstance().showScreen("/com/user/fmuser/login-view.fxml", "Login");
     }
@@ -115,7 +118,7 @@ public class ViagemAdminController implements Initializable {
 
         if (motoristaValido && hdpValido && veiculoValido) {
             Funcionario motorista = buscarFuncionarioPorNome(motoristaSelecionado, true);
-            Funcionario cobrador = cobradorSelecionado != null && !cobradorSelecionado.isEmpty()
+            Funcionario cobrador = (cobradorSelecionado != null && !cobradorSelecionado.isEmpty() && !cobradorSelecionado.equals("Sem cobrador"))
                     ? buscarFuncionarioPorNome(cobradorSelecionado, false)
                     : null;
             HorarioDiaPercurso hdp = buscarHDPPorDescricao(hdpSelecionado);
@@ -127,6 +130,7 @@ public class ViagemAdminController implements Initializable {
                 if (Database.addTrip(novaViagem)) {
                     successMessage("Viagem adicionada com sucesso!");
                     carregarDados();
+                    setScreen();
                 } else {
                     errorMessage("Não foi possível adicionar a viagem!\nTente novamente.");
                 }
@@ -153,7 +157,7 @@ public class ViagemAdminController implements Initializable {
 
         if (motoristaValido && hdpValido && veiculoValido) {
             Funcionario motorista = buscarFuncionarioPorNome(novoMotorista, true);
-            Funcionario cobrador = novoCobrador != null && !novoCobrador.isEmpty()
+            Funcionario cobrador = (novoCobrador != null && !novoCobrador.isEmpty() && !novoCobrador.equals("Sem cobrador"))
                     ? buscarFuncionarioPorNome(novoCobrador, false)
                     : null;
             HorarioDiaPercurso hdp = buscarHDPPorDescricao(novoHdp);
@@ -165,11 +169,10 @@ public class ViagemAdminController implements Initializable {
                 itemAtt.horarioDiaPercurso = hdp;
                 itemAtt.veiculo = veiculo;
 
-                // Remover a viagem antiga e adicionar a nova (já que não há updateTrip)
                 if (Database.removeTrip(itemAtt.codigo) && Database.addTrip(itemAtt)) {
                     successMessage("Viagem atualizada com sucesso!");
                     carregarDados();
-                    carregarTabela();
+                    setScreen();
                 } else {
                     errorMessage("Não foi possível atualizar a viagem!\nTente novamente.");
                 }
@@ -257,8 +260,11 @@ public class ViagemAdminController implements Initializable {
 
     public static void carregarDados() {
         viagemList = FXCollections.observableArrayList();
-        // TODO: Implementar Database.retrieveTrips() se ainda não existir
-        // Por enquanto, deixar vazio
+        try {
+            viagemList.addAll(Database.retrieveTrips());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void carregarFuncionarios() {
@@ -283,7 +289,11 @@ public class ViagemAdminController implements Initializable {
 
     private void carregarHDPs() {
         hdpDisponiveis = new ArrayList<>();
-        // TODO: Implementar Database.retrieveHDPs() se ainda não existir
+        try {
+            hdpDisponiveis = Database.retrieveHDPs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void carregarVeiculos() {
@@ -306,7 +316,7 @@ public class ViagemAdminController implements Initializable {
 
         if (cobradorComboBox != null) {
             ObservableList<String> nomesCobradores = FXCollections.observableArrayList();
-            nomesCobradores.add("Sem cobrador"); // Opção para null
+            nomesCobradores.add("Sem cobrador");
             for (Funcionario cobrador : cobradoresDisponiveis) {
                 nomesCobradores.add(cobrador.nome + " " + cobrador.sobrenome);
             }
@@ -332,10 +342,10 @@ public class ViagemAdminController implements Initializable {
 
     public static void setScreen() {
         if (viagemList == null || viagemList.isEmpty()) {
-            ScreenManager.getInstance().showScreen("/com/user/fmuser/viagens-view.fxml", "Viagens");
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/viagensAdmin-view.fxml", "Viagens");
             return;
         }
-        ScreenManager.getInstance().showScreen("/com/user/fmuser/viagemAdminFilled-view.fxml", "Viagens");
+        ScreenManager.getInstance().showScreen("/com/user/fmuser/viagensAdminFilled-view.fxml", "Viagens");
     }
 
     public void carregarTabela() {
@@ -343,13 +353,12 @@ public class ViagemAdminController implements Initializable {
             viagemTable.setItems(viagemList);
         }
         if (viagemList == null || viagemList.isEmpty()) {
-            ScreenManager.getInstance().showScreen("/com/user/fmuser/viagens-view.fxml", "Viagens");
+            ScreenManager.getInstance().showScreen("/com/user/fmuser/viagensAdmin-view.fxml", "Viagens");
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Carregar dados iniciais
         carregarDados();
         carregarFuncionarios();
         carregarHDPs();

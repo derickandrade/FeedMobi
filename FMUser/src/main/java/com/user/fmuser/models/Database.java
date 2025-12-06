@@ -8,6 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Database {
@@ -28,11 +31,11 @@ public class Database {
     }
 
     private static void fillTables() {
-        Parada p1 = new Parada("A");
-        Parada p2 = new Parada("B");
-        Parada p3 = new Parada("C");
-        Parada p4 = new Parada("D");
-        Parada p5 = new Parada("E");
+        Parada p1 = new Parada("ICC Sul");
+        Parada p2 = new Parada("ICC Norte");
+        Parada p3 = new Parada("Rodoviária");
+        Parada p4 = new Parada("Term. Asa Norte");
+        Parada p5 = new Parada("Ceilândia Sul");
 
         addLocation(p1);
         addLocation(p2);
@@ -46,11 +49,11 @@ public class Database {
         p4 = (Parada) retrieveLocation(p4);
         p5 = (Parada) retrieveLocation(p5);
 
-        Ciclovia c1 = new Ciclovia("A");
-        Ciclovia c2 = new Ciclovia("B");
-        Ciclovia c3 = new Ciclovia("C");
-        Ciclovia c4 = new Ciclovia("D");
-        Ciclovia c5 = new Ciclovia("E");
+        Ciclovia c1 = new Ciclovia("L2 Norte");
+        Ciclovia c2 = new Ciclovia("W3 Sul");
+        Ciclovia c3 = new Ciclovia("Guará I");
+        Ciclovia c4 = new Ciclovia("Sobradinho");
+        Ciclovia c5 = new Ciclovia("W3 Norte");
 
         addLocation(c1);
         addLocation(c2);
@@ -142,6 +145,26 @@ public class Database {
         addReview(ap3);
         addReview(ap4);
         addReview(ap5);
+
+        Funcionario func1 = new Funcionario("98765432111", "Leandro", "Pereira", true);
+        Funcionario func2 = new Funcionario("98765432112", "Vitor", "Silva", true);
+        Funcionario func3 = new Funcionario("98765432113", "Tiago", "Ferreira", false);
+        Funcionario func4 = new Funcionario("98765432114", "Joana", "Batista", false);
+        Funcionario func5 = new Funcionario("98765432115", "Camila", "Martins", true);
+
+        addEmployee(func1);
+        addEmployee(func2);
+        addEmployee(func3);
+        addEmployee(func4);
+        addEmployee(func5);
+
+        Veiculo v1 = new Veiculo(1, Date.valueOf(LocalDate.of(2029, 12, 27)), 35, 45);
+
+        addVehicle(v1);
+
+        Viagem viagem1 = new Viagem(func1, func3, hdp1, v1);
+
+        addTrip(viagem1);
     }
 
     /**
@@ -529,6 +552,62 @@ public class Database {
         }
     }
 
+    public static ArrayList<Avaliacao> retrieveReviews(String userCPF) {
+        ArrayList<Avaliacao> avaliacoes = new ArrayList<>();
+
+        String queryParadas = "SELECT Avaliacao.*, Parada_Reclamacao.parada " +
+                "FROM Avaliacao " +
+                "JOIN Parada_Reclamacao ON Parada_Reclamacao.reclamacao = Avaliacao.codigo " +
+                "WHERE Avaliacao.usuario = ?";
+
+        String queryCiclovias = "SELECT Avaliacao.*, Ciclovia_Reclamacao.ciclovia " +
+                "FROM Avaliacao " +
+                "JOIN Ciclovia_Reclamacao ON Ciclovia_Reclamacao.reclamacao = Avaliacao.codigo " +
+                "WHERE Avaliacao.usuario = ?";
+
+        try {
+            try (PreparedStatement ps1 = connection.prepareStatement(queryParadas)) {
+                ps1.setString(1, userCPF);
+                ResultSet rs1 = ps1.executeQuery();
+
+                while (rs1.next()) {
+                    Avaliacao temp = new Avaliacao(
+                            rs1.getInt("parada"),
+                            Avaliacao.TargetType.Parada,
+                            rs1.getInt("nota"),
+                            rs1.getString("texto"),
+                            rs1.getString("usuario")
+                    );
+                    avaliacoes.add(temp);
+                }
+                rs1.close();
+            }
+
+            try (PreparedStatement ps2 = connection.prepareStatement(queryCiclovias)) {
+                ps2.setString(1, userCPF);
+                ResultSet rs2 = ps2.executeQuery();
+
+                while (rs2.next()) {
+                    Avaliacao temp = new Avaliacao(
+                            rs2.getInt("ciclovia"),
+                            Avaliacao.TargetType.Ciclovia,
+                            rs2.getInt("nota"),
+                            rs2.getString("texto"),
+                            rs2.getString("usuario")
+                    );
+                    avaliacoes.add(temp);
+                }
+                rs2.close();
+            }
+
+            return avaliacoes;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * Add an employee to the database using an object. Will fail if there exists an employee
      * with the same name already, even if CPF differs.
@@ -729,6 +808,31 @@ public class Database {
             return new_location;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static Location retrieveLocation(int code, LocationType type) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = (type == LocationType.Parada) ? "Parada" : "Ciclovia";
+            String query = "SELECT * FROM " + table + " WHERE codigo = " + code + ";";
+            ResultSet result = statement.executeQuery(query);
+
+            Location location = null;
+            if (result.first()) {
+                if (type == LocationType.Parada) {
+                    location = new Parada(result.getInt("codigo"), result.getString("localizacao"));
+                } else {
+                    location = new Ciclovia(result.getInt("codigo"), result.getString("localizacao"));
+                }
+            }
+
+            result.close();
+            statement.close();
+            return location;
+        } catch (SQLException e) {
+            System.err.println("Erro ao recuperar localização por código: " + e.getMessage());
+            return null;
         }
     }
 
@@ -1272,17 +1376,387 @@ public class Database {
             Image image = null;
             ResultSet rs = stmt1.executeQuery(query);
             if (rs.next()) {
-                InputStream is = rs.getBinaryStream("photo");
+                InputStream is = rs.getBinaryStream("foto");
 
                 if (is != null) {
                     image = new Image(is);
                 }
             }
-
             return image;
         } catch (SQLException e) {
             System.err.println("Error retrieving image: " + e.getMessage());
             return null;
         }
     }
+    // Adicione estes métodos à classe Database.java
+
+    /**
+     * Retrieve all HorarioDiaPercurso from the database.
+     *
+     * @return ArrayList containing all HorarioDiaPercurso objects, or null if error occurs
+     */
+    public static ArrayList<HorarioDiaPercurso> retrieveHDPs() {
+        try {
+            ArrayList<HorarioDiaPercurso> hdps = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Horario_dia_percurso";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                int codigoHDP = results.getInt("codigo");
+                Time hora = results.getTime("hora");
+                String dia = results.getString("dia");
+                int codigoPercurso = results.getInt("percurso");
+
+                // Buscar o Percurso correspondente
+                Percurso percurso = retrievePercurso(codigoPercurso);
+
+                // Criar HorarioDiaPercurso apenas se o percurso foi encontrado
+                if (percurso != null) {
+                    HorarioDiaPercurso temp = new HorarioDiaPercurso(codigoHDP, hora, dia, percurso);
+                    hdps.add(temp);
+                }
+            }
+
+            results.close();
+            statement.close();
+
+            return hdps;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Helper method to fetch a Percurso by its code
+     */
+    public static Percurso retrievePercurso(int code) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Percurso WHERE codigo = " + code + ";";
+            ResultSet result = statement.executeQuery(query);
+
+            Percurso percurso = null;
+            if (result.first()) {
+                int codigoOrigem = result.getInt("origem");
+                int codigoDestino = result.getInt("destino");
+
+                // Buscar as Paradas de origem e destino
+                Parada origem = retrieveParada(codigoOrigem);
+                Parada destino = retrieveParada(codigoDestino);
+
+                if (origem != null && destino != null) {
+                    percurso = new Percurso(result.getInt("codigo"), origem, destino);
+                }
+            }
+
+            result.close();
+            statement.close();
+            return percurso;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Retrieve all trips (Viagens) from the database.
+     *
+     * @return ArrayList containing all Viagem objects, or null if error occurs
+     */
+    public static ArrayList<Viagem> retrieveTrips() {
+        try {
+            ArrayList<Viagem> viagens = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Viagem";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                int codigoViagem = results.getInt("codigo");
+                int codigoHDP = results.getInt("horario_dia_percurso");
+                String cpfMotorista = results.getString("motorista");
+                String cpfCobrador = results.getString("cobrador");
+                int numeroVeiculo = results.getInt("veiculo");
+
+                // Buscar HorarioDiaPercurso
+                HorarioDiaPercurso hdp = retrieveHDPByCodigo(codigoHDP);
+
+                // Buscar Motorista
+                Funcionario motorista = retrieveEmployee(cpfMotorista, true);
+
+                // Buscar Cobrador (pode ser null)
+                Funcionario cobrador = null;
+                if (cpfCobrador != null && !cpfCobrador.isEmpty()) {
+                    cobrador = retrieveEmployee(cpfCobrador, false);
+                }
+
+                // Buscar Veículo
+                Veiculo veiculo = retrieveVehicle(numeroVeiculo);
+
+                // Criar Viagem apenas se todos os componentes obrigatórios foram encontrados
+                if (hdp != null && motorista != null && veiculo != null) {
+                    Viagem temp = new Viagem(codigoViagem, motorista, cobrador, hdp, veiculo);
+                    viagens.add(temp);
+                }
+            }
+
+            results.close();
+            statement.close();
+
+            return viagens;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Helper method to fetch an HorarioDiaPercurso by its code
+     */
+    public static HorarioDiaPercurso retrieveHDPByCodigo(int codigo) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Horario_dia_percurso WHERE codigo = " + codigo + ";";
+            ResultSet result = statement.executeQuery(query);
+
+            HorarioDiaPercurso hdp = null;
+            if (result.first()) {
+                Time hora = result.getTime("hora");
+                String dia = result.getString("dia");
+                int codigoPercurso = result.getInt("percurso");
+
+                // Buscar o Percurso
+                Percurso percurso = retrievePercurso(codigoPercurso);
+
+                if (percurso != null) {
+                    hdp = new HorarioDiaPercurso(codigo, hora, dia, percurso);
+                }
+            }
+
+            result.close();
+            statement.close();
+            return hdp;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Helper method to fetch an Employee (Funcionario) by CPF and type
+     */
+    public static Funcionario retrieveEmployee(String cpf, boolean isMotorista) {
+        try {
+            Statement statement = connection.createStatement();
+            String table = isMotorista ? "Motorista" : "Cobrador";
+            String query = "SELECT * FROM " + table + " WHERE cpf = '" + cpf + "';";
+            ResultSet result = statement.executeQuery(query);
+
+            Funcionario funcionario = null;
+            if (result.first()) {
+                funcionario = new Funcionario(
+                        result.getString("cpf"),
+                        result.getString("nome"),
+                        result.getString("sobrenome"),
+                        isMotorista
+                );
+            }
+
+            result.close();
+            statement.close();
+            return funcionario;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Helper method to fetch a Vehicle (Veiculo) by its number
+     */
+    public static Veiculo retrieveVehicle(int numero) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Veiculo WHERE numero = " + numero + ";";
+            ResultSet result = statement.executeQuery(query);
+
+            Veiculo veiculo = null;
+            if (result.first()) {
+                veiculo = new Veiculo(
+                        result.getInt("numero"),
+                        result.getDate("data_validade"),
+                        result.getInt("assentos"),
+                        result.getInt("capacidade_em_pe")
+                );
+
+                // Verificar se tem placa (se for ônibus)
+                Statement statement2 = connection.createStatement();
+                String queryPlaca = "SELECT placa FROM Onibus_Placa WHERE numero = " + numero + ";";
+                ResultSet resultPlaca = statement2.executeQuery(queryPlaca);
+
+                if (resultPlaca.first()) {
+                    veiculo.setPlaca(resultPlaca.getString("placa"));
+                }
+
+                resultPlaca.close();
+                statement2.close();
+            }
+
+            result.close();
+            statement.close();
+            return veiculo;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Remove an HorarioDiaPercurso from the database
+     */
+    public static boolean removeHDP(int codigo) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE FROM Horario_dia_percurso WHERE codigo = " + codigo + ";";
+            int updated = statement.executeUpdate(query);
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Update an HorarioDiaPercurso in the database
+     */
+    public static boolean updateHDP(HorarioDiaPercurso hdp) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE Horario_dia_percurso SET " +
+                    "hora = '" + hdp.hora + "', " +
+                    "dia = '" + hdp.getDia() + "', " +
+                    "percurso = " + hdp.percurso.codigo + " " +
+                    "WHERE codigo = " + hdp.codigo + ";";
+            int updated = statement.executeUpdate(query);
+            statement.close();
+            return updated > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static ArrayList<Log> retrieveLogs() {
+        ArrayList<Log> logs = new ArrayList<>();
+        String query = "SELECT * FROM Log_Gestao;";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()) {
+                String item = rs.getString("item_adicionado");
+                String content = rs.getString("item_conteudo");
+                LocalDateTime time = rs.getObject("data_registro", LocalDateTime.class);
+                Log log = new Log(item, content, time);
+                logs.add(log);
+            }
+            return logs;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ArrayList<Float> retrieveAverage() {
+        ArrayList<Float> pair = new ArrayList<>();
+        String query = "{CALL Media_Notas()}";
+        try {
+            CallableStatement cs = connection.prepareCall(query);
+            ResultSet rs = cs.executeQuery();
+
+            if (rs.next()) {
+                pair.add((float) rs.getInt("Total_Avaliacoes"));
+                pair.add(rs.getFloat("Media_Geral"));
+            }
+            rs.close();
+            cs.close();
+        } catch (SQLException e) {
+            return null;
+        }
+        return pair;
+    }
+    /**
+     * Retrieve all reviews from the general report view.
+     * This view combines reviews from Viagem, Parada and Ciclovia.
+     *
+     * @return ArrayList containing all RelatorioAvaliacao objects, or null if error occurs
+     */
+    public static ArrayList<RelatorioAvaliacao> retrieveRelatorioGeralAvaliacoes() {
+        try {
+            ArrayList<RelatorioAvaliacao> relatorio = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Relatorio_Geral_Avaliacoes ORDER BY codigo DESC;";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                RelatorioAvaliacao temp = new RelatorioAvaliacao(
+                        results.getInt("codigo"),
+                        results.getString("texto"),
+                        results.getInt("nota"),
+                        results.getString("usuario"),
+                        results.getString("tipo_avaliacao"),
+                        results.getInt("codigo_id")
+                );
+                relatorio.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            return relatorio;
+        } catch (SQLException e) {
+            System.err.println("Erro ao recuperar relatório de avaliações: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Retrieve reviews report filtered by type.
+     *
+     * @param tipo Type filter: "Viagem", "Parada", or "Ciclovia"
+     * @return ArrayList containing filtered RelatorioAvaliacao objects
+     */
+    public static ArrayList<RelatorioAvaliacao> retrieveRelatorioGeralAvaliacoes(String tipo) {
+        try {
+            ArrayList<RelatorioAvaliacao> relatorio = new ArrayList<>();
+
+            Statement statement = connection.createStatement();
+            String query = "SELECT * FROM Relatorio_Geral_Avaliacoes " +
+                    "WHERE tipo_avaliacao = '" + tipo + "' " +
+                    "ORDER BY codigo DESC;";
+            ResultSet results = statement.executeQuery(query);
+
+            while (results.next()) {
+                RelatorioAvaliacao temp = new RelatorioAvaliacao(
+                        results.getInt("codigo"),
+                        results.getString("texto"),
+                        results.getInt("nota"),
+                        results.getString("usuario"),
+                        results.getString("tipo_avaliacao"),
+                        results.getInt("codigo_id")
+                );
+                relatorio.add(temp);
+            }
+
+            results.close();
+            statement.close();
+
+            return relatorio;
+        } catch (SQLException e) {
+            System.err.println("Erro ao recuperar relatório filtrado: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
+
+
